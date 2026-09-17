@@ -25,8 +25,8 @@ export default function LoginPage() {
       const res = await api.post('/auth/login', { email, password });
       const { user, accessToken } = res.data.data;
       login(user, accessToken);
-      alert('Login Successful!'); // সাময়িক চেক করার জন্য
-      router.push('/'); // লগইনের পর হোমপেজে পাঠাবে
+      alert('Login Successful!'); // For temporary checking
+      router.push('/'); // Redirect to home page after login
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');
     } finally {
