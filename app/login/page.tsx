@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GoogleLogin } from '@react-oauth/google';
 import { api } from '@/lib/axios';
@@ -15,6 +15,16 @@ export default function LoginPage() {
 
   const login = useAuthStore((state) => state.login);
   const router = useRouter();
+  
+
+// if the user is already logged in, redirect to dashboard:
+useEffect(() => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    router.push('/dashboard'); // if the user is already logged in, redirect to dashboard
+  }
+}, [router]);
+
 
   // General Login (Email/Password)
   const handleGeneralLogin = async (e: React.FormEvent) => {
@@ -26,7 +36,7 @@ export default function LoginPage() {
       const { user, accessToken } = res.data.data;
       login(user, accessToken);
       alert('Login Successful!'); // For temporary checking
-      router.push('/'); // Redirect to home page after login
+      router.push('/dashboard'); // Redirect to dashboard after login
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');
     } finally {
@@ -43,7 +53,7 @@ export default function LoginPage() {
       const { user, accessToken } = res.data.data;
       login(user, accessToken);
       alert('Google Login Successful!');
-      router.push('/');
+      router.push('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Google login failed');
     }

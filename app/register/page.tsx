@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/axios';
@@ -15,6 +15,16 @@ export default function RegisterPage() {
 
   const login = useAuthStore((state) => state.login);
   const router = useRouter();
+
+
+
+// if the user is already logged in, redirect to dashboard:
+useEffect(() => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    router.push('/dashboard'); // if the user is already logged in, redirect to dashboard
+  }
+}, [router]);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +46,7 @@ export default function RegisterPage() {
       login(user, accessToken);
       
       alert('Registration Successful!');
-      router.push('/'); // Dashboard or home page redirect
+      router.push('/dashboard'); // Redirect to dashboard after registration
     } catch (err: any) {
       // backend validation errors (e.g., Zod errors or email already exists)
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
