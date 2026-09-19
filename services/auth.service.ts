@@ -29,7 +29,7 @@ export interface LoginPayload {
 }
 
 export interface GoogleLoginPayload {
-  token: string; // The token received from Google OAuth
+  idToken: string; // The token received from Google OAuth
 }
 
 // ---------------------------------------------------------
@@ -40,7 +40,7 @@ export interface GoogleLoginPayload {
  * Register a new user
  */
 export const registerUser = async (data: RegisterPayload): Promise<ApiResponse<AuthResponse>> => {
-  const response = await apiClient.post<ApiResponse<AuthResponse>>('/auth/sign-up', data);
+  const response = await apiClient.post<ApiResponse<AuthResponse>>('/auth/register', data);
   return response.data;
 };
 

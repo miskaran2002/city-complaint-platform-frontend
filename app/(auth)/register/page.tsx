@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { RegisterForm } from '@/components/auth/RegisterForm';
+import { GoogleLoginButton } from '@/components/auth/GoogleLoginButton';
 
 export default function RegisterPage() {
   return (
@@ -20,6 +21,7 @@ export default function RegisterPage() {
           Sign in here
         </Link>
       </div>
+       <GoogleLoginButton />
     </Card>
   );
 }
