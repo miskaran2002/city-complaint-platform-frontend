@@ -16,7 +16,7 @@ export const GoogleLoginButton = () => {
       <GoogleLogin
         onSuccess={async (credentialResponse) => {
           try {
-            // credentialResponse.credential হলো গুগল থেকে পাওয়া JWT (id_token)
+            // credentialResponse.credential contains the idToken received from Google OAuth
             const token = credentialResponse.credential;
             
             if (!token) return;
