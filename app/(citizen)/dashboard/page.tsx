@@ -1,37 +1,19 @@
 'use client';
 
-import ProtectedRoute from '@/components/ProtectedRoute';
+import React from 'react';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useRouter } from 'next/navigation'; 
+import { UserRole } from '@/types/user';
 
 export default function DashboardPage() {
-  const { user, logout } = useAuthStore();
-  const router = useRouter(); 
-
-  // Handle logout function
-  const handleLogout = () => {
-    logout();
-    router.push('/login');
-  };
+  const user = useAuthStore((state) => state.user);
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 p-8 text-black">
-        <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold mb-4">Welcome to Dashboard</h1>
-          
-          <div className="bg-blue-50 p-4 rounded-md mb-6">
-            <p><strong>Name:</strong> {user?.name}</p>
-            <p><strong>Email:</strong> {user?.email}</p>
-            <p><strong>Role:</strong> <span className="uppercase text-blue-600 font-bold">{user?.role}</span></p>
-          </div>
-
-          <button 
-            onClick={handleLogout} // এখানে ফাংশনটি কল করুন
-            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
-          >
-            Logout
-          </button>
+    <ProtectedRoute allowedRoles={[UserRole.CITIZEN]}>
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
+          <h1 className="text-2xl font-bold text-gray-800">Welcome to Citizen Dashboard</h1>
+          <p className="mt-2 text-gray-600">Hello, {user?.name}! Your sign-in was successful.</p>
         </div>
       </div>
     </ProtectedRoute>

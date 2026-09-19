@@ -1,32 +1,53 @@
+// components/ProtectedRoute.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useAuth } from '@/hooks/useAuth';
+import { UserRole } from '@/types/user';
 
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { accessToken } = useAuthStore();
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  allowedRoles?: UserRole[]; // Optional: If provided, only these roles can access
+}
+
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
+  children, 
+  allowedRoles 
+}) => {
   const router = useRouter();
-  const [isMounted, setIsMounted] = useState(false);
+  const { isAuthenticated, role, isMounted } = useAuth();
 
   useEffect(() => {
-    setIsMounted(true);
-    // Check if the user is not authenticated and redirect to login page
-    if (!accessToken && typeof window !== 'undefined' && !localStorage.getItem('accessToken')) {
+    // Wait until Zustand state is hydrated on the client side
+    if (!isMounted) return;
+
+    // 1. If not logged in, redirect to login page
+    if (!isAuthenticated) {
       router.push('/login');
+      return;
     }
-  }, [accessToken, router]);
 
-  // Prevent hydration errors and show loading while checking authentication
-  if (!isMounted) return null; 
+    // 2. If logged in but role doesn't match the allowed roles, redirect to unauthorized
+    if (allowedRoles && role && !allowedRoles.includes(role as UserRole)) {
+      router.push('/unauthorized');
+    }
+  }, [isMounted, isAuthenticated, role, allowedRoles, router]);
 
-  if (!accessToken && typeof window !== 'undefined' && !localStorage.getItem('accessToken')) {
+  // Show a simple loading state while checking authentication to prevent hydration UI glitches
+  if (!isMounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
+  // If not authenticated or not authorized, render nothing (useEffect will handle redirect)
+  if (!isAuthenticated || (allowedRoles && role && !allowedRoles.includes(role as UserRole))) {
+    return null;
+  }
+
+  // If everything is fine, render the actual page content
   return <>{children}</>;
-}
+};
