@@ -18,7 +18,7 @@ export default function LoginPage() {
 
       <div className="mt-6 text-center text-sm text-gray-600">
         Don't have an account?{' '}
-        <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+        <Link href="/register" className="font-medium text-purple-600 hover:text-purple-400 transition-colors">
           Create one now
         </Link>
       </div>

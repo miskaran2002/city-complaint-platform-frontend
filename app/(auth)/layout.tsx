@@ -7,17 +7,17 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="min-h-screen flex bg-white font-sans">
       
-      {/* 🟦 Left Partition - Professional Brand & CSS Visual Animation */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 flex-col justify-between items-center p-12 text-white relative overflow-hidden">
+      {/* 🟣 Left Partition - Civic Plum Theme */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#1E1B4B] via-[#4C1D95] to-[#7E22CE] flex-col justify-between items-center p-12 text-white relative overflow-hidden">
         
-        {/* Background glowing abstract circles */}
-        <div className="absolute top-[-20%] left-[-20%] w-[500px] h-[500px] bg-blue-500/30 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-[-20%] right-[-20%] w-[500px] h-[500px] bg-indigo-500/30 rounded-full blur-3xl pointer-events-none"></div>
+        {/* Background glowing abstract circles (Accent: #C026D3) */}
+        <div className="absolute top-[-20%] left-[-20%] w-[500px] h-[500px] bg-[#C026D3]/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-[-20%] right-[-20%] w-[500px] h-[500px] bg-[#7E22CE]/30 rounded-full blur-3xl pointer-events-none"></div>
 
         {/* Top Branding */}
         <div className="relative z-10 w-full max-w-lg">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-400/30 backdrop-blur-md text-blue-100 text-sm font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C026D3]/20 border border-[#C026D3]/30 backdrop-blur-md text-purple-50 text-sm font-medium">
+            <span className="w-2 h-2 rounded-full bg-[#C026D3] animate-pulse"></span>
             Smart Civic Portal
           </div>
         </div>
@@ -26,8 +26,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10 max-w-lg text-center space-y-8 my-auto">
           <div className="relative w-48 h-48 mx-auto flex items-center justify-center">
             {/* Outer glowing rings */}
-            <div className="absolute inset-0 rounded-full bg-blue-400/20 animate-ping"></div>
-            <div className="absolute inset-4 rounded-full bg-blue-500/30 animate-pulse"></div>
+            <div className="absolute inset-0 rounded-full bg-[#C026D3]/20 animate-ping" style={{ animationDuration: '3s' }}></div>
+            <div className="absolute inset-4 rounded-full bg-[#7E22CE]/40 animate-pulse"></div>
             
             {/* Inner Core Icon / Badge */}
             <div className="relative z-20 w-28 h-28 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center">
@@ -41,14 +41,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight">
               Building Smarter Cities Together
             </h1>
-            <p className="text-blue-100/90 text-base leading-relaxed max-w-md mx-auto">
+            <p className="text-purple-100/90 text-base leading-relaxed max-w-md mx-auto">
               Report civic issues, track municipal requests in real-time, and collaborate with city authorities for a cleaner community.
             </p>
           </div>
         </div>
 
         {/* Footer info */}
-        <div className="relative z-10 text-xs text-blue-200/60">
+        <div className="relative z-10 text-xs text-purple-200/60">
           &copy; 2026 Smart City Governance Platform. All rights reserved.
         </div>
       </div>
