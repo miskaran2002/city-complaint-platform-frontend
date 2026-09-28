@@ -25,7 +25,9 @@ apiClient.interceptors.request.use(
       const token = localStorage.getItem(AUTH_TOKEN_KEY);
       
       if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
+        // Remove any surrounding quotes from the token (if present) to avoid issues
+        const cleanToken = token.replace(/['"]+/g, '');
+        config.headers.Authorization = `Bearer ${cleanToken}`;
       }
     }
     return config;

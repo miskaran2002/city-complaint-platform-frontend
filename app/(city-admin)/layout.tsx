@@ -1,14 +1,14 @@
-// app/(staff)/layout.tsx
+// app/(admin)/layout.tsx
 import React from 'react';
 import Sidebar from '@/components/layout/Sidebar';
 import Navbar from '@/components/layout/Navbar';
 
-export default function StaffLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen bg-gray-50 font-sans overflow-hidden">
       
-      {/* ⬅️ Left Sidebar (Staff Role) */}
-      <Sidebar role="STAFF" />
+      {/* ⬅️ Left Sidebar (Admin Role) */}
+      <Sidebar role="CITY_ADMIN" />
 
       {/* ➡️ Right Content Area */}
       <div className="flex flex-col flex-1 w-full overflow-hidden">

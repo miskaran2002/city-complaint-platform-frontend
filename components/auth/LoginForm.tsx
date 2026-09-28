@@ -26,14 +26,23 @@ export const LoginForm = () => {
       const response = await loginUser({ email, password });
       
       if (response.success && response.data) {
-        // Save user and token in global state & localStorage
-        setAuth(response.data.user, response.data.token);
+      
+        const actualToken = response.data.token || response.data.accessToken;
+        
+        
+        if (actualToken) {
+          localStorage.setItem('city_auth_token', actualToken);
+        }
+        
+
+        // Save user and token in global state
+        setAuth(response.data.user, actualToken!);
         
         // Redirect based on role
         const role = response.data.user.role;
-        if (role === 'CITIZEN') router.push('/dashboard');
-        else if (role === 'CITY_ADMIN' || role === 'DEPARTMENT_MANAGER') router.push('/dashboard'); // Admin dashboard
-        else router.push('/assigned'); // Staff/Technician
+        if (role === 'CITIZEN') router.push('/citizen/dashboard'); 
+        else if (role === 'CITY_ADMIN' || role === 'DEPARTMENT_MANAGER') router.push('/admin/dashboard'); 
+        else router.push('/staff/dashboard'); 
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
