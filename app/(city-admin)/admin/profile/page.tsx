@@ -1,4 +1,4 @@
-// app/(citizen)/profile/page.tsx
+// app/(city-admin)/admin/profile/page.tsx
 import React from 'react';
 import ProfileView from '@/components/profile/ProfileView';
 
