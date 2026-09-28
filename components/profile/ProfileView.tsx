@@ -50,11 +50,11 @@ export default function ProfileView() {
     try {
       const res = await updateProfile({ name: editName });
       if (res.success) {
-        // আপডেট হওয়ার পর লোকাল স্টেটও আপডেট করে দেওয়া হলো
+        
         setUser((prev) => prev ? { ...prev, name: editName } : prev);
         setUpdateMsg({ type: 'success', text: 'Profile updated successfully!' });
         
-        // ১.৫ সেকেন্ড পর এডিট মোড বন্ধ করা
+        // Reset edit mode after a short delay
         setTimeout(() => {
           setIsEditing(false);
           setUpdateMsg({ type: '', text: '' });
