@@ -1,8 +1,9 @@
 // types/complaint.ts
 
 import { User } from './user';
-import { Category, Department } from './department';
+import {  Department } from './department';
 import { Payment, Feedback } from './payment';
+import { Category } from './category';
 
 export enum ComplaintStatus {
   PENDING = 'PENDING',
