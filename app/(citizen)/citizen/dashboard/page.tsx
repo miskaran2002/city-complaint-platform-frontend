@@ -1,4 +1,5 @@
 // app/(citizen)/citizen/dashboard/page.tsx
+import Link from 'next/link';
 import React from 'react';
 
 export default function CitizenDashboard() {
@@ -38,16 +39,19 @@ export default function CitizenDashboard() {
 
       {/* Quick Action Card */}
       <div className="bg-gradient-to-r from-[#1E1B4B] via-[#4C1D95] to-[#7E22CE] rounded-2xl p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold">Have a civic issue to report?</h2>
-          <p className="text-purple-200 text-sm max-w-xl">
-            Submit a complaint regarding waste management, road repair, street lights, or water supply. Our city teams are ready to assist.
-          </p>
-        </div>
-        <button className="bg-[#C026D3] hover:bg-[#a21caf] text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all whitespace-nowrap">
-          + New Complaint
-        </button>
-      </div>
+  <div className="space-y-2">
+    <h2 className="text-2xl font-bold">Have a civic issue to report?</h2>
+    <p className="text-purple-200 text-sm max-w-xl">
+      Submit a complaint regarding waste management, road repair, street lights, or water supply. Our city teams are ready to assist.
+    </p>
+  </div>
+  <Link 
+    href="/citizen/complaints" 
+    className="bg-[#C026D3] hover:bg-[#a21caf] text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all whitespace-nowrap inline-block text-center"
+  >
+    + New Complaint
+  </Link>
+</div>
     </div>
   );
 }

@@ -7,8 +7,8 @@ import { Complaint } from '@/types/complaint';
 import { getMyComplaints } from '@/services/complaint.service';
 import { Category } from '@/types/category';
 import { getAllCategories } from '@/services/category.service';
-import { ComplaintForm } from '@/components/complains/ComplaintForm';
-import { ComplaintTable } from '@/components/complains/ComplaintTable';
+import { ComplaintForm } from '@/components/complaints/ComplaintForm';
+import { ComplaintTable } from '@/components/complaints/ComplaintTable';
 
 
 export default function MyComplaintsPage() {
