@@ -25,9 +25,13 @@ export const useAuthStore = create<AuthState>()(
 
       // Called upon successful login/register
       setAuth: (user, token) => {
-        // Save token specifically for our Axios interceptor
+        // Save token specifically for our Axios interceptor & Middleware cookies
         if (typeof window !== 'undefined') {
           localStorage.setItem(AUTH_TOKEN_KEY, token);
+          
+          // 🍪 Middleware for cookies
+          document.cookie = `city_auth_token=${token}; path=/; max-age=86400; SameSite=Lax`;
+          document.cookie = `user_role=${user.role}; path=/; max-age=86400; SameSite=Lax`;
         }
         set({ user, token, isAuthenticated: true });
       },
@@ -40,9 +44,13 @@ export const useAuthStore = create<AuthState>()(
 
       // Called upon logout or token expiration
       clearAuth: () => {
-        // Remove token so Axios interceptor stops sending it
+        // Remove token so Axios interceptor stops sending it & clear cookies
         if (typeof window !== 'undefined') {
           localStorage.removeItem(AUTH_TOKEN_KEY);
+          
+          // 🧹 Clear cookies on logout
+          document.cookie = 'city_auth_token=; path=/; max-age=0';
+          document.cookie = 'user_role=; path=/; max-age=0';
         }
         set({ user: null, token: null, isAuthenticated: false });
       },
