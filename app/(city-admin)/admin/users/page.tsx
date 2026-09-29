@@ -19,11 +19,11 @@ export default function UsersPage() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // ⚠️ fetchUsers এখন page নাম্বার গ্রহণ করবে
+ 
   const fetchUsers = async (page: number) => {
     setIsLoading(true);
     try {
-      const res = await getAllUsers(page); // ব্যাকএন্ড থেকে নির্দিষ্ট পেজের ডেটা আনা
+      const res = await getAllUsers(page); 
       if (res.success && res.data) {
         const usersArray = Array.isArray(res.data) 
           ? res.data 
@@ -31,7 +31,7 @@ export default function UsersPage() {
           
         setUsers(usersArray);
         
-        // ব্যাকএন্ডের meta থেকে সঠিক টোটাল কাউন্ট এবং পেজ সেট করা
+      
         const meta = res.data.meta || res.meta;
         if (meta) {
           setTotalUsersCount(meta.total || 25);
@@ -47,7 +47,7 @@ export default function UsersPage() {
     }
   };
 
-  // ⚠️ currentPage পরিবর্তন হলে নতুন ডেটা ফেচ হবে
+  
   useEffect(() => {
     fetchUsers(currentPage);
   }, [currentPage]);
@@ -94,11 +94,11 @@ export default function UsersPage() {
 
       {/* Users Data Table Component */}
       <UserTable
-        users={users} // 👈 স্লাইস (slice) করা বাদ দিয়ে সরাসরি ব্যাকএন্ডের অ্যারে পাঠানো হলো
-        totalUsers={totalUsersCount} // 👈 Total 25 দেখাবে[cite: 12]
+        users={users} 
+        totalUsers={totalUsersCount} 
         isLoading={isLoading}
         currentPage={currentPage}
-        totalPages={totalPages} // 👈 ব্যাকএন্ডের হিসাব অনুযায়ী মোট পেজ দেখাবে (যেমন: ৩)
+        totalPages={totalPages} 
         onPageChange={(page) => setCurrentPage(page)}
         onOpenEditModal={handleOpenEditModal}
       />
