@@ -10,12 +10,12 @@ export interface SystemUser {
 }
 
 // all users fetch
-export const getAllUsers = async () => {
-  
-  const response = await apiClient.get('/admin/users'); 
+// services/admin.service.ts
+export const getAllUsers = async (page: number = 1) => {
+  // ব্যাকএন্ডে page প্যারামিটার পাঠানো হচ্ছে
+  const response = await apiClient.get(`/admin/users?page=${page}&limit=10`);
   return response.data;
 };
-
 // update user role
 export const updateUserRole = async (userId: string, role: 'CITIZEN' | 'DEPARTMENT_STAFF' | 'TECHNICIAN' | 'DEPARTMENT_MANAGER' | 'CITY_ADMIN') => {
   // adjust the route according to your backend

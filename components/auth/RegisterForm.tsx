@@ -1,4 +1,3 @@
-// components/auth/RegisterForm.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -24,16 +23,35 @@ export const RegisterForm = () => {
     setError('');
 
     try {
-      // By default, let's register users as CITIZEN. 
-      // Admin/Staff creation might happen from a different admin panel later.
       const response = await registerUser({ name, email, password, role: 'CITIZEN' });
       
-      if (response.success && response.data) {
-        setAuth(response.data.user, response.data.token);
-        router.push('/dashboard'); // Redirect citizen to dashboard
+      // ⚠️ ডিবাগ করার জন্য রেসপন্স লগ করা হলো
+      console.log('Registration Response:', response);
+
+      // আপনার ব্যাকএন্ডের রেসপন্স অনুযায়ী কন্ডিশন আপডেট করা হলো
+      // কিছু ব্যাকএন্ড সরাসরি ডেটা পাঠায়, আবার কিছু success প্রপার্টি সহ পাঠায়
+      const data = response.data || response; 
+      
+      // টোকেনটি বের করা
+      const actualToken = data.token || data.accessToken || (response as any).token || (response as any).accessToken;
+      const user = data.user || (response as any).user;
+
+      if (actualToken && user) {
+        // ১. স্টেট এবং কুকিতে টোকেন সেভ
+        setAuth(user, actualToken);
+        
+        // ২. রিডাইরেক্ট করা
+        router.push('/citizen/dashboard');
+      } else {
+        // যদি রেসপন্সে টোকেন না থাকে, তার মানে রেজিস্ট্রেশন হয়েছে কিন্তু লগইন হয়নি
+        console.warn('No token received after registration. Redirecting to login.');
+        router.push('/login?registered=true');
       }
+
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      console.error('Registration Error:', err);
+      const errorMessage = err?.response?.data?.message || err?.message || 'Registration failed. Please try again.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -41,7 +59,7 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">{error}</div>}
+      {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md border border-red-100 font-medium">{error}</div>}
       
       <Input
         label="Full Name"
