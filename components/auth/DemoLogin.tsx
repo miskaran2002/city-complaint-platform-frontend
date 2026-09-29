@@ -20,7 +20,7 @@ export const DemoLogin = () => {
     else if (role === 'DEPARTMENT_MANAGER') demoEmail = 'tanvir@gmail.com'; 
     else if (role === 'DEPARTMENT_STAFF') demoEmail = 'staff.pwd@cityservice.com';
     else if (role === 'TECHNICIAN') demoEmail = 'rimon@gmail.com'; 
-    else if (role === 'CITIZEN') demoEmail = 'citizen.rahim@example.com'; 
+    else if (role === 'CITIZEN') demoEmail = 'miraz@gmail.com'; 
 
     try {
       // originally, you can use the loginUser function to perform the demo login
