@@ -1,8 +1,25 @@
 // app/(citizen)/citizen/dashboard/page.tsx
+'use client';
+import GlobalLoading from '@/app/loading';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function CitizenDashboard() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate data fetching
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <GlobalLoading />;
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}

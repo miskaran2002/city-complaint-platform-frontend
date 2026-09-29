@@ -5,6 +5,7 @@ import { Department } from '@/types/department';
 import { getAllDepartments, createDepartment } from '@/services/department.service';
 import { DepartmentForm } from '@/components/admin/departments/DepartmentForm';
 import { DepartmentTable } from '@/components/admin/departments/DepartmentTable';
+import GlobalLoading from '@/app/loading';
 
 export default function DepartmentsPage() {
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -58,6 +59,9 @@ export default function DepartmentsPage() {
       setIsSubmitting(false);
     }
   };
+  if (isLoading) {
+      return <GlobalLoading />;
+    }
 
   return (
     <div className="space-y-6">

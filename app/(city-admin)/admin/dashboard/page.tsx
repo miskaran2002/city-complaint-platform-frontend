@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import apiClient from '@/lib/axios'; // Apnar axios instance import korun
+import GlobalLoading from '@/app/loading';
 
 // Postman-er data structure onujayi Type toiri kora holo
 interface DashboardStats {
@@ -33,6 +34,9 @@ export default function AdminDashboard() {
 
     fetchDashboardStats();
   }, []);
+  if (loading) {
+      return <GlobalLoading />;
+    }
 
   return (
     <div className="space-y-6">

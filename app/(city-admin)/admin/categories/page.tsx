@@ -7,6 +7,8 @@ import { getAllCategories, createCategory } from '@/services/category.service';
 import { getAllDepartments } from '@/services/department.service';
 import { CategoryForm } from '@/components/admin/categories/CategoryForm';
 import { CategoryTable } from '@/components/admin/categories/CategoryTable';
+// ১. ⚠️ Global Loading import
+import GlobalLoading from '@/app/loading'; 
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -80,6 +82,11 @@ export default function CategoriesPage() {
     }
   };
 
+  // ২. ⚠️ ডেটা লোড হওয়ার সময় গ্লোবাল স্কেলিটন দেখানো হবে
+  if (isLoading) {
+    return <GlobalLoading />;
+  }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -110,7 +117,9 @@ export default function CategoriesPage() {
         {/* ➡️ Right Column: Table Component */}
         <CategoryTable 
           categories={categories} 
-          isLoading={isLoading} 
+          // এখানে isLoading false হবে সবসময়, কারণ গ্লোবাল লোডিং আগেই চেক করা হয়েছে। 
+          // তবুও প্রপস হিসেবে পাঠিয়ে রাখলাম।
+          isLoading={false} 
         />
       </div>
     </div>

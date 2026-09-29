@@ -9,6 +9,7 @@ import { Category } from '@/types/category';
 import { getAllCategories } from '@/services/category.service';
 import { ComplaintForm } from '@/components/complaints/ComplaintForm';
 import { ComplaintTable } from '@/components/complaints/ComplaintTable';
+import GlobalLoading from '@/app/loading';
 
 
 export default function MyComplaintsPage() {
@@ -44,6 +45,9 @@ export default function MyComplaintsPage() {
   useEffect(() => {
     fetchData();
   }, []);
+  if (isLoading) {
+      return <GlobalLoading />;
+    }
 
   return (
     <div className="space-y-6">

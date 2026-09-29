@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { SystemUser, getAllUsers, updateUserRole } from '@/services/admin.service';
 import { UserTable } from '@/components/admin/users/UserTable';
 import { RoleUpdateModal } from '@/components/admin/users/RoleUpdateModal';
+import GlobalLoading from '@/app/loading';
 
 export default function UsersPage() {
   const [users, setUsers] = useState<SystemUser[]>([]);
@@ -81,6 +82,9 @@ export default function UsersPage() {
       setIsUpdating(false);
     }
   };
+  if (isLoading) {
+      return <GlobalLoading />;
+    }
 
   return (
     <div className="space-y-6">
