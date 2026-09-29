@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { getMe, updateProfile, UserProfile } from '@/services/user.service';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import GlobalLoading from '@/app/loading';
 
 export default function ProfileView() {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -67,13 +68,7 @@ export default function ProfileView() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <span className="w-10 h-10 border-4 border-[#7E22CE] border-t-transparent rounded-full animate-spin"></span>
-      </div>
-    );
-  }
+  
 
   if (error) {
     return (
@@ -82,6 +77,9 @@ export default function ProfileView() {
       </div>
     );
   }
+  if (loading) {
+      return <GlobalLoading />;
+    }
 
   return (
     <div className="max-w-3xl mx-auto mt-8">
