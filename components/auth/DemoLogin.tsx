@@ -17,13 +17,12 @@ export const DemoLogin = () => {
     const demoPassword = '123456'; 
 
     if (role === 'CITY_ADMIN') demoEmail = 'admin@cityservice.com';
-    else if (role === 'DEPARTMENT_MANAGER') demoEmail = 'tanvir@gmail.com'; 
+    else if (role === 'DEPARTMENT_MANAGER') demoEmail = 'abusyeed@gmail.com'; 
     else if (role === 'DEPARTMENT_STAFF') demoEmail = 'staff.pwd@cityservice.com';
     else if (role === 'TECHNICIAN') demoEmail = 'rimon@gmail.com'; 
     else if (role === 'CITIZEN') demoEmail = 'miraz@gmail.com'; 
 
     try {
-      // originally, you can use the loginUser function to perform the demo login
       const response = await loginUser({ email: demoEmail, password: demoPassword });
       
       if (response.success && response.data) {
@@ -33,14 +32,15 @@ export const DemoLogin = () => {
           localStorage.setItem('city_auth_token', actualToken);
         }
 
-        // originally, you can use the loginUser function to perform the demo login
         setAuth(response.data.user, actualToken!);
         
-        // redirect based on role
+        // ⚠ রাউটিং লজিক আপডেট করা হলো 
         const userRole = response.data.user.role;
         if (userRole === 'CITIZEN') router.push('/citizen/dashboard');
-        else if (userRole === 'CITY_ADMIN' || userRole === 'DEPARTMENT_MANAGER') router.push('/admin/dashboard');
-        else router.push('/staff/dashboard');
+        else if (userRole === 'CITY_ADMIN') router.push('/admin/dashboard');
+        else if (userRole === 'DEPARTMENT_MANAGER') router.push('/manager/dashboard'); // 👈 Manager Route
+        else if (userRole === 'DEPARTMENT_STAFF') router.push('/staff/dashboard'); // 👈 Staff Route
+        else if (userRole === 'TECHNICIAN') router.push('/technician/dashboard'); // 👈 Technician Route
       }
     } catch (error) {
       console.error('Demo login failed', error);
