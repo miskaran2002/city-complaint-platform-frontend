@@ -9,59 +9,71 @@ import apiClient from '@/lib/axios';
 
 export default function ManagerDashboardPage() {
   const { user } = useAuthStore();
-  const [departmentName, setDepartmentName] = useState('Department Overview');
+  const [departmentName, setDepartmentName] = useState('Loading...');
   const [complaints, setComplaints] = useState<any[]>([]);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchManagerData = async () => {
+      if (!user?.email) return;
+      
       setIsLoading(true);
       try {
-        // Fetch complaints, users, and departments concurrently
+        // ⚠️ pagenation limit
         const [complaintsRes, usersRes, deptRes] = await Promise.all([
-          apiClient.get('/complaints'),
-          apiClient.get('/admin/users'),
+          apiClient.get('/complaints?limit=100'),
+          apiClient.get('/admin/users?limit=100'),
           apiClient.get('/departments')
         ]);
 
-        // 1. Set Department Name
-        if (deptRes.data?.success && user?.departmentId) {
+        // 1.user
+        const allUsers = Array.isArray(usersRes.data?.data) ? usersRes.data.data : (usersRes.data?.data?.users || []);
+        const myFullProfile = allUsers.find((u: any) => u.email === user.email);
+        
+        // 2. original departmentId
+        const myDeptId = myFullProfile?.departmentId || user?.departmentId;
+
+        // 3. department name
+        if (myDeptId && deptRes.data?.success) {
           const depts = Array.isArray(deptRes.data.data) ? deptRes.data.data : (deptRes.data.data?.departments || []);
-          const currentDept = depts.find((d: any) => d.id === user.departmentId);
-          if (currentDept) setDepartmentName(currentDept.name);
+          const currentDept = depts.find((d: any) => d.id === myDeptId);
+          if (currentDept) {
+            setDepartmentName(currentDept.name);
+          } else {
+             setDepartmentName('Unknown Department');
+          }
+        } else {
+           setDepartmentName('Unknown Department');
         }
 
-        // 2. Set Complaints (Filtered implicitly by backend, but safe filtering here)
-        if (complaintsRes.data?.success) {
-          const allComplaints = Array.isArray(complaintsRes.data.data) ? complaintsRes.data.data : (complaintsRes.data.data?.complaints || []);
-          const filteredComplaints = user?.departmentId 
-            ? allComplaints.filter((c: any) => c.departmentId === user.departmentId) 
-            : allComplaints;
-          setComplaints(filteredComplaints);
-        }
-
-        // 3. Set Team Members (Staff & Technicians of this department)
-        if (usersRes.data?.success) {
-          const allUsers = Array.isArray(usersRes.data.data) ? usersRes.data.data : (usersRes.data.data?.users || []);
-          // Note: Backend should ideally filter this, but frontend filtering ensures strict scope
+        // 4.Team members filter 
+        if (myDeptId) {
           const team = allUsers.filter((u: any) => 
             (u.role === 'DEPARTMENT_STAFF' || u.role === 'TECHNICIAN') &&
-            (u.departmentId === user?.departmentId)
+            u.departmentId === myDeptId
           );
           setTeamMembers(team);
         }
 
+        // 5. My complaints
+        if (complaintsRes.data?.success) {
+          const allComplaints = Array.isArray(complaintsRes.data?.data) ? complaintsRes.data.data : (complaintsRes.data?.data?.complaints || []);
+          const myComplaints = myDeptId 
+            ? allComplaints.filter((c: any) => c.departmentId === myDeptId) 
+            : allComplaints;
+          setComplaints(myComplaints);
+        }
+
       } catch (err) {
         console.error('Failed to load manager dashboard data', err);
+        setDepartmentName('Error loading data');
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (user) {
-      fetchManagerData();
-    }
+    fetchManagerData();
   }, [user]);
 
   if (isLoading) {
@@ -80,8 +92,10 @@ export default function ManagerDashboardPage() {
 
       {/* Modular Components */}
       <DashboardMetrics complaints={complaints} />
-      <DepartmentTeamList teamMembers={teamMembers} />
-      
+      <DepartmentTeamList 
+        teamMembers={teamMembers} 
+        departmentName={departmentName !== 'Loading...' && departmentName !== 'Unknown Department' && departmentName !== 'Error loading data' ? departmentName : undefined} 
+      />
     </div>
   );
 }
