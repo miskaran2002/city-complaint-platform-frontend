@@ -3,9 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 // 1. useRouter import { usePathname, useRouter } from 'next/navigation';
-import { usePathname, useRouter } from 'next/navigation'; 
+import { usePathname, useRouter } from 'next/navigation';
 // 2. Zustand import { useAuthStore } from '@/store/useAuthStore';
-import { useAuthStore } from '@/store/useAuthStore'; 
+import { useAuthStore } from '@/store/useAuthStore';
 
 type UserRole = 'CITIZEN' | 'DEPARTMENT_STAFF' | 'TECHNICIAN' | 'DEPARTMENT_MANAGER' | 'CITY_ADMIN';
 
@@ -20,7 +20,7 @@ export default function Sidebar({ role }: SidebarProps) {
   const handleLogout = () => {
     // local stroage remove token
     localStorage.removeItem('city_auth_token');
-    
+
     // Zustand state reset
     const clearAuth = (useAuthStore.getState() as any).clearAuth;
     if (clearAuth) {
@@ -62,7 +62,8 @@ export default function Sidebar({ role }: SidebarProps) {
       { name: 'Categories', path: '/admin/categories', icon: 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z' },
       { name: 'System Users', path: '/admin/users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
       { name: 'Assigned Complaints', path: '/admin/complaints', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
-      { name: 'Staff Management', path: '/admin/staff', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+      { name: 'Staff Management', path: '/admin/staff', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' }, 
+      {name: 'Citizen Management',path: '/admin/citizens',icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'},
       { name: 'Admin Profile', path: '/admin/profile', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0z' },
     ]
   };
@@ -70,7 +71,7 @@ export default function Sidebar({ role }: SidebarProps) {
 
   return (
     <aside className="w-72 bg-[#1E1B4B] text-white flex flex-col h-screen sticky top-0 shadow-2xl">
-      
+
       {/* Branding / Logo */}
       <div className="h-16 flex items-center px-8 border-b border-white/10 bg-[#1E1B4B]">
         <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-3 shadow-[0_0_10px_#C026D3]"></span>
@@ -82,18 +83,17 @@ export default function Sidebar({ role }: SidebarProps) {
         <div className="px-4 pb-2 text-xs font-semibold text-purple-300/50 uppercase tracking-wider">
           {role} MENU
         </div>
-        
+
         {links.map((link) => {
           const isActive = pathname.startsWith(link.path);
           return (
             <Link
               key={link.name}
               href={link.path}
-              className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${
-                isActive
+              className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${isActive
                   ? 'bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white shadow-lg border border-[#7E22CE]/50'
                   : 'text-purple-200 hover:bg-white/5 hover:text-white'
-              }`}
+                }`}
             >
               <svg className={`w-5 h-5 ${isActive ? 'text-[#C026D3]' : 'text-purple-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} />
@@ -106,8 +106,8 @@ export default function Sidebar({ role }: SidebarProps) {
 
       {/* Logout Button (4. onClick add event) */}
       <div className="p-4 border-t border-white/10">
-        <button 
-          onClick={handleLogout} 
+        <button
+          onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-3.5 w-full rounded-xl text-purple-200 hover:bg-red-500/10 hover:text-red-400 transition-colors group"
         >
           <svg className="w-5 h-5 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
