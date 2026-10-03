@@ -10,7 +10,7 @@ export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
-  // URL থেকে সেশন আইডি এবং কমপ্লেন আইডি নেওয়া
+  // Get session_id and complaintId from query parameters
   const sessionId = searchParams.get('session_id');
   const complaintId = searchParams.get('complaintId');
   
@@ -24,10 +24,10 @@ export default function PaymentSuccessPage() {
       }
 
       try {
-        // পেমেন্ট সাকসেস হওয়ার পর ব্যাকএন্ডে স্ট্যাটাস আপডেট করার রিকোয়েস্ট
-        const res = await apiClient.patch(`/complaints/${complaintId}/payment-status`, {
+        // Verify payment session with backend (Stripe) and update complaint priority
+        const res = await apiClient.post('/payments/stripe/verify', {
           sessionId,
-          status: 'PAID'
+          complaintId
         });
 
         if (res.data?.success) {
@@ -35,7 +35,7 @@ export default function PaymentSuccessPage() {
         } else {
           setStatus('error');
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Failed to verify payment', error);
         setStatus('error');
       }

@@ -1,19 +1,34 @@
-// app/(citizen)/citizen/dashboard/page.tsx
 'use client';
 import GlobalLoading from '@/app/loading';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import apiClient from '@/lib/axios'; // Make sure this path matches your project structure
 
 export default function CitizenDashboard() {
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ total: 0, inProgress: 0, resolved: 0 });
 
   useEffect(() => {
-    // Simulate data fetching
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    const fetchDashboardData = async () => {
+      try {
+        // Fetch complaints from the backend
+        const res = await apiClient.get('/complaints');
+        const complaints = res.data?.data || [];
+        
+        // Count stats based on status
+        setStats({
+          total: complaints.length,
+          inProgress: complaints.filter((c: any) => c.status === 'IN_PROGRESS').length,
+          resolved: complaints.filter((c: any) => c.status === 'RESOLVED').length,
+        });
+      } catch (error) {
+        console.error("Dashboard data fetch error", error);
+      } finally {
+        setLoading(false); // Stop loading regardless of success or error
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchDashboardData();
   }, []);
 
   if (loading) {
@@ -36,39 +51,39 @@ export default function CitizenDashboard() {
           <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full uppercase">
             Total Submitted
           </span>
-          <p className="text-4xl font-extrabold text-[#1E1B4B] mt-4">0</p>
+          <p className="text-4xl font-extrabold text-[#1E1B4B] mt-4">{stats.total}</p>
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full uppercase">
             In Progress
           </span>
-          <p className="text-4xl font-extrabold text-amber-600 mt-4">0</p>
+          <p className="text-4xl font-extrabold text-amber-600 mt-4">{stats.inProgress}</p>
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase">
             Resolved
           </span>
-          <p className="text-4xl font-extrabold text-emerald-600 mt-4">0</p>
+          <p className="text-4xl font-extrabold text-emerald-600 mt-4">{stats.resolved}</p>
         </div>
       </div>
 
       {/* Quick Action Card */}
       <div className="bg-gradient-to-r from-[#1E1B4B] via-[#4C1D95] to-[#7E22CE] rounded-2xl p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-  <div className="space-y-2">
-    <h2 className="text-2xl font-bold">Have a civic issue to report?</h2>
-    <p className="text-purple-200 text-sm max-w-xl">
-      Submit a complaint regarding waste management, road repair, street lights, or water supply. Our city teams are ready to assist.
-    </p>
-  </div>
-  <Link 
-    href="/citizen/complaints" 
-    className="bg-[#C026D3] hover:bg-[#a21caf] text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all whitespace-nowrap inline-block text-center"
-  >
-    + New Complaint
-  </Link>
-</div>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold">Have a civic issue to report?</h2>
+          <p className="text-purple-200 text-sm max-w-xl">
+            Submit a complaint regarding waste management, road repair, street lights, or water supply. Our city teams are ready to assist.
+          </p>
+        </div>
+        <Link 
+          href="/citizen/complaints" 
+          className="bg-[#C026D3] hover:bg-[#a21caf] text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all whitespace-nowrap inline-block text-center"
+        >
+          + New Complaint
+        </Link>
+      </div>
     </div>
   );
 }

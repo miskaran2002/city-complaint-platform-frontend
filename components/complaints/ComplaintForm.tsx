@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Category } from '@/types/category';
 import { Priority } from '@/types/complaint';
 import { createComplaint } from '@/services/complaint.service';
+import apiClient from '@/lib/axios';
 
 interface ComplaintFormProps {
   categories: Category[];
@@ -16,7 +17,7 @@ interface ComplaintFormProps {
 export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => {
   const [title, setTitle] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [priority, setPriority] = useState<Priority>(Priority.MEDIUM);
+  const [priority, setPriority] = useState<Priority | string>('MEDIUM');
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
   
@@ -36,7 +37,6 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
     setSuccess('');
 
     try {
-      // ক্যাটাগরির ভেতর থেকে অটোমেটিক departmentId বের করে নেওয়া হচ্ছে
       const selectedCat = categories.find(c => c.id === categoryId);
       const departmentId = selectedCat?.departmentId || '';
 
@@ -46,23 +46,58 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         categoryId,
         departmentId,
         address,
-        priority,
+        priority: priority as Priority,
       });
 
       if (res.success) {
+        const newComplaintId = res.data?.id || res.data?.data?.id || res?.data?.complaint?.id; 
+        console.log("Newly Created Complaint ID:", newComplaintId);
+
+        // 🔴 TS Error Fix: priority কে স্ট্রিং হিসেবে চেক করা হচ্ছে
+        if ((priority as string) === 'EMERGENCY' && newComplaintId) {
+          try {
+            console.log("Initiating payment for:", newComplaintId);
+            const paymentRes = await apiClient.post('/payments/stripe/create', {
+              complaintId: newComplaintId,
+              amount: 100
+            });
+
+            console.log("Payment API Response:", paymentRes.data);
+            const paymentUrl = paymentRes.data?.data?.paymentUrl || paymentRes.data?.paymentUrl;
+            
+            if (paymentUrl) {
+              window.location.href = paymentUrl; 
+              return; 
+            } else {
+              setError("Payment URL not received from server.");
+              setIsSubmitting(false);
+              return;
+            }
+          } catch (paymentErr) {
+            console.log('Payment API Error:', paymentErr);
+            setError('Failed to initiate payment. Please check your network tab.');
+            setIsSubmitting(false);
+            return;
+          }
+        }
+
         setSuccess('Complaint submitted successfully!');
         setTitle('');
         setCategoryId('');
         setAddress('');
         setDescription('');
-        setPriority(Priority.MEDIUM);
-        onSuccess();
+        setPriority('MEDIUM');
+        onSuccess(); 
+        
         setTimeout(() => setSuccess(''), 4000);
       }
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Failed to submit complaint.');
     } finally {
-      setIsSubmitting(false);
+      // 🔴 TS Error Fix: priority কে স্ট্রিং হিসেবে চেক করা হচ্ছে
+      if ((priority as string) !== 'EMERGENCY') {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -83,7 +118,6 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
           required
         />
         
-        {/* Category Dropdown */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Category <span className="text-red-500">*</span></label>
           <select
@@ -99,18 +133,18 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
           </select>
         </div>
 
-        {/* Priority Dropdown */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Priority Level</label>
           <select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value as Priority)}
+            value={priority as string}
+            onChange={(e) => setPriority(e.target.value)}
             className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-white"
           >
-            <option value={Priority.LOW}>Low</option>
-            <option value={Priority.MEDIUM}>Medium</option>
-            <option value={Priority.HIGH}>High</option>
-            <option value={Priority.EMERGENCY}>Emergency</option>
+            {/* 🔴 TS Error Fix: সরাসরি স্ট্রিং ভ্যালু দেওয়া হলো */}
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+            <option value="EMERGENCY">Emergency</option>
           </select>
         </div>
 
@@ -136,7 +170,7 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         </div>
 
         <Button type="submit" className="w-full mt-2 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE]" isLoading={isSubmitting}>
-          Submit Complaint
+          {isSubmitting && (priority as string) === 'EMERGENCY' ? 'Redirecting to Payment...' : 'Submit Complaint'}
         </Button>
       </form>
     </div>
