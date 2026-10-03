@@ -84,6 +84,19 @@ export default function CitizenDashboard() {
           + New Complaint
         </Link>
       </div>
+
+      {/* Emergency Payment Info Banner */}
+      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-4">
+        <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0">
+          ⚠️
+        </div>
+        <div>
+          <h3 className="font-bold text-amber-800 text-sm">Emergency Priority Fee</h3>
+          <p className="text-amber-700 text-sm mt-1">
+            Marking a complaint as <span className="font-semibold">Emergency</span> requires a one-time payment of <span className="font-semibold">$5 (USD)</span> to prioritize faster resolution. You&apos;ll be redirected to a secure Stripe checkout page after submitting an emergency complaint.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
