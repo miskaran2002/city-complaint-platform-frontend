@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Category } from '@/types/category';
 import { Priority } from '@/types/complaint';
 import { createComplaint } from '@/services/complaint.service';
-import apiClient from '@/lib/axios';
+import { PaymentMethodModal } from './PaymentMethodModal';
 
 interface ComplaintFormProps {
   categories: Category[];
@@ -24,6 +24,18 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  // ✅ নতুন state — payment method modal control করার জন্য
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [pendingComplaintId, setPendingComplaintId] = useState<string | null>(null);
+
+  const resetForm = () => {
+    setTitle('');
+    setCategoryId('');
+    setAddress('');
+    setDescription('');
+    setPriority('MEDIUM');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,51 +65,23 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         const newComplaintId = res.data?.id || res.data?.data?.id || res?.data?.complaint?.id; 
         console.log("Newly Created Complaint ID:", newComplaintId);
 
-        // 🔴 TS Error Fix: priority কে স্ট্রিং হিসেবে চেক করা হচ্ছে
+        // ✅ Emergency হলে সরাসরি payment gateway-তে না পাঠিয়ে, method বেছে নেওয়ার modal দেখাও
         if ((priority as string) === 'EMERGENCY' && newComplaintId) {
-          try {
-            console.log("Initiating payment for:", newComplaintId);
-            const paymentRes = await apiClient.post('/payments/stripe/create', {
-              complaintId: newComplaintId,
-              amount: 100
-            });
-
-            console.log("Payment API Response:", paymentRes.data);
-            const paymentUrl = paymentRes.data?.data?.paymentUrl || paymentRes.data?.paymentUrl;
-            
-            if (paymentUrl) {
-              window.location.href = paymentUrl; 
-              return; 
-            } else {
-              setError("Payment URL not received from server.");
-              setIsSubmitting(false);
-              return;
-            }
-          } catch (paymentErr) {
-            console.log('Payment API Error:', paymentErr);
-            setError('Failed to initiate payment. Please check your network tab.');
-            setIsSubmitting(false);
-            return;
-          }
+          setPendingComplaintId(newComplaintId);
+          setShowPaymentModal(true);
+          setIsSubmitting(false);
+          return;
         }
 
         setSuccess('Complaint submitted successfully!');
-        setTitle('');
-        setCategoryId('');
-        setAddress('');
-        setDescription('');
-        setPriority('MEDIUM');
+        resetForm();
         onSuccess(); 
         
         setTimeout(() => setSuccess(''), 4000);
       }
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Failed to submit complaint.');
-    } finally {
-      // 🔴 TS Error Fix: priority কে স্ট্রিং হিসেবে চেক করা হচ্ছে
-      if ((priority as string) !== 'EMERGENCY') {
-        setIsSubmitting(false);
-      }
+      setIsSubmitting(false);
     }
   };
 
@@ -140,7 +124,6 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
             onChange={(e) => setPriority(e.target.value)}
             className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-white"
           >
-            {/* 🔴 TS Error Fix: সরাসরি স্ট্রিং ভ্যালু দেওয়া হলো */}
             <option value="LOW">Low</option>
             <option value="MEDIUM">Medium</option>
             <option value="HIGH">High</option>
@@ -170,9 +153,24 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         </div>
 
         <Button type="submit" className="w-full mt-2 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE]" isLoading={isSubmitting}>
-          {isSubmitting && (priority as string) === 'EMERGENCY' ? 'Redirecting to Payment...' : 'Submit Complaint'}
+          Submit Complaint
         </Button>
       </form>
+
+      {/* ✅ Payment Method Modal — Emergency complaint submit হওয়ার পর দেখাবে */}
+      {showPaymentModal && pendingComplaintId && (
+        <PaymentMethodModal
+          complaintId={pendingComplaintId}
+          onClose={() => {
+            setShowPaymentModal(false);
+            setPendingComplaintId(null);
+            setSuccess('Complaint submitted! You can pay the emergency fee later from the complaint details page.');
+            resetForm();
+            onSuccess();
+            setTimeout(() => setSuccess(''), 5000);
+          }}
+        />
+      )}
     </div>
   );
 };
