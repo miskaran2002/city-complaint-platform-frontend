@@ -12,6 +12,9 @@ interface CategoryFormProps {
   setDepartmentId: (val: string) => void;
   description: string;
   setDescription: (val: string) => void;
+  // 🔴 notun imageUrl props add kora holo
+  imageUrl: string;
+  setImageUrl: (val: string) => void;
   departments: Department[];
   isDeptLoading: boolean;
   isSubmitting: boolean;
@@ -27,6 +30,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   setDepartmentId,
   description,
   setDescription,
+  imageUrl, // 🔴 destructure kora holo
+  setImageUrl, // 🔴 destructure kora holo
   departments,
   isDeptLoading,
   isSubmitting,
@@ -72,6 +77,15 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             )}
           </select>
         </div>
+
+        {/* 🔴 Image URL Field */}
+        <Input
+          label="Image URL (Optional)"
+          type="url"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="https://images.unsplash.com/..."
+        />
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>

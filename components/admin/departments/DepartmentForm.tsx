@@ -11,6 +11,9 @@ interface DepartmentFormProps {
   setCode: (val: string) => void;
   description: string;
   setDescription: (val: string) => void;
+  // 🔴 image url
+  imageUrl: string;
+  setImageUrl: (val: string) => void;
   isSubmitting: boolean;
   error: string;
   success: string;
@@ -24,6 +27,8 @@ export const DepartmentForm: React.FC<DepartmentFormProps> = ({
   setCode,
   description,
   setDescription,
+  imageUrl, 
+  setImageUrl, 
   isSubmitting,
   error,
   success,
@@ -53,6 +58,15 @@ export const DepartmentForm: React.FC<DepartmentFormProps> = ({
           onChange={(e) => setCode(e.target.value)}
           placeholder="e.g. WASA-01"
           required
+        />
+
+        {/* 🔴 Image URL add field */}
+        <Input
+          label="Image URL (Optional)"
+          type="url"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="https://images.unsplash.com/..."
         />
 
         <div>
