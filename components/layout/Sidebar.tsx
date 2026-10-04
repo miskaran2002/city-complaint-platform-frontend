@@ -1,10 +1,9 @@
+// components/layout/Sidebar.tsx
 'use client';
 
 import React from 'react';
 import Link from 'next/link';
-// 1. useRouter import { usePathname, useRouter } from 'next/navigation';
 import { usePathname, useRouter } from 'next/navigation';
-// 2. Zustand import { useAuthStore } from '@/store/useAuthStore';
 import { useAuthStore } from '@/store/useAuthStore';
 
 type UserRole = 'CITIZEN' | 'DEPARTMENT_STAFF' | 'TECHNICIAN' | 'DEPARTMENT_MANAGER' | 'CITY_ADMIN';
@@ -15,22 +14,19 @@ interface SidebarProps {
 
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
-  const router = useRouter(); // router instance for navigation
-  // 3. logout function
-  const handleLogout = () => {
-    // local stroage remove token
-    localStorage.removeItem('city_auth_token');
+  const router = useRouter(); 
 
-    // Zustand state reset
+  const handleLogout = () => {
+    localStorage.removeItem('city_auth_token');
+    localStorage.removeItem('user'); 
+
     const clearAuth = (useAuthStore.getState() as any).clearAuth;
     if (clearAuth) {
       clearAuth();
     } else {
-      // clearautyh function not found, manually reset state
       useAuthStore.setState({ user: null, token: null, isAuthenticated: false });
     }
 
-    // Redirect to login page
     router.push('/login');
   };
 
@@ -73,16 +69,16 @@ export default function Sidebar({ role }: SidebarProps) {
   return (
     <aside className="w-72 bg-[#1E1B4B] text-white flex flex-col h-screen sticky top-0 shadow-2xl">
 
-      {/* Branding / Logo */}
-      <div className="h-16 flex items-center px-8 border-b border-white/10 bg-[#1E1B4B]">
+      {/* 🔴 Branding / Logo (Link to Home) */}
+      <Link href="/" className="h-16 flex items-center px-8 border-b border-white/10 bg-[#1E1B4B] hover:bg-white/5 transition-colors cursor-pointer">
         <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-3 shadow-[0_0_10px_#C026D3]"></span>
         <span className="font-extrabold text-xl tracking-wide text-purple-50">Smart City</span>
-      </div>
+      </Link>
 
       {/* Navigation Links */}
       <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
         <div className="px-4 pb-2 text-xs font-semibold text-purple-300/50 uppercase tracking-wider">
-          {role} MENU
+          {role?.replace('_', ' ')} MENU
         </div>
 
         {links.map((link) => {
@@ -105,7 +101,7 @@ export default function Sidebar({ role }: SidebarProps) {
         })}
       </nav>
 
-      {/* Logout Button (4. onClick add event) */}
+      {/* Logout Button */}
       <div className="p-4 border-t border-white/10">
         <button
           onClick={handleLogout}
