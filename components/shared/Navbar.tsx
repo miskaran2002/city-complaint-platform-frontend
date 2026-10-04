@@ -87,7 +87,7 @@ export const Navbar = () => {
                     Sign In
                   </Link>
                   <span className="hidden sm:block text-gray-300">|</span>
-                  <Link href="/sign-up" className="bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5">
+                  <Link href="/register" className="bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5">
                     Sign Up
                   </Link>
                 </>
