@@ -61,7 +61,7 @@ export const Navbar = () => {
             <Link href="/" className="text-gray-600 hover:text-purple-600 font-semibold transition-colors">Home</Link>
             <Link href="/departments" className="text-gray-600 hover:text-purple-600 font-semibold transition-colors">Departments</Link>
             <Link href="/about" className="text-gray-600 hover:text-purple-600 font-semibold transition-colors">About Us</Link>
-            <Link href="/services" className="text-gray-600 hover:text-purple-600 font-semibold transition-colors">Services</Link>
+            <Link href="/category" className="text-gray-600 hover:text-purple-600 font-semibold transition-colors">Services</Link>
           </div>
 
           <div className="flex items-center space-x-4">
