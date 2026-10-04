@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { loginUser } from '@/services/auth.service';
 import { useAuthStore } from '@/store/useAuthStore';
+import toast from 'react-hot-toast';
 
 export const DemoLogin = () => {
   const router = useRouter();
@@ -33,8 +34,9 @@ export const DemoLogin = () => {
         }
 
         setAuth(response.data.user, actualToken!);
+        toast.success('Login successful!'); 
         
-        // ⚠ রাউটিং লজিক আপডেট করা হলো 
+        // ⚠ update : Redirect based on role
         const userRole = response.data.user.role;
         if (userRole === 'CITIZEN') router.push('/citizen/dashboard');
         else if (userRole === 'CITY_ADMIN') router.push('/admin/dashboard');

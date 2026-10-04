@@ -5,6 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import toast from 'react-hot-toast';
 
 type UserRole = 'CITIZEN' | 'DEPARTMENT_STAFF' | 'TECHNICIAN' | 'DEPARTMENT_MANAGER' | 'CITY_ADMIN';
 
@@ -26,6 +27,7 @@ export default function Sidebar({ role }: SidebarProps) {
     } else {
       useAuthStore.setState({ user: null, token: null, isAuthenticated: false });
     }
+    toast.success('Logout successful!');
 
     router.push('/login');
   };

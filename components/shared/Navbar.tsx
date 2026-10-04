@@ -4,13 +4,13 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/useAuthStore'; // 🔴 Zustand import
+import { useAuthStore } from '@/store/useAuthStore';
+import toast from 'react-hot-toast';
 
 export const Navbar = () => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   
-  // 🔴 zudstand user data fetch
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state: any) => state.clearAuth);
 
@@ -19,7 +19,6 @@ export const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    // 🔴 zustand logout
     if (clearAuth) {
       clearAuth();
     } else {
@@ -28,10 +27,24 @@ export const Navbar = () => {
     localStorage.removeItem('city_auth_token');
     localStorage.removeItem('user');
     
+    toast.success('Logout successful!'); 
+    
     router.push('/login');
   };
 
-  const dashboardLink = user?.role ? `/${user.role.toLowerCase()}/dashboard` : '/dashboard';
+  // 🔴 sidebar == main navbar
+  const getDashboardLink = (role?: string) => {
+    switch (role) {
+      case 'CITIZEN': return '/citizen/dashboard';
+      case 'TECHNICIAN': return '/technician/dashboard';
+      case 'DEPARTMENT_STAFF': return '/staff/dashboard';
+      case 'DEPARTMENT_MANAGER': return '/manager/dashboard';
+      case 'CITY_ADMIN': return '/admin/dashboard';
+      default: return '/dashboard';
+    }
+  };
+
+  const dashboardLink = getDashboardLink(user?.role);
 
   return (
     <nav className="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
@@ -74,7 +87,7 @@ export const Navbar = () => {
                     Sign In
                   </Link>
                   <span className="hidden sm:block text-gray-300">|</span>
-                  <Link href="/register" className="bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5">
+                  <Link href="/sign-up" className="bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5">
                     Sign Up
                   </Link>
                 </>

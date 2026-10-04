@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { loginUser } from '@/services/auth.service';
 import { useAuthStore } from '@/store/useAuthStore';
+import toast from 'react-hot-toast'; 
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -29,14 +30,15 @@ export const LoginForm = () => {
       
         const actualToken = response.data.token || response.data.accessToken;
         
-        
         if (actualToken) {
           localStorage.setItem('city_auth_token', actualToken);
         }
-        
 
         // Save user and token in global state
         setAuth(response.data.user, actualToken!);
+        
+        // 🔴 toast message
+        toast.success('Login successful!'); 
         
         // Redirect based on role
         const role = response.data.user.role;
@@ -45,7 +47,9 @@ export const LoginForm = () => {
         else router.push('/staff/dashboard'); 
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      const errorMessage = err.response?.data?.message || 'Login failed. Please check your credentials.';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +76,7 @@ export const LoginForm = () => {
         required
       />
       
-      <Button type="submit" className="w-full mt-4" isLoading={isLoading}>
+      <Button type="submit" className="w-full mt-4 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE]" isLoading={isLoading}>
         Sign In
       </Button>
     </form>
