@@ -6,10 +6,23 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
 import { googleLogin } from '@/services/auth.service';
 import { useAuthStore } from '@/store/useAuthStore';
+import toast from 'react-hot-toast'; 
 
 export const GoogleLoginButton = () => {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
+
+  // 🔴 dashboard link
+  const getDashboardLink = (role?: string) => {
+    switch (role) {
+      case 'CITIZEN': return '/citizen/dashboard';
+      case 'TECHNICIAN': return '/technician/dashboard';
+      case 'DEPARTMENT_STAFF': return '/staff/dashboard';
+      case 'DEPARTMENT_MANAGER': return '/manager/dashboard';
+      case 'CITY_ADMIN': return '/admin/dashboard';
+      default: return '/dashboard';
+    }
+  };
 
   return (
     <div className="mt-4 flex justify-center w-full">
@@ -22,27 +35,35 @@ export const GoogleLoginButton = () => {
             if (!token) return;
 
             // request to backend with the idToken received from Google
-            // note: services/auth.service.ts এ GoogleLoginPayload interface idtoken use property 
-            // thus we are sending idToken instead of token
-            const response = await googleLogin({idToken: token });
+            const response = await googleLogin({ idToken: token });
             
             if (response.success && response.data) {
-              setAuth(response.data.user, response.data.token);
+              const actualToken = response.data.token || response.data.accessToken;
               
-              const role = response.data.user.role;
-              if (role === 'CITIZEN') router.push('/dashboard');
-              else if (role === 'CITY_ADMIN' || role === 'DEPARTMENT_MANAGER') router.push('/dashboard');
-              else router.push('/assigned');
+              // 🔴 save the local stroage
+              if (actualToken) {
+                localStorage.setItem('city_auth_token', actualToken);
+              }
+
+              // Save user and token in global state
+              setAuth(response.data.user, actualToken as string);
+              
+              
+              toast.success('Google login successful!');
+
+              // 🔴 dashboard redirect
+              const dashboardLink = getDashboardLink(response.data.user.role);
+              router.push(dashboardLink);
             }
           } catch (error: any) {
             console.error('Google login error:', error);
-            // backgroound fetching error message from response if available
-            alert(error.response?.data?.message || 'Google login failed.');
+            const errorMessage = error.response?.data?.message || 'Google login failed.';
+            toast.error(errorMessage); // 🔴 error toast
           }
         }}
         onError={() => {
           console.error('Google Login Failed');
-          alert('Failed to connect to Google.');
+          toast.error('Failed to connect to Google.');
         }}
       />
     </div>
