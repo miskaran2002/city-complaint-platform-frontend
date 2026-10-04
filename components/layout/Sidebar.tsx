@@ -1,7 +1,7 @@
 // components/layout/Sidebar.tsx
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -16,6 +16,7 @@ interface SidebarProps {
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter(); 
+  const [isOpen, setIsOpen] = useState(false); 
 
   const handleLogout = () => {
     localStorage.removeItem('city_auth_token');
@@ -28,7 +29,6 @@ export default function Sidebar({ role }: SidebarProps) {
       useAuthStore.setState({ user: null, token: null, isAuthenticated: false });
     }
     toast.success('Logout successful!');
-
     router.push('/login');
   };
 
@@ -62,59 +62,99 @@ export default function Sidebar({ role }: SidebarProps) {
       { name: 'System Users', path: '/admin/users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
       { name: 'Assigned Complaints', path: '/admin/complaints', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
       { name: 'Staff Management', path: '/admin/staff', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' }, 
-      {name: 'Citizen Management',path: '/admin/citizens',icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'},
+      { name: 'Citizen Management', path: '/admin/citizens', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
       { name: 'Admin Profile', path: '/admin/profile', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0z' },
     ]
   };
   const links = navLinks[role] || navLinks.CITIZEN;
 
   return (
-    <aside className="w-72 bg-[#1E1B4B] text-white flex flex-col h-screen sticky top-0 shadow-2xl">
-
-      {/* 🔴 Branding / Logo (Link to Home) */}
-      <Link href="/" className="h-16 flex items-center px-8 border-b border-white/10 bg-[#1E1B4B] hover:bg-white/5 transition-colors cursor-pointer">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-3 shadow-[0_0_10px_#C026D3]"></span>
-        <span className="font-extrabold text-xl tracking-wide text-purple-50">Smart City</span>
-      </Link>
-
-      {/* Navigation Links */}
-      <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
-        <div className="px-4 pb-2 text-xs font-semibold text-purple-300/50 uppercase tracking-wider">
-          {role?.replace('_', ' ')} MENU
-        </div>
-
-        {links.map((link) => {
-          const isActive = pathname.startsWith(link.path);
-          return (
-            <Link
-              key={link.name}
-              href={link.path}
-              className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${isActive
-                  ? 'bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white shadow-lg border border-[#7E22CE]/50'
-                  : 'text-purple-200 hover:bg-white/5 hover:text-white'
-                }`}
-            >
-              <svg className={`w-5 h-5 ${isActive ? 'text-[#C026D3]' : 'text-purple-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} />
-              </svg>
-              <span className="font-medium text-sm">{link.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Logout Button */}
-      <div className="p-4 border-t border-white/10">
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-3.5 w-full rounded-xl text-purple-200 hover:bg-red-500/10 hover:text-red-400 transition-colors group"
+    <>
+      {/* 🔴 Mobile Header Bar (Only visible on small screens) */}
+      <div className="lg:hidden h-16 bg-[#1E1B4B] text-white flex items-center justify-between px-4 sticky top-0 z-45 border-b border-white/10 shadow-md">
+        <Link href="/" className="flex items-center">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-2"></span>
+          <span className="font-extrabold text-lg tracking-wide text-purple-50">Smart City</span>
+        </Link>
+        
+        {/* Hamburger Toggle Button */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors focus:outline-none"
         >
-          <svg className="w-5 h-5 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          <svg className="w-6 h-6 text-purple-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {isOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
           </svg>
-          <span className="font-medium text-sm">Logout</span>
         </button>
       </div>
-    </aside>
+
+      {/* 🔴 Mobile Backdrop Overlay */}
+      {isOpen && (
+        <div 
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm transition-opacity"
+        />
+      )}
+
+      {/* 🔴 Sidebar Container (Responsive Drawer for Mobile + Fixed for Desktop) */}
+      <aside className={`
+        fixed lg:sticky top-0 left-0 z-50 h-screen w-72 bg-[#1E1B4B] text-white flex flex-col shadow-2xl transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+
+        {/* Branding / Logo */}
+        <Link href="/" className="h-16 flex items-center px-8 border-b border-white/10 bg-[#1E1B4B] hover:bg-white/5 transition-colors cursor-pointer">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-3 shadow-[0_0_10px_#C026D3]"></span>
+          <span className="font-extrabold text-xl tracking-wide text-purple-50">Smart City</span>
+        </Link>
+
+        {/* Navigation Links */}
+        <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+          <div className="px-4 pb-2 text-xs font-semibold text-purple-300/50 uppercase tracking-wider">
+            {role?.replace('_', ' ')} MENU
+          </div>
+
+          {links.map((link) => {
+            const isActive = pathname.startsWith(link.path);
+            return (
+              <Link
+                key={link.name}
+                href={link.path}
+                onClick={() => setIsOpen(false)} // মোবাইলে লিংকে ক্লিক করলে ড্রয়ার অটো বন্ধ হয়ে যাবে
+                className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${isActive
+                    ? 'bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white shadow-lg border border-[#7E22CE]/50'
+                    : 'text-purple-200 hover:bg-white/5 hover:text-white'
+                  }`}
+              >
+                <svg className={`w-5 h-5 ${isActive ? 'text-[#C026D3]' : 'text-purple-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} />
+                </svg>
+                <span className="font-medium text-sm">{link.name}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Logout Button */}
+        <div className="p-4 border-t border-white/10">
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              handleLogout();
+            }}
+            className="flex items-center gap-3 px-4 py-3.5 w-full rounded-xl text-purple-200 hover:bg-red-500/10 hover:text-red-400 transition-colors group cursor-pointer"
+          >
+            <svg className="w-5 h-5 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span className="font-medium text-sm">Logout</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }
