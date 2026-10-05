@@ -1,6 +1,7 @@
 // app/(auth)/layout.tsx
 'use client';
 
+import Link from 'next/link';
 import React from 'react';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -14,13 +15,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="absolute top-[-20%] left-[-20%] w-[500px] h-[500px] bg-[#C026D3]/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-[-20%] right-[-20%] w-[500px] h-[500px] bg-[#7E22CE]/30 rounded-full blur-3xl pointer-events-none"></div>
 
-        {/* Top Branding */}
-        <div className="relative z-10 w-full max-w-lg">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C026D3]/20 border border-[#C026D3]/30 backdrop-blur-md text-purple-50 text-sm font-medium">
-            <span className="w-2 h-2 rounded-full bg-[#C026D3] animate-pulse"></span>
-            Smart Civic Portal
-          </div>
-        </div>
+       
+{/* Top Branding */}
+<div className="relative z-10 w-full max-w-lg">
+          <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C026D3]/20 border border-[#C026D3]/30 backdrop-blur-md text-purple-50 text-sm font-medium hover:bg-[#C026D3]/30 transition-all cursor-pointer">
+        <span className="w-2 h-2 rounded-full bg-[#C026D3] animate-pulse"></span>
+          Smart Civic Portal
+      </Link>
+</div>
 
         {/* Center Content & Modern CSS Pulse Animation Graphic */}
         <div className="relative z-10 max-w-lg text-center space-y-8 my-auto">

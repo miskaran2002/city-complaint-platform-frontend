@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <!-- website gradient -->
+    <linearGradient id="barishalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C1D95" />
+      <stop offset="100%" stop-color="#C026D3" />
+    </linearGradient>
+  </defs>
+  
+  <!-- background -->
+  <rect width="256" height="256" rx="50" fill="url(#barishalGrad)" />
+  
+  <!--  (Building Skyline) -->
+  <rect x="64" y="80" width="32" height="80" rx="4" fill="white" />
+  <rect x="112" y="48" width="40" height="112" rx="4" fill="white" />
+  <rect x="168" y="96" width="24" height="64" rx="4" fill="white" />
+  
+  <!--  (River Waves) -->
+  <path d="M48 184 Q 100 160 128 184 T 208 184" fill="none" stroke="white" stroke-width="12" stroke-linecap="round" />
+  <path d="M48 216 Q 100 192 128 216 T 208 216" fill="none" stroke="white" stroke-width="12" stroke-linecap="round" />
+</svg>
