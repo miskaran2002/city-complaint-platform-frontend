@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-[#030014] text-gray-900 dark:text-white transition-colors duration-300`}
       >
-        {/* 🔴 ThemeProvider দিয়ে অ্যাপ র‍্যাপ করা হয়েছে (ট্যাগের ভেতরে কমেন্ট রাখা সেফ) */}
+        {/* 🔴 ThemeProvider ) */}
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
