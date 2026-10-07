@@ -23,8 +23,8 @@ const total = images.length + 1; // 0 = title card
 const angleStep = 360 / total;
 const radius = 360;
 
-const Sparkle = ({ size = 56 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="white" className="drop-shadow-lg">
+const Sparkle = ({ size = 56, className = "" }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={`drop-shadow-lg ${className}`}>
     <path d="M12 0c.6 5.5 2.5 9.6 6 11.3C21.5 12.4 23 12 24 12c-1 0-2.5-.4-6 .7-3.5 1.7-5.4 5.8-6 11.3-.6-5.5-2.5-9.6-6-11.3C2.5 11.6 1 12 0 12c1 0 2.5.4 6-.7C9.5 9.6 11.4 5.5 12 0z" />
   </svg>
 );
@@ -59,7 +59,7 @@ function ParticleRing({ active }: { active: boolean }) {
     resize();
     window.addEventListener('resize', resize);
 
-    const colors = ['#a855f7', '#c026d3', '#e9d5ff', '#ffffff'];
+    const colors = ['#a855f7', '#c026d3', '#e9d5ff', '#8B5CF6'];
     const ps = Array.from({ length: 1800 }, () => ({
       a: Math.random() * Math.PI * 2,
       r: 0.7 + Math.pow(Math.random(), 0.7) * 0.3,
@@ -73,7 +73,7 @@ function ParticleRing({ active }: { active: boolean }) {
     let t = 0;
     const draw = () => {
       raf = requestAnimationFrame(draw);
-      if (!activeRef.current) return; // stage dekha na gele CPU khay na
+      if (!activeRef.current) return;
       t += 0.003;
       ctx.clearRect(0, 0, w, h);
       const cx = w / 2;
@@ -101,12 +101,11 @@ function ParticleRing({ active }: { active: boolean }) {
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [stage, setStage] = useState(0);
-  const [covered, setCovered] = useState(true); // cover page active?
+  const [covered, setCovered] = useState(true);
   const stickyRef = useRef<HTMLDivElement>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef({ top: 140, left: 0, w: 260, h: 360 });
 
-  // 3D ring er samner card ta thik kothay boshbe seta measure kori (cover oikhane shrink hobe)
   useEffect(() => {
     const measure = () => {
       const a = anchorRef.current;
@@ -132,7 +131,6 @@ export default function HeroSection() {
     setCovered(v < 0.09);
   });
 
-  // Hero pin thakar somoy navbar hide hobe (html e data-hero-pinned set kore, CSS e hide kora hoy)
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     const pinned = v > 0.035 && v < 0.965;
     document.documentElement.toggleAttribute('data-hero-pinned', pinned);
@@ -140,15 +138,6 @@ export default function HeroSection() {
   useEffect(() => {
     return () => document.documentElement.removeAttribute('data-hero-pinned');
   }, []);
-
-  /*
-    Scroll timeline
-    0.00 - 0.40  Stage 1: 3D carousel (title card -> ring ghure -> abar title card)
-    0.40 - 0.48  transition 1 -> 2
-    0.48 - 0.68  Stage 2: "Complaints that get resolved" panel
-    0.68 - 0.76  transition 2 -> 3
-    0.76 - 1.00  Stage 3: particle ring + final card (shesh e fixed, tarpor next section)
-  */
 
   // Stage 1
   const l1Opacity = useTransform(p, [0.4, 0.46], [1, 0]);
@@ -159,7 +148,7 @@ export default function HeroSection() {
   const ctaOpacity = useTransform(p, [0, 0.07, 0.1, 0.14, 0.3, 0.36], [0, 0, 1, 0.1, 0.1, 1]);
   const hintOpacity = useTransform(p, [0, 0.02], [1, 0]);
 
-  // Cover page -> card morph (0.02 - 0.09)
+  // Cover page
   const k = useTransform(p, (v) => {
     const x = Math.min(Math.max((v - 0.02) / 0.07, 0), 1);
     return x * x * (3 - 2 * x);
@@ -199,7 +188,7 @@ export default function HeroSection() {
   const everyX = useTransform(p, [0.7, 0.82], [-220, 0]);
   const voiceX = useTransform(p, [0.7, 0.82], [220, 0]);
   const mattersY = useTransform(p, [0.74, 0.88], [120, 0]);
-  const mattersOpacity = useTransform(p, [0.74, 0.88], [0, 0.55]);
+  const mattersOpacity = useTransform(p, [0.74, 0.88], [0, 1]);
   const finalCardOpacity = useTransform(p, [0.78, 0.88], [0, 1]);
   const finalCardScale = useTransform(p, [0.78, 0.88], [0.8, 1]);
 
@@ -208,32 +197,31 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-0 h-[900vh] bg-background text-foreground overflow-x-clip"
-      // next section 100vh upore uthe ese hero r upor diye cover korbe
+      className="relative z-0 h-[900vh] bg-background text-foreground overflow-x-clip transition-colors duration-300"
       style={{ marginBottom: '-100vh' }}
     >
       <div ref={stickyRef} className="sticky top-0 h-screen overflow-hidden">
+        
         {/* ================= STAGE 1: 3D carousel ================= */}
         <motion.div
           style={{ opacity: l1Opacity, scale: l1Scale, ...layer(0) }}
           className="absolute inset-0 flex flex-col items-center justify-center pt-24 pb-6 bg-background"
         >
           <motion.div style={{ opacity: ringFade }} className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 -translate-y-1/2 w-full overflow-hidden whitespace-nowrap pointer-events-none select-none opacity-[0.07]">
-            <motion.div style={{ x: marqueeX }} className="flex gap-12 text-8xl md:text-[10rem] font-black tracking-tight">
+          <div className="absolute top-1/2 -translate-y-1/2 w-full overflow-hidden whitespace-nowrap pointer-events-none select-none opacity-[0.05] dark:opacity-[0.15]">
+            <motion.div style={{ x: marqueeX }} className="flex gap-12 text-8xl md:text-[10rem] font-black tracking-tight text-foreground">
               <span>YOUR CITY • YOUR VOICE • SMART BARISHAL • REPORT • TRACK • RESOLVE •</span>
               <span>YOUR CITY • YOUR VOICE • SMART BARISHAL • REPORT • TRACK • RESOLVE •</span>
             </motion.div>
           </div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#4C1D95]/25 blur-[140px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#4C1D95]/20 blur-[140px] pointer-events-none" />
           </motion.div>
 
           <motion.div
             className="relative z-10 flex items-center justify-center w-full h-[380px] sm:h-[400px] scale-[0.8] sm:scale-95 lg:scale-100"
             style={{ perspective: '1400px', opacity: ringFade }}
           >
-            {/* invisible anchor: cover eikhane shrink hoye ashbe */}
             <div ref={anchorRef} className="invisible absolute w-[260px] h-[360px] pointer-events-none" />
             <div
               className="relative w-[260px] h-[360px]"
@@ -258,7 +246,7 @@ export default function HeroSection() {
                     <span className="opacity-80">citypulse</span>
                   </div>
                   <div className="flex justify-center">
-                    <Sparkle />
+                    <Sparkle className="text-white" />
                   </div>
                   <div>
                     <h1 className="text-4xl font-extrabold leading-tight tracking-tight">
@@ -273,14 +261,14 @@ export default function HeroSection() {
                 {images.map((item, i) => (
                   <div
                     key={item.title}
-                    className="absolute inset-0 rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-card"
+                    className="absolute inset-0 rounded-[2rem] overflow-hidden border border-border shadow-2xl bg-card"
                     style={{
                       transform: `rotateY(${(i + 1) * angleStep}deg) translateZ(${radius}px)`,
                       backfaceVisibility: 'hidden',
                     }}
                   >
-                    <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                    <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex items-end p-6">
                       <span className="text-white font-bold text-xl tracking-wide">{item.title}</span>
                     </div>
                   </div>
@@ -307,7 +295,7 @@ export default function HeroSection() {
             </Link>
           </motion.div>
 
-          {/* ===== COVER PAGE: shuru te full-screen, scroll korle card hoye ring er moddhe dhuke jay ===== */}
+          {/* ===== COVER PAGE ===== */}
           <motion.div
             suppressHydrationWarning
             style={{
@@ -335,7 +323,7 @@ export default function HeroSection() {
               </div>
 
               <motion.div style={{ scale: coverSparkle }} className="self-center">
-                <Sparkle />
+                <Sparkle className="text-white" />
               </motion.div>
 
               <div>
@@ -385,11 +373,9 @@ export default function HeroSection() {
           <div
             className="relative w-full h-full rounded-[2rem] overflow-hidden text-white"
             style={{
-              background:
-                'radial-gradient(ellipse at 50% 120%, #a855f7 0%, #5b21b6 28%, #2e1065 55%, #0f0524 100%)',
+              background: 'radial-gradient(ellipse at 50% 120%, #a855f7 0%, #5b21b6 28%, #2e1065 55%, #0f0524 100%)',
             }}
           >
-            {/* heading */}
             <div className="absolute top-6 left-6 sm:left-10 z-20 leading-[0.95] tracking-tight font-light text-5xl sm:text-7xl lg:text-8xl">
               <div>Complaints that</div>
               <motion.div style={{ opacity: line2Opacity, x: line2X }} className="text-white/60">
@@ -397,20 +383,14 @@ export default function HeroSection() {
               </motion.div>
             </div>
 
-            {/* tilted image card */}
             <motion.div
               style={{ rotate: tiltCardRotate, y: tiltCardY }}
               className="absolute z-10 left-1/2 top-[18%] -translate-x-1/2 w-[46%] max-w-[340px] min-w-[220px] aspect-[3/4] rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.6)] border border-white/10"
             >
-              <img
-                src={images[1].image}
-                alt="City skyline at night"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
+              <img src={images[1].image} alt="City skyline" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1e0a45]/80 via-[#4c1d95]/20 to-transparent" />
             </motion.div>
 
-            {/* left bottom: copy + buttons */}
             <div className="absolute z-20 left-6 sm:left-10 bottom-24 max-w-xs sm:max-w-sm">
               <p className="text-sm sm:text-base text-white/75 leading-relaxed">
                 Report a broken road, a leaking pipe or a dark street. Follow every report until the
@@ -432,7 +412,6 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* bottom strip */}
             <div className="absolute z-20 left-6 right-6 sm:left-10 sm:right-10 bottom-6 pt-4 border-t border-white/15 flex items-center justify-between gap-6">
               <div className="flex items-center gap-3 rounded-full border border-white/15 bg-white/10 pl-2 pr-4 py-1.5 backdrop-blur">
                 <div className="flex -space-x-2">
@@ -458,30 +437,30 @@ export default function HeroSection() {
         {/* ================= STAGE 3: particle ring + final card ================= */}
         <motion.div
           style={{ opacity: l3Opacity, ...layer(2) }}
-          className="absolute inset-0 bg-black text-white overflow-hidden"
+          className="absolute inset-0 bg-background text-foreground overflow-hidden"
         >
           <ParticleRing active={stage === 2} />
 
           <motion.div
             style={{ x: everyX }}
-            className="absolute top-20 left-4 sm:left-8 text-6xl sm:text-8xl lg:text-9xl font-light tracking-tight bg-gradient-to-r from-purple-200 to-white bg-clip-text text-transparent"
+            className="absolute top-20 left-4 sm:left-8 text-6xl sm:text-8xl lg:text-9xl font-light tracking-tight bg-gradient-to-r from-[#4C1D95] via-[#C026D3] to-purple-600 dark:from-purple-300 dark:to-white bg-clip-text text-transparent"
           >
             Every
           </motion.div>
           <motion.div
             style={{ x: voiceX }}
-            className="absolute top-[52%] right-4 sm:right-10 text-6xl sm:text-8xl lg:text-9xl font-light tracking-tight"
+            className="absolute top-[52%] right-4 sm:right-10 text-6xl sm:text-8xl lg:text-9xl font-light tracking-tight text-foreground"
           >
             voice
           </motion.div>
           <motion.div
             style={{ y: mattersY, opacity: mattersOpacity }}
-            className="absolute bottom-6 right-[18%] text-6xl sm:text-8xl lg:text-9xl font-light tracking-tight blur-[3px]"
+            className="absolute bottom-6 right-[18%] text-6xl sm:text-8xl lg:text-9xl font-light tracking-tight blur-[3px] text-foreground"
           >
             counts
           </motion.div>
 
-          <div className="absolute left-4 sm:left-8 bottom-8 max-w-xs sm:max-w-sm text-sm sm:text-base text-white/60 leading-relaxed space-y-3">
+          <div className="absolute left-4 sm:left-8 bottom-8 max-w-xs sm:max-w-sm text-sm sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed space-y-3">
             <p>
               SmartCity connects citizens with the departments that run the city. Report an issue in a
               minute and watch it move from received to resolved.
@@ -489,38 +468,37 @@ export default function HeroSection() {
             <p>One platform for every ward, every department and every complaint.</p>
           </div>
 
-          {/* Final card (city complaint platform) */}
           <motion.div
             style={{ opacity: finalCardOpacity, scale: finalCardScale }}
             className="absolute inset-0 grid place-items-center pointer-events-none"
           >
-            <div className="pointer-events-auto w-[250px] sm:w-[270px] rounded-3xl p-5 border border-white/15 bg-white/[0.07] backdrop-blur-xl shadow-[0_0_60px_rgba(168,85,247,0.35)]">
+            <div className="pointer-events-auto w-[250px] sm:w-[270px] rounded-3xl p-5 border border-border bg-card/80 backdrop-blur-xl shadow-lg dark:shadow-[0_0_60px_rgba(168,85,247,0.15)]">
               <div className="flex justify-center mb-3">
-                <Sparkle size={34} />
+                <Sparkle size={34} className="text-purple-600 dark:text-white" />
               </div>
-              <h2 className="text-center text-2xl font-extrabold leading-tight tracking-tight">
+              <h2 className="text-center text-2xl font-extrabold leading-tight tracking-tight text-foreground">
                 Your City,<br />Your Voice
               </h2>
               <div className="grid grid-cols-2 gap-2 mt-4 text-center">
-                <div className="rounded-xl bg-white/10 py-2">
-                  <div className="text-lg font-bold">12.4k</div>
-                  <div className="text-[11px] text-white/60">Reported</div>
+                <div className="rounded-xl bg-purple-50 dark:bg-white/5 py-2">
+                  <div className="text-lg font-bold text-foreground">12.4k</div>
+                  <div className="text-[11px] text-gray-500 dark:text-gray-400">Reported</div>
                 </div>
-                <div className="rounded-xl bg-white/10 py-2">
-                  <div className="text-lg font-bold">9.8k</div>
-                  <div className="text-[11px] text-white/60">Resolved</div>
+                <div className="rounded-xl bg-purple-50 dark:bg-white/5 py-2">
+                  <div className="text-lg font-bold text-foreground">9.8k</div>
+                  <div className="text-[11px] text-gray-500 dark:text-gray-400">Resolved</div>
                 </div>
               </div>
               <div className="flex flex-col gap-2 mt-4">
                 <Link
                   href="/login"
-                  className="py-2.5 rounded-full text-center text-sm font-bold bg-gradient-to-r from-[#4C1D95] to-[#C026D3] hover:shadow-[0_0_25px_rgba(192,38,211,0.6)] transition-shadow"
+                  className="py-2.5 rounded-full text-center text-white text-sm font-bold bg-gradient-to-r from-[#4C1D95] to-[#C026D3] hover:shadow-[0_0_25px_rgba(192,38,211,0.4)] transition-shadow"
                 >
                   Get Started
                 </Link>
                 <Link
                   href="/category"
-                  className="py-2.5 rounded-full text-center text-sm font-semibold border border-white/25 hover:bg-white/10 transition-colors"
+                  className="py-2.5 rounded-full text-center text-purple-700 dark:text-purple-300 text-sm font-semibold border border-purple-200 dark:border-white/20 hover:bg-purple-50 dark:hover:bg-white/10 transition-colors"
                 >
                   Report an Issue
                 </Link>
