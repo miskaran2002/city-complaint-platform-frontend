@@ -101,6 +101,25 @@ function ParticleRing({ active }: { active: boolean }) {
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [stage, setStage] = useState(0);
+  const [covered, setCovered] = useState(true); // cover page active?
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef({ top: 140, left: 0, w: 260, h: 360 });
+
+  // 3D ring er samner card ta thik kothay boshbe seta measure kori (cover oikhane shrink hobe)
+  useEffect(() => {
+    const measure = () => {
+      const a = anchorRef.current;
+      const s = stickyRef.current;
+      if (!a || !s) return;
+      const ar = a.getBoundingClientRect();
+      const sr = s.getBoundingClientRect();
+      rectRef.current = { top: ar.top - sr.top, left: ar.left - sr.left, w: ar.width, h: ar.height };
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -110,11 +129,12 @@ export default function HeroSection() {
 
   useMotionValueEvent(p, 'change', (v) => {
     setStage(v < 0.43 ? 0 : v < 0.71 ? 1 : 2);
+    setCovered(v < 0.09);
   });
 
   // Hero pin thakar somoy navbar hide hobe (html e data-hero-pinned set kore, CSS e hide kora hoy)
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const pinned = v > 0.015 && v < 0.965;
+    const pinned = v > 0.035 && v < 0.965;
     document.documentElement.toggleAttribute('data-hero-pinned', pinned);
   });
   useEffect(() => {
@@ -133,11 +153,38 @@ export default function HeroSection() {
   // Stage 1
   const l1Opacity = useTransform(p, [0.4, 0.46], [1, 0]);
   const l1Scale = useTransform(p, [0.4, 0.46], [1, 0.92]);
-  const ringRotate = useTransform(p, [0, 0.06, 0.34, 0.4], [0, 0, -360, -360]);
-  const ringTilt = useTransform(p, [0, 0.06, 0.2, 0.34, 0.4], [0, 0, -8, 0, 0]);
+  const ringRotate = useTransform(p, [0, 0.1, 0.34, 0.4], [0, 0, -360, -360]);
+  const ringTilt = useTransform(p, [0, 0.1, 0.2, 0.34, 0.4], [0, 0, -8, 0, 0]);
   const marqueeX = useTransform(p, [0, 0.4], [0, -1400]);
-  const ctaOpacity = useTransform(p, [0, 0.04, 0.09, 0.31, 0.36], [1, 1, 0.1, 0.1, 1]);
-  const hintOpacity = useTransform(p, [0, 0.03], [1, 0]);
+  const ctaOpacity = useTransform(p, [0, 0.07, 0.1, 0.14, 0.3, 0.36], [0, 0, 1, 0.1, 0.1, 1]);
+  const hintOpacity = useTransform(p, [0, 0.02], [1, 0]);
+
+  // Cover page -> card morph (0.02 - 0.09)
+  const k = useTransform(p, (v) => {
+    const x = Math.min(Math.max((v - 0.02) / 0.07, 0), 1);
+    return x * x * (3 - 2 * x);
+  });
+  const viewW = () => stickyRef.current?.clientWidth ?? (typeof window === 'undefined' ? 1440 : window.innerWidth);
+  const viewH = () => stickyRef.current?.clientHeight ?? (typeof window === 'undefined' ? 800 : window.innerHeight);
+  const coverTop = useTransform(k, (x) => x * rectRef.current.top);
+  const coverLeft = useTransform(k, (x) => x * rectRef.current.left);
+  const coverW = useTransform(k, (x) => viewW() + (rectRef.current.w - viewW()) * x);
+  const coverH = useTransform(k, (x) => viewH() + (rectRef.current.h - viewH()) * x);
+  const coverRadius = useTransform(k, (x) => x * 32);
+  const coverH1 = useTransform(k, (x) => {
+    const big = Math.min(viewW() * 0.09, 140);
+    return big + (36 - big) * x;
+  });
+  const coverLH = useTransform(k, (x) => 1.02 + 0.23 * x);
+  const coverPSize = useTransform(k, (x) => 20 - 6 * x);
+  const coverSparkle = useTransform(k, (x) => 2.4 - 1.4 * x);
+  const coverPadT = useTransform(k, (x) => 120 - 96 * x);
+  const coverPadX = useTransform(k, (x) => 56 - 32 * x);
+  const coverPadB = useTransform(k, (x) => 56 - 32 * x);
+  const coverBtnH = useTransform(p, [0, 0.045], [84, 0]);
+  const coverBtnOpacity = useTransform(p, [0, 0.035], [1, 0]);
+  const coverOpacity = useTransform(p, [0.085, 0.096], [1, 0]);
+  const ringFade = useTransform(p, [0.05, 0.095], [0, 1]);
 
   // Stage 2
   const l2Opacity = useTransform(p, [0.4, 0.47, 0.67, 0.73], [0, 1, 1, 0]);
@@ -165,12 +212,13 @@ export default function HeroSection() {
       // next section 100vh upore uthe ese hero r upor diye cover korbe
       style={{ marginBottom: '-100vh' }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div ref={stickyRef} className="sticky top-0 h-screen overflow-hidden">
         {/* ================= STAGE 1: 3D carousel ================= */}
         <motion.div
           style={{ opacity: l1Opacity, scale: l1Scale, ...layer(0) }}
           className="absolute inset-0 flex flex-col items-center justify-center pt-24 pb-6 bg-background"
         >
+          <motion.div style={{ opacity: ringFade }} className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 -translate-y-1/2 w-full overflow-hidden whitespace-nowrap pointer-events-none select-none opacity-[0.07]">
             <motion.div style={{ x: marqueeX }} className="flex gap-12 text-8xl md:text-[10rem] font-black tracking-tight">
               <span>YOUR CITY • YOUR VOICE • SMART BARISHAL • REPORT • TRACK • RESOLVE •</span>
@@ -179,11 +227,14 @@ export default function HeroSection() {
           </div>
 
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#4C1D95]/25 blur-[140px] pointer-events-none" />
+          </motion.div>
 
-          <div
+          <motion.div
             className="relative z-10 flex items-center justify-center w-full h-[380px] sm:h-[400px] scale-[0.8] sm:scale-95 lg:scale-100"
-            style={{ perspective: '1400px' }}
+            style={{ perspective: '1400px', opacity: ringFade }}
           >
+            {/* invisible anchor: cover eikhane shrink hoye ashbe */}
+            <div ref={anchorRef} className="invisible absolute w-[260px] h-[360px] pointer-events-none" />
             <div
               className="relative w-[260px] h-[360px]"
               style={{ transformStyle: 'preserve-3d', transform: `translateZ(-${radius}px)` }}
@@ -236,7 +287,7 @@ export default function HeroSection() {
                 ))}
               </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           <motion.div
             style={{ opacity: ctaOpacity }}
@@ -256,11 +307,73 @@ export default function HeroSection() {
             </Link>
           </motion.div>
 
+          {/* ===== COVER PAGE: shuru te full-screen, scroll korle card hoye ring er moddhe dhuke jay ===== */}
           <motion.div
-            style={{ opacity: hintOpacity }}
-            className="absolute bottom-2 text-[10px] text-gray-500 dark:text-gray-400 tracking-widest uppercase"
+            suppressHydrationWarning
+            style={{
+              top: coverTop,
+              left: coverLeft,
+              width: coverW,
+              height: coverH,
+              borderRadius: coverRadius,
+              opacity: coverOpacity,
+              pointerEvents: covered ? 'auto' : 'none',
+              background: 'radial-gradient(circle at 50% 25%, #c4b5fd 0%, #7c3aed 45%, #4C1D95 100%)',
+            }}
+            className="absolute z-30 overflow-hidden text-white shadow-2xl"
           >
-            Scroll ↓
+            <motion.div
+              suppressHydrationWarning
+              style={{ paddingTop: coverPadT, paddingBottom: coverPadB, paddingLeft: coverPadX, paddingRight: coverPadX }}
+              className="h-full flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between text-xs sm:text-sm">
+                <span className="px-3 py-1.5 rounded-full bg-white/15 backdrop-blur border border-white/20 font-medium">
+                  Smart Barishal
+                </span>
+                <span className="opacity-80">citypulse</span>
+              </div>
+
+              <motion.div style={{ scale: coverSparkle }} className="self-center">
+                <Sparkle />
+              </motion.div>
+
+              <div>
+                <motion.h1
+                  suppressHydrationWarning
+                  style={{ fontSize: coverH1, lineHeight: coverLH }}
+                  className="font-extrabold tracking-tight"
+                >
+                  Your City,<br />Your Voice
+                </motion.h1>
+                <motion.p suppressHydrationWarning style={{ fontSize: coverPSize }} className="mt-2 text-white/80 max-w-xl">
+                  Report civic issues, track resolutions, build a better city.
+                </motion.p>
+                <motion.div suppressHydrationWarning style={{ height: coverBtnH, opacity: coverBtnOpacity }} className="overflow-hidden">
+                  <div className="flex flex-wrap gap-4 pt-6">
+                    <Link
+                      href="/login"
+                      className="px-7 py-3 rounded-full bg-white text-[#4C1D95] font-bold hover:-translate-y-1 transition-transform"
+                    >
+                      Get Started
+                    </Link>
+                    <Link
+                      href="/category"
+                      className="px-7 py-3 rounded-full border border-white/40 bg-white/10 font-bold backdrop-blur-md hover:bg-white/20 transition-colors"
+                    >
+                      Report an Issue
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              style={{ opacity: hintOpacity }}
+              className="absolute bottom-3 right-6 text-[10px] text-white/70 tracking-widest uppercase"
+            >
+              Scroll ↓
+            </motion.div>
           </motion.div>
         </motion.div>
 
