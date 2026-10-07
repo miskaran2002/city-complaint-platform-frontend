@@ -6,6 +6,7 @@ import HeroSection from '@/components/landing/HeroSection';
 
 import MissionSection from '@/components/landing/MissionSection';
 import ShowcaseSection from '@/components/landing/ShowcaseSection';
+import Footer from '@/components/shared/Footer';
 import { Navbar } from '@/components/shared/Navbar';
 import Link from 'next/link';
 
@@ -26,6 +27,7 @@ export default function HomePage() {
       <GallerySection/>
       <ShowcaseSection/>
       <FeatureStackSection/>
+      <Footer/>
       
      
 
