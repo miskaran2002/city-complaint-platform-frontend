@@ -25,7 +25,7 @@ export default function HomePage() {
       <HeroSection/>
 
       <div className="relative z-10 bg-background rounded-t-[2.5rem] shadow-[0_-20px_60px_rgba(0,0,0,0.12)]">
-  <MissionSection/>
+      <MissionSection/>
       <GallerySection/>
       <ShowcaseSection/>
       <FeatureStackSection/>
