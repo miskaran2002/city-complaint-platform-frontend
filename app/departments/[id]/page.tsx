@@ -27,7 +27,7 @@ export default function SingleDepartmentPage() {
   }, [id]);
 
   if (loading) return <GlobalLoading />;
-  if (!dept) return <div className="pt-32 text-center text-xl">Department not found</div>;
+  if (!dept) return <div className="pt-32 text-center text-xl text-foreground">Department not found</div>;
 
   // Calculate Stats
   const totalComplaints = dept.complaints?.length || 0;
@@ -39,7 +39,7 @@ export default function SingleDepartmentPage() {
   const staffs = dept.users?.filter((u: any) => u.role === 'DEPARTMENT_STAFF') || [];
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-background text-foreground pb-20 transition-colors duration-300">
       <Navbar />
       
       {/* Top Hero with Image */}
@@ -51,7 +51,7 @@ export default function SingleDepartmentPage() {
         )}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">{dept.name}</h1>
-          <p className="text-lg max-w-2xl drop-shadow-md">{dept.description}</p>
+          <p className="text-lg max-w-2xl drop-shadow-md text-gray-100">{dept.description}</p>
         </div>
       </div>
 
@@ -59,38 +59,38 @@ export default function SingleDepartmentPage() {
         
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          <div className="bg-card p-6 rounded-2xl shadow-lg border border-gray-100 flex items-center justify-between">
+          <div className="bg-card p-6 rounded-2xl shadow-lg border border-border flex items-center justify-between transition-colors duration-300">
             <div>
-              <p className="text-sm font-bold text-gray-500 uppercase">Total Complaints Received</p>
-              <p className="text-4xl font-black text-[#1E1B4B] mt-2">{totalComplaints}</p>
+              <p className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase">Total Complaints Received</p>
+              <p className="text-4xl font-black text-[#1E1B4B] dark:text-white mt-2">{totalComplaints}</p>
             </div>
-            <div className="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl">📥</div>
+            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center text-2xl">📥</div>
           </div>
-          <div className="bg-card p-6 rounded-2xl shadow-lg border border-gray-100 flex items-center justify-between">
+          <div className="bg-card p-6 rounded-2xl shadow-lg border border-border flex items-center justify-between transition-colors duration-300">
             <div>
-              <p className="text-sm font-bold text-gray-500 uppercase">Complaints Resolved</p>
-              <p className="text-4xl font-black text-emerald-600 mt-2">{resolvedComplaints}</p>
+              <p className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase">Complaints Resolved</p>
+              <p className="text-4xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{resolvedComplaints}</p>
             </div>
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl">✅</div>
+            <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center text-2xl">✅</div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column: Staff & Personnel */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-card p-8 rounded-2xl shadow-sm border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">Department Personnel</h2>
+            <div className="bg-card p-8 rounded-2xl shadow-sm border border-border transition-colors duration-300">
+              <h2 className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-4">Department Personnel</h2>
               
               <div className="space-y-6">
                 {/* Managers */}
                 <div>
-                  <h3 className="text-sm font-bold text-purple-600 uppercase mb-3">Managers</h3>
+                  <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400 uppercase mb-3">Managers</h3>
                   {managers.length > 0 ? managers.map((m: any) => (
-                    <div key={m.id} className="flex items-center gap-4 bg-background p-3 rounded-xl mb-2">
-                      <div className="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center font-bold text-purple-700">{m.name.charAt(0)}</div>
+                    <div key={m.id} className="flex items-center gap-4 bg-background border border-border p-3 rounded-xl mb-2">
+                      <div className="w-10 h-10 bg-purple-200 dark:bg-purple-900/40 rounded-full flex items-center justify-center font-bold text-purple-700 dark:text-purple-300">{m.name.charAt(0)}</div>
                       <div>
                         <p className="font-bold text-foreground">{m.name}</p>
-                        <p className="text-xs text-gray-500">{m.email}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{m.email}</p>
                       </div>
                     </div>
                   )) : <p className="text-sm text-gray-400">No managers assigned.</p>}
@@ -98,12 +98,12 @@ export default function SingleDepartmentPage() {
 
                 {/* Technicians */}
                 <div>
-                  <h3 className="text-sm font-bold text-amber-600 uppercase mb-3">Technicians</h3>
+                  <h3 className="text-sm font-bold text-amber-600 dark:text-amber-400 uppercase mb-3">Technicians</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {technicians.length > 0 ? technicians.map((t: any) => (
-                      <div key={t.id} className="flex items-center gap-3 bg-background p-3 rounded-xl">
-                         <div className="w-8 h-8 bg-cardmber-200 rounded-full flex items-center justify-center font-bold text-amber-700 text-sm">{t.name.charAt(0)}</div>
-                         <p className="font-semibold text-gray-800 text-sm">{t.name}</p>
+                      <div key={t.id} className="flex items-center gap-3 bg-background border border-border p-3 rounded-xl">
+                         <div className="w-8 h-8 bg-amber-100 dark:bg-amber-950/40 rounded-full flex items-center justify-center font-bold text-amber-700 dark:text-amber-300 text-sm">{t.name.charAt(0)}</div>
+                         <p className="font-semibold text-foreground text-sm">{t.name}</p>
                       </div>
                     )) : <p className="text-sm text-gray-400">No technicians assigned.</p>}
                   </div>
@@ -111,10 +111,10 @@ export default function SingleDepartmentPage() {
 
                 {/* General Staff */}
                 <div>
-                  <h3 className="text-sm font-bold text-blue-600 uppercase mb-3">General Staff</h3>
+                  <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase mb-3">General Staff</h3>
                   <div className="flex flex-wrap gap-2">
                     {staffs.length > 0 ? staffs.map((s: any) => (
-                      <span key={s.id} className="bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg text-sm font-medium border border-blue-100">
+                      <span key={s.id} className="bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-3 py-1.5 rounded-lg text-sm font-medium border border-blue-100 dark:border-blue-900/40">
                         {s.name}
                       </span>
                     )) : <p className="text-sm text-gray-400">No staff assigned.</p>}
@@ -127,12 +127,12 @@ export default function SingleDepartmentPage() {
 
           {/* Right Column: Categories */}
           <div className="space-y-8">
-            <div className="bg-card p-8 rounded-2xl shadow-sm border border-gray-100">
-              <h2 className="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Handled Categories</h2>
+            <div className="bg-card p-8 rounded-2xl shadow-sm border border-border transition-colors duration-300">
+              <h2 className="text-xl font-bold text-foreground mb-6 border-b border-border pb-4">Handled Categories</h2>
               <ul className="space-y-3">
                 {dept.categories && dept.categories.length > 0 ? (
                   dept.categories.map((cat: any) => (
-                    <li key={cat.id} className="flex items-center gap-3 text-gray-700 font-medium bg-background p-3 rounded-xl">
+                    <li key={cat.id} className="flex items-center gap-3 text-foreground font-medium bg-background border border-border p-3 rounded-xl">
                       <span className="text-[#C026D3]">❖</span> {cat.name}
                     </li>
                   ))

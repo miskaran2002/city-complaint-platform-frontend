@@ -9,7 +9,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      /* 🔴 ভ্যারিয়েবলগুলোকে Tailwind এর সাথে কানেক্ট করা হলো */
+      
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

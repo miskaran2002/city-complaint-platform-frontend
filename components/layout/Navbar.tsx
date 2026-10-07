@@ -3,8 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useTheme } from 'next-themes'; // 🔴 Theme hook import করা হয়েছে
-
+import { useTheme } from 'next-themes'; // 🔴 Theme hook import 
 export default function Navbar() {
   // Zustand store
   const user = useAuthStore((state) => state.user);
