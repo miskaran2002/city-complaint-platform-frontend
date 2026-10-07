@@ -16,7 +16,8 @@ interface SidebarProps {
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter(); 
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false); // Mobile drawer toggle
+  const [isCollapsed, setIsCollapsed] = useState(false); // Desktop Shutter (Collapse) toggle
 
   const handleLogout = () => {
     localStorage.removeItem('city_auth_token');
@@ -70,19 +71,18 @@ export default function Sidebar({ role }: SidebarProps) {
 
   return (
     <>
-      {/* 🔴 Mobile Header Bar (Only visible on small screens) */}
-      <div className="lg:hidden h-16 bg-[#1E1B4B] text-white flex items-center justify-between px-4 sticky top-0 z-45 border-b border-border shadow-md">
+      {/* 🔴 Mobile Header Bar */}
+      <div className="lg:hidden h-16 bg-card border-b border-border text-foreground flex items-center justify-between px-4 sticky top-0 z-45 shadow-sm">
         <Link href="/" className="flex items-center">
           <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-2"></span>
-          <span className="font-extrabold text-lg tracking-wide text-purple-50">Smart City</span>
+          <span className="font-extrabold text-lg tracking-wide text-foreground">Smart City</span>
         </Link>
         
-        {/* Hamburger Toggle Button */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg bg-card/10 hover:bg-card/20 transition-colors focus:outline-none"
+          className="p-2 rounded-lg bg-gray-100 dark:bg-card/20 text-foreground transition-colors focus:outline-none"
         >
-          <svg className="w-6 h-6 text-purple-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {isOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
@@ -92,7 +92,7 @@ export default function Sidebar({ role }: SidebarProps) {
         </button>
       </div>
 
-      {/* 🔴 Mobile Backdrop Overlay */}
+      {/* Mobile Backdrop Overlay */}
       {isOpen && (
         <div 
           onClick={() => setIsOpen(false)}
@@ -100,23 +100,39 @@ export default function Sidebar({ role }: SidebarProps) {
         />
       )}
 
-      {/* 🔴 Sidebar Container (Responsive Drawer for Mobile + Fixed for Desktop) */}
+      {/* 🔴 Sidebar Container with Shutter (Collapse) support & Dynamic Theme (bg-card) */}
       <aside className={`
-        fixed lg:sticky top-0 left-0 z-50 h-screen w-72 bg-[#1E1B4B] text-white flex flex-col shadow-2xl transition-transform duration-300 ease-in-out
+        fixed lg:sticky top-0 left-0 z-50 h-screen bg-card text-foreground border-r border-border flex flex-col shadow-2xl transition-all duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${isCollapsed ? 'lg:w-20' : 'lg:w-72'} w-72
       `}>
 
-        {/* Branding / Logo */}
-        <Link href="/" className="h-16 flex items-center px-8 border-b border-border bg-[#1E1B4B] hover:bg-card/5 transition-colors cursor-pointer">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-3 shadow-[0_0_10px_#C026D3]"></span>
-          <span className="font-extrabold text-xl tracking-wide text-purple-50">Smart City</span>
-        </Link>
+        {/* Branding / Logo + Shutter Toggle Button */}
+        <div className="h-16 flex items-center justify-between px-6 border-b border-border bg-card transition-colors">
+          <Link href="/" className={`flex items-center overflow-hidden ${isCollapsed ? 'lg:hidden' : ''}`}>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-3 shrink-0 shadow-[0_0_10px_#C026D3]"></span>
+            <span className="font-extrabold text-xl tracking-wide text-foreground truncate">Smart City</span>
+          </Link>
+
+          {/* Shutter (Collapse) Button for Desktop */}
+          <button 
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="hidden lg:flex p-2 rounded-xl bg-gray-100 dark:bg-card/10 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-card/20 transition-all ml-auto"
+            title="Toggle Sidebar Shutter"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isCollapsed ? "M13 5l7 7-7 7M5 5l7 7-7 7" : "M11 19l-7-7 7-7m8 14l-7-7 7-7"} />
+            </svg>
+          </button>
+        </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
-          <div className="px-4 pb-2 text-xs font-semibold text-purple-300/50 uppercase tracking-wider">
-            {role?.replace('_', ' ')} MENU
-          </div>
+        <nav className="flex-1 py-6 px-3 space-y-2 overflow-y-auto">
+          {!isCollapsed && (
+            <div className="px-4 pb-2 text-xs font-semibold text-gray-400 dark:text-purple-300/50 uppercase tracking-wider">
+              {role?.replace('_', ' ')} MENU
+            </div>
+          )}
 
           {links.map((link) => {
             const isActive = pathname.startsWith(link.path);
@@ -124,16 +140,17 @@ export default function Sidebar({ role }: SidebarProps) {
               <Link
                 key={link.name}
                 href={link.path}
-                onClick={() => setIsOpen(false)} // মোবাইলে লিংকে ক্লিক করলে ড্রয়ার অটো বন্ধ হয়ে যাবে
+                onClick={() => setIsOpen(false)}
+                title={isCollapsed ? link.name : undefined}
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${isActive
                     ? 'bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white shadow-lg border border-[#7E22CE]/50'
-                    : 'text-purple-200 hover:bg-card/5 hover:text-white'
+                    : 'text-gray-600 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-card/10 hover:text-purple-700 dark:hover:text-white'
                   }`}
               >
-                <svg className={`w-5 h-5 ${isActive ? 'text-[#C026D3]' : 'text-purple-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className={`w-5 h-5 shrink-0 ${isActive ? 'text-[#C026D3]' : 'text-purple-500 dark:text-purple-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} />
                 </svg>
-                <span className="font-medium text-sm">{link.name}</span>
+                {!isCollapsed && <span className="font-medium text-sm truncate">{link.name}</span>}
               </Link>
             );
           })}
@@ -146,12 +163,13 @@ export default function Sidebar({ role }: SidebarProps) {
               setIsOpen(false);
               handleLogout();
             }}
-            className="flex items-center gap-3 px-4 py-3.5 w-full rounded-xl text-purple-200 hover:bg-red-500/10 hover:text-red-400 transition-colors group cursor-pointer"
+            title={isCollapsed ? "Logout" : undefined}
+            className="flex items-center gap-3 px-4 py-3.5 w-full rounded-xl text-red-600 dark:text-purple-200 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 transition-colors group cursor-pointer"
           >
-            <svg className="w-5 h-5 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 shrink-0 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
-            <span className="font-medium text-sm">Logout</span>
+            {!isCollapsed && <span className="font-medium text-sm truncate">Logout</span>}
           </button>
         </div>
       </aside>
