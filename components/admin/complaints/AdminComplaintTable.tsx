@@ -77,16 +77,16 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
     : [];
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative">
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative">
       {/* Filters Bar */}
-      <div className="border-b border-gray-100 p-4 sm:px-6 flex flex-col sm:flex-row gap-4 justify-between items-center bg-gray-50/50">
-        <h3 className="text-lg font-bold text-gray-900">All City Complaints</h3>
+      <div className="border-b border-gray-100 p-4 sm:px-6 flex flex-col sm:flex-row gap-4 justify-between items-center bg-background/50">
+        <h3 className="text-lg font-bold text-foreground">All City Complaints</h3>
         
         <div className="flex gap-3 w-full sm:w-auto">
           <select
             value={selectedDept}
             onChange={(e) => setSelectedDept(e.target.value)}
-            className="flex-1 sm:w-48 bg-white border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none font-medium"
+            className="flex-1 sm:w-48 bg-card border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none font-medium"
           >
             <option value="ALL">All Departments</option>
             {departments.map(dept => (
@@ -97,7 +97,7 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="flex-1 sm:w-40 bg-white border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none font-medium"
+            className="flex-1 sm:w-40 bg-card border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none font-medium"
           >
             <option value="ALL">All Status</option>
             <option value="PENDING">Pending</option>
@@ -111,7 +111,7 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
+            <tr className="bg-card border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
               <th className="p-4 sm:px-6 py-4">Complaint ID & Title</th>
               <th className="p-4 sm:px-6 py-4">Department</th>
               <th className="p-4 sm:px-6 py-4">Status</th>
@@ -128,9 +128,9 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
               </tr>
             ) : (
               filteredComplaints.map((complaint) => (
-                <tr key={complaint.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={complaint.id} className="hover:bg-background/50 transition-colors">
                   <td className="p-4 sm:px-6 py-4">
-                    <p className="text-sm font-bold text-gray-900 truncate max-w-[250px]">{complaint.title}</p>
+                    <p className="text-sm font-bold text-foreground truncate max-w-[250px]">{complaint.title}</p>
                     <p className="text-xs text-gray-500 font-mono mt-0.5">#{complaint.id.slice(0, 8)}</p>
                   </td>
                   <td className="p-4 sm:px-6 py-4">
@@ -143,7 +143,7 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
                       complaint.status === 'RESOLVED' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
                       complaint.status === 'IN_PROGRESS' ? 'bg-blue-50 text-blue-700 border-blue-100' :
                       complaint.status === 'REJECTED' ? 'bg-red-50 text-red-700 border-red-100' :
-                      'bg-amber-50 text-amber-700 border-amber-100'
+                      'bg-cardmber-50 text-amber-700 border-amber-100'
                     }`}>
                       {complaint.status.replace('_', ' ')}
                     </span>
@@ -171,16 +171,16 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
       {/* View Details Modal */}
       {isModalOpen && selectedComplaint && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-200">
+          <div className="bg-card rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-200">
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-100 p-6 flex justify-between items-start z-10">
+            <div className="sticky top-0 bg-card border-b border-gray-100 p-6 flex justify-between items-start z-10">
               <div>
-                <h3 className="text-xl font-extrabold text-gray-900 pr-8">{selectedComplaint.title}</h3>
+                <h3 className="text-xl font-extrabold text-foreground pr-8">{selectedComplaint.title}</h3>
                 <p className="text-sm font-mono text-gray-500 mt-1">ID: {selectedComplaint.id}</p>
               </div>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+                className="text-gray-400 hover:text-gray-700 bg-background hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors"
               >
                 ✕
               </button>
@@ -190,42 +190,42 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
             <div className="p-6 space-y-6">
               
               <div className="flex flex-wrap gap-3">
-                <div className="bg-gray-50 border border-gray-100 rounded-xl p-3 flex-1 min-w-[150px]">
+                <div className="bg-background border border-gray-100 rounded-xl p-3 flex-1 min-w-[150px]">
                   <p className="text-xs font-bold text-gray-500 uppercase mb-1">Department</p>
-                  <p className="text-sm font-bold text-gray-900">🏢 {getDeptName(selectedComplaint.departmentId)}</p>
+                  <p className="text-sm font-bold text-foreground">🏢 {getDeptName(selectedComplaint.departmentId)}</p>
                 </div>
-                <div className="bg-gray-50 border border-gray-100 rounded-xl p-3 flex-1 min-w-[150px]">
+                <div className="bg-background border border-gray-100 rounded-xl p-3 flex-1 min-w-[150px]">
                   <p className="text-xs font-bold text-gray-500 uppercase mb-1">Current Status</p>
                   <span className={`inline-block px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md uppercase border ${
                       selectedComplaint.status === 'RESOLVED' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
                       selectedComplaint.status === 'IN_PROGRESS' ? 'bg-blue-50 text-blue-700 border-blue-100' :
                       selectedComplaint.status === 'REJECTED' ? 'bg-red-50 text-red-700 border-red-100' :
-                      'bg-amber-50 text-amber-700 border-amber-100'
+                      'bg-cardmber-50 text-amber-700 border-amber-100'
                     }`}>
                       {selectedComplaint.status.replace('_', ' ')}
                   </span>
                 </div>
-                <div className="bg-gray-50 border border-gray-100 rounded-xl p-3 flex-1 min-w-[150px]">
+                <div className="bg-background border border-gray-100 rounded-xl p-3 flex-1 min-w-[150px]">
                   <p className="text-xs font-bold text-gray-500 uppercase mb-1">Date Logged</p>
-                  <p className="text-sm font-bold text-gray-900">{new Date(selectedComplaint.createdAt).toLocaleString('en-GB')}</p>
+                  <p className="text-sm font-bold text-foreground">{new Date(selectedComplaint.createdAt).toLocaleString('en-GB')}</p>
                 </div>
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-gray-900 mb-2 border-b border-gray-100 pb-2">Complaint Description</h4>
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                <h4 className="text-sm font-bold text-foreground mb-2 border-b border-gray-100 pb-2">Complaint Description</h4>
+                <div className="bg-background p-4 rounded-xl border border-gray-100 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
                   {selectedComplaint.description || 'No description provided.'}
                 </div>
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-gray-900 mb-2 border-b border-gray-100 pb-2">Citizen Information</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2 border-b border-gray-100 pb-2">Citizen Information</h4>
                 <div className="bg-purple-50/50 p-4 rounded-xl border border-purple-100 flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-purple-200 text-purple-700 flex items-center justify-center font-extrabold text-lg">
                     {selectedComplaint.citizen?.name?.charAt(0).toUpperCase() || 'C'}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-gray-900">{selectedComplaint.citizen?.name || 'Unknown Citizen'}</p>
+                    <p className="text-sm font-bold text-foreground">{selectedComplaint.citizen?.name || 'Unknown Citizen'}</p>
                     <p className="text-xs text-gray-600 mt-0.5">{selectedComplaint.citizen?.email || 'No email provided'}</p>
                   </div>
                 </div>
@@ -234,14 +234,14 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
               {/* 🔴 Assign Technician Section 🔴 */}
               {selectedComplaint.status !== 'RESOLVED' && selectedComplaint.status !== 'REJECTED' && (
                 <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
-                  <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+                  <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
                     <span>🔧</span> Assign Field Technician
                   </h4>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <select
                       value={selectedTechId}
                       onChange={(e) => setSelectedTechId(e.target.value)}
-                      className="flex-1 bg-white border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="flex-1 bg-card border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none"
                     >
                       <option value="">-- Select a Technician --</option>
                       {availableTechnicians.length === 0 ? (
@@ -266,11 +266,11 @@ export const AdminComplaintTable = ({ complaints, departments, users }: AdminCom
             </div>
 
             {/* Modal Footer */}
-            <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 sm:px-6 flex justify-end gap-3 z-10 rounded-b-2xl">
+            <div className="sticky bottom-0 bg-card border-t border-gray-100 p-4 sm:px-6 flex justify-end gap-3 z-10 rounded-b-2xl">
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="px-5 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors"
+                className="px-5 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-background transition-colors"
               >
                 Close
               </button>

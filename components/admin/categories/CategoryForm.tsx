@@ -40,7 +40,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   onSubmit,
 }) => {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-1 sticky top-24">
+    <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-1 sticky top-24">
       <h2 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Add New Category</h2>
       
       <form onSubmit={onSubmit} className="space-y-4">
@@ -65,7 +65,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             value={departmentId}
             onChange={(e) => setDepartmentId(e.target.value)}
             required
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-white"
+            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-card"
           >
             <option value="" disabled>-- Select a Department --</option>
             {isDeptLoading ? (

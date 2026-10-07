@@ -12,7 +12,7 @@ export default function GlobalLoading() {
       {/* Stats/Cards Skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-32 bg-white border border-gray-100 rounded-2xl shadow-sm p-6 flex flex-col justify-between">
+          <div key={i} className="h-32 bg-card border border-gray-100 rounded-2xl shadow-sm p-6 flex flex-col justify-between">
             <div className="h-4 bg-gray-200 rounded w-1/2"></div>
             <div className="h-10 bg-gray-200 rounded w-1/3"></div>
           </div>
@@ -20,7 +20,7 @@ export default function GlobalLoading() {
       </div>
 
       {/* Table Skeleton */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-6">
+      <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-6">
         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
           <div className="h-6 bg-gray-200 rounded w-1/4"></div>
           <div className="h-6 bg-gray-200 rounded-full w-16"></div>

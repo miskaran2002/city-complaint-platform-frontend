@@ -103,7 +103,7 @@ export default function HeroSection() {
           {[...carouselImages, ...carouselImages, ...carouselImages].map((item, index) => (
             <div
               key={index}
-              className="relative w-64 md:w-80 h-48 md:h-60 rounded-2xl overflow-hidden border border-white/10 shadow-2xl group flex-shrink-0 bg-[#0A0515]"
+              className="relative w-64 md:w-80 h-48 md:h-60 rounded-2xl overflow-hidden border border-border shadow-2xl group flex-shrink-0 bg-[#0A0515]"
             >
               <img
                 src={item.image}

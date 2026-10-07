@@ -71,7 +71,7 @@ export default function Sidebar({ role }: SidebarProps) {
   return (
     <>
       {/* 🔴 Mobile Header Bar (Only visible on small screens) */}
-      <div className="lg:hidden h-16 bg-[#1E1B4B] text-white flex items-center justify-between px-4 sticky top-0 z-45 border-b border-white/10 shadow-md">
+      <div className="lg:hidden h-16 bg-[#1E1B4B] text-white flex items-center justify-between px-4 sticky top-0 z-45 border-b border-border shadow-md">
         <Link href="/" className="flex items-center">
           <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-2"></span>
           <span className="font-extrabold text-lg tracking-wide text-purple-50">Smart City</span>
@@ -80,7 +80,7 @@ export default function Sidebar({ role }: SidebarProps) {
         {/* Hamburger Toggle Button */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors focus:outline-none"
+          className="p-2 rounded-lg bg-card/10 hover:bg-card/20 transition-colors focus:outline-none"
         >
           <svg className="w-6 h-6 text-purple-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {isOpen ? (
@@ -107,7 +107,7 @@ export default function Sidebar({ role }: SidebarProps) {
       `}>
 
         {/* Branding / Logo */}
-        <Link href="/" className="h-16 flex items-center px-8 border-b border-white/10 bg-[#1E1B4B] hover:bg-white/5 transition-colors cursor-pointer">
+        <Link href="/" className="h-16 flex items-center px-8 border-b border-border bg-[#1E1B4B] hover:bg-card/5 transition-colors cursor-pointer">
           <span className="w-2.5 h-2.5 rounded-full bg-[#C026D3] animate-pulse mr-3 shadow-[0_0_10px_#C026D3]"></span>
           <span className="font-extrabold text-xl tracking-wide text-purple-50">Smart City</span>
         </Link>
@@ -127,7 +127,7 @@ export default function Sidebar({ role }: SidebarProps) {
                 onClick={() => setIsOpen(false)} // মোবাইলে লিংকে ক্লিক করলে ড্রয়ার অটো বন্ধ হয়ে যাবে
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${isActive
                     ? 'bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white shadow-lg border border-[#7E22CE]/50'
-                    : 'text-purple-200 hover:bg-white/5 hover:text-white'
+                    : 'text-purple-200 hover:bg-card/5 hover:text-white'
                   }`}
               >
                 <svg className={`w-5 h-5 ${isActive ? 'text-[#C026D3]' : 'text-purple-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -140,7 +140,7 @@ export default function Sidebar({ role }: SidebarProps) {
         </nav>
 
         {/* Logout Button */}
-        <div className="p-4 border-t border-white/10">
+        <div className="p-4 border-t border-border">
           <button
             onClick={() => {
               setIsOpen(false);

@@ -40,7 +40,7 @@ export default function CitizenManagementPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Citizen Management</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">Citizen Management</h1>
         <p className="text-gray-500 text-sm mt-1">
           View all registered citizens on the platform and manage their account access.
         </p>

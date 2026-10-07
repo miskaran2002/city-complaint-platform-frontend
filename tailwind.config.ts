@@ -8,7 +8,16 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      /* 🔴 ভ্যারিয়েবলগুলোকে Tailwind এর সাথে কানেক্ট করা হলো */
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: "var(--primary)",
+        card: "var(--card)",
+        border: "var(--border)",
+      },
+    },
   },
   plugins: [],
 };

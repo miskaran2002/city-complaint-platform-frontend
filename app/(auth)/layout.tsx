@@ -6,7 +6,7 @@ import React from 'react';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex bg-white font-sans">
+    <div className="min-h-screen flex bg-card font-sans">
       
       {/* 🟣 Left Partition - Civic Plum Theme */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#1E1B4B] via-[#4C1D95] to-[#7E22CE] flex-col justify-between items-center p-12 text-white relative overflow-hidden">
@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <div className="absolute inset-4 rounded-full bg-[#7E22CE]/40 animate-pulse"></div>
             
             {/* Inner Core Icon / Badge */}
-            <div className="relative z-20 w-28 h-28 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center">
+            <div className="relative z-20 w-28 h-28 rounded-2xl bg-card/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center">
               <svg className="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
               </svg>
@@ -56,12 +56,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* ⚪ Right Partition - Form Container (Login / Register) */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-gray-50/50">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-background/50">
         <div className="w-full max-w-md">
           
           {/* Mobile Header */}
           <div className="text-center lg:hidden mb-8">
-            <h2 className="text-3xl font-extrabold text-gray-900">Smart City Portal</h2>
+            <h2 className="text-3xl font-extrabold text-foreground">Smart City Portal</h2>
             <p className="text-gray-600 mt-2 text-sm">Citizen Complaint & Service Request Platform</p>
           </div>
           

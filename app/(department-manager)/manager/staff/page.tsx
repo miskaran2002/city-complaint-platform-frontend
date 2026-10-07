@@ -50,7 +50,7 @@ export default function StaffManagementPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Staff Management</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">Staff Management</h1>
         <p className="text-gray-500 text-sm mt-1">
           Manage and view all personnel assigned to your department.
         </p>

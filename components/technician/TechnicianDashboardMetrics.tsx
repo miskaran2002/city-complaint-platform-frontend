@@ -29,32 +29,32 @@ export const TechnicianDashboardMetrics = ({ departmentName, complaints }: Techn
         </div>
         
         {/* Background decorative shapes */}
-        <div className="absolute -top-24 -right-24 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-24 -right-24 w-64 h-64 bg-card opacity-10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-24 -right-10 w-48 h-48 bg-blue-400 opacity-20 rounded-full blur-2xl"></div>
       </div>
 
       {/* Metrics Grid */}
-      <h3 className="text-lg font-extrabold text-gray-900 mt-8 mb-4">Department Overview</h3>
+      <h3 className="text-lg font-extrabold text-foreground mt-8 mb-4">Department Overview</h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-          <div className="w-10 h-10 bg-gray-50 text-gray-600 rounded-full flex items-center justify-center text-lg mb-3">📊</div>
+        <div className="bg-card p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+          <div className="w-10 h-10 bg-background text-gray-600 rounded-full flex items-center justify-center text-lg mb-3">📊</div>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Tasks</p>
-          <p className="text-2xl font-extrabold text-gray-900 mt-1">{total}</p>
+          <p className="text-2xl font-extrabold text-foreground mt-1">{total}</p>
         </div>
         
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-          <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center text-lg mb-3">📌</div>
+        <div className="bg-card p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+          <div className="w-10 h-10 bg-cardmber-50 text-amber-600 rounded-full flex items-center justify-center text-lg mb-3">📌</div>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Assigned</p>
           <p className="text-2xl font-extrabold text-amber-600 mt-1">{assigned}</p>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-card p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
           <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-lg mb-3">⚙️</div>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">In Progress</p>
           <p className="text-2xl font-extrabold text-blue-600 mt-1">{inProgress}</p>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-card p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
           <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-lg mb-3">✅</div>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Resolved</p>
           <p className="text-2xl font-extrabold text-emerald-600 mt-1">{resolved}</p>

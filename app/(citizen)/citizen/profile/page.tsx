@@ -6,7 +6,7 @@ export default function CitizenProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">My Profile</h2>
+        <h2 className="text-2xl font-bold text-foreground">My Profile</h2>
         <p className="text-gray-500 text-sm">Manage your personal information and settings.</p>
       </div>
       

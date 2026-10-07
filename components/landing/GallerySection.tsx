@@ -14,9 +14,9 @@ export default function GallerySection() {
       rowSpan: "row-span-1 md:row-span-2",
       gradient: "from-[#4C1D95]/40 to-[#1E1B4B]/80",
       content: (
-        <div className="absolute right-0 bottom-0 w-3/4 h-3/4 bg-[#0A0515] rounded-tl-xl border-t border-l border-white/10 shadow-2xl p-4 flex flex-col gap-3">
+        <div className="absolute right-0 bottom-0 w-3/4 h-3/4 bg-[#0A0515] rounded-tl-xl border-t border-l border-border shadow-2xl p-4 flex flex-col gap-3">
           <div className="flex justify-between items-center border-b border-white/5 pb-2">
-            <div className="w-20 h-4 bg-white/10 rounded-full" />
+            <div className="w-20 h-4 bg-card/10 rounded-full" />
             <div className="flex gap-2">
               <div className="w-8 h-8 rounded-full bg-[#C026D3]/20" />
             </div>
@@ -36,10 +36,10 @@ export default function GallerySection() {
       rowSpan: "row-span-1",
       gradient: "from-blue-900/40 to-[#030014]",
       content: (
-         <div className="absolute top-12 left-6 right-6 bottom-0 bg-[#0A0515] rounded-t-xl border-t border-l border-r border-white/10 p-4 space-y-3">
-           <div className="w-full h-8 bg-white/5 rounded-md" />
-           <div className="w-full h-8 bg-white/5 rounded-md" />
-           <div className="w-3/4 h-8 bg-white/5 rounded-md" />
+         <div className="absolute top-12 left-6 right-6 bottom-0 bg-[#0A0515] rounded-t-xl border-t border-l border-r border-border p-4 space-y-3">
+           <div className="w-full h-8 bg-card/5 rounded-md" />
+           <div className="w-full h-8 bg-card/5 rounded-md" />
+           <div className="w-3/4 h-8 bg-card/5 rounded-md" />
            <div className="w-full h-10 mt-4 bg-gradient-to-r from-blue-600 to-blue-400 rounded-md" />
          </div>
       ),
@@ -61,11 +61,11 @@ export default function GallerySection() {
       gradient: "from-[#C026D3]/30 to-[#030014]",
       content: (
         <div className="absolute right-[-20%] bottom-[-20%] w-[120%] h-[120%] flex items-center justify-center">
-            <div className="w-32 h-48 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl rotate-12 flex flex-col justify-between p-4">
+            <div className="w-32 h-48 bg-card/5 backdrop-blur-xl border border-border rounded-2xl shadow-2xl rotate-12 flex flex-col justify-between p-4">
                <div className="w-6 h-6 rounded-full bg-pink-500/50" />
                <div className="space-y-2">
-                 <div className="w-full h-2 bg-white/20 rounded" />
-                 <div className="w-2/3 h-2 bg-white/20 rounded" />
+                 <div className="w-full h-2 bg-card/20 rounded" />
+                 <div className="w-2/3 h-2 bg-card/20 rounded" />
                </div>
             </div>
             <div className="absolute w-32 h-48 bg-gradient-to-br from-pink-600 to-purple-600 rounded-2xl shadow-2xl -rotate-6 z-10 p-4 flex flex-col justify-between border border-pink-400/50">
@@ -83,12 +83,12 @@ export default function GallerySection() {
       gradient: "from-emerald-900/30 to-[#030014]",
       content: (
          <div className="absolute inset-x-8 bottom-0 top-16 bg-[#0A0515] rounded-t-xl border-t border-x border-emerald-500/20 p-4 flex gap-4">
-            <div className="w-1/4 h-full bg-white/5 rounded-lg" />
+            <div className="w-1/4 h-full bg-card/5 rounded-lg" />
             <div className="w-3/4 h-full flex flex-col gap-4">
               <div className="w-full h-1/3 bg-gradient-to-r from-emerald-500/10 to-transparent rounded-lg border border-emerald-500/20" />
               <div className="w-full flex-1 flex gap-4">
-                <div className="w-1/2 h-full bg-white/5 rounded-lg" />
-                <div className="w-1/2 h-full bg-white/5 rounded-lg" />
+                <div className="w-1/2 h-full bg-card/5 rounded-lg" />
+                <div className="w-1/2 h-full bg-card/5 rounded-lg" />
               </div>
             </div>
          </div>
@@ -123,7 +123,7 @@ export default function GallerySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative overflow-hidden rounded-3xl border border-white/10 group bg-[#0A0515] ${item.colSpan} ${item.rowSpan}`}
+              className={`relative overflow-hidden rounded-3xl border border-border group bg-[#0A0515] ${item.colSpan} ${item.rowSpan}`}
             >
               {/* Background Image (If provided) */}
               {item.bgImage && (

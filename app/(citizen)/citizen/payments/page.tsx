@@ -36,16 +36,16 @@ export default function PaymentHistoryPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-extrabold text-gray-900">Payment History</h1>
+      <h1 className="text-3xl font-extrabold text-foreground">Payment History</h1>
 
       {payments.length === 0 ? (
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center text-gray-500">
+        <div className="bg-card p-8 rounded-2xl shadow-sm border border-gray-100 text-center text-gray-500">
           No payments made yet.
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-600 text-left">
+            <thead className="bg-background text-gray-600 text-left">
               <tr>
                 <th className="px-4 py-3">Gateway</th>
                 <th className="px-4 py-3">Amount</th>
@@ -61,7 +61,7 @@ export default function PaymentHistoryPage() {
                   <td className="px-4 py-3">{p.amount}</td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      p.status === 'PAID' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                      p.status === 'PAID' ? 'bg-emerald-50 text-emerald-600' : 'bg-cardmber-50 text-amber-600'
                     }`}>
                       {p.status}
                     </span>

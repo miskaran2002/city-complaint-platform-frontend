@@ -14,8 +14,8 @@ export const DepartmentTeamList = ({ teamMembers, departmentName }: DepartmentTe
   const technicians = teamMembers.filter(m => m.role === 'TECHNICIAN');
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background/50">
         <div>
            <h2 className="text-lg font-bold text-gray-800">Department Personnel</h2>
            {departmentName && <p className="text-xs text-gray-500 mt-1">Personnel list for {departmentName}</p>}
@@ -43,7 +43,7 @@ export const DepartmentTeamList = ({ teamMembers, departmentName }: DepartmentTe
               </div>
             ) : (
               staffs.slice(0, 4).map(staff => (
-                <div key={staff.id} className="flex justify-between items-center bg-white p-3 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all">
+                <div key={staff.id} className="flex justify-between items-center bg-card p-3 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all">
                   <div className="flex items-center gap-3">
                      <div className="w-10 h-10 rounded-full bg-purple-100 text-[#7E22CE] flex items-center justify-center font-bold text-sm">
                         {staff.name.charAt(0).toUpperCase()}
@@ -85,7 +85,7 @@ export const DepartmentTeamList = ({ teamMembers, departmentName }: DepartmentTe
               </div>
             ) : (
               technicians.slice(0, 4).map(tech => (
-                <div key={tech.id} className="flex justify-between items-center bg-white p-3 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all">
+                <div key={tech.id} className="flex justify-between items-center bg-card p-3 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all">
                    <div className="flex items-center gap-3">
                      <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">
                         {tech.name.charAt(0).toUpperCase()}

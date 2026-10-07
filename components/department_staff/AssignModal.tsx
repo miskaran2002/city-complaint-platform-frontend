@@ -79,8 +79,8 @@ export const AssignModal = ({ complaintId, departmentId, isOpen, onClose, onSucc
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Assign Technician to Complaint</h3>
+      <div className="bg-card rounded-2xl max-w-md w-full p-6 shadow-xl">
+        <h3 className="text-xl font-bold text-foreground mb-4">Assign Technician to Complaint</h3>
         
         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm font-medium">{error}</div>}
 
@@ -90,7 +90,7 @@ export const AssignModal = ({ complaintId, departmentId, isOpen, onClose, onSucc
             <select
               value={selectedTech}
               onChange={(e) => setSelectedTech(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C026D3] outline-none text-sm bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C026D3] outline-none text-sm bg-card"
               required
             >
               <option value="">-- Select Department Technician --</option>
@@ -121,7 +121,7 @@ export const AssignModal = ({ complaintId, departmentId, isOpen, onClose, onSucc
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50"
+              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-background"
             >
               Cancel
             </button>

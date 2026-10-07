@@ -19,7 +19,7 @@ export default function NotFound() {
           <div className="absolute text-[130px] md:text-[190px] font-black text-purple-900/40 select-none animate-bounce">
             404
           </div>
-          <div className="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-2xl">
+          <div className="relative z-10 bg-card/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-2xl">
             <svg className="w-20 h-20 md:w-28 md:h-28 mx-auto text-[#C026D3] animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -46,7 +46,7 @@ export default function NotFound() {
           </Link>
           <button
             onClick={() => window.history.back()}
-            className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-purple-100 border border-white/20 px-8 py-3.5 rounded-xl font-bold backdrop-blur-sm transition-all duration-300"
+            className="w-full sm:w-auto bg-card/10 hover:bg-card/20 text-purple-100 border border-white/20 px-8 py-3.5 rounded-xl font-bold backdrop-blur-sm transition-all duration-300"
           >
             ⬅️ Go Back
           </button>

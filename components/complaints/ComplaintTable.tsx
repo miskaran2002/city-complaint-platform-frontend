@@ -13,7 +13,7 @@ export const ComplaintTable = ({ complaints, isLoading }: ComplaintTableProps) =
   const getStatusBadge = (status: ComplaintStatus) => {
     switch (status) {
       case ComplaintStatus.PENDING:
-        return <span className="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-md text-xs font-bold border border-amber-200">Pending</span>;
+        return <span className="bg-cardmber-100 text-amber-700 px-2.5 py-1 rounded-md text-xs font-bold border border-amber-200">Pending</span>;
       case ComplaintStatus.ASSIGNED:
         return <span className="bg-purple-100 text-purple-700 px-2.5 py-1 rounded-md text-xs font-bold border border-purple-200">Assigned</span>;
       case ComplaintStatus.IN_PROGRESS:
@@ -28,8 +28,8 @@ export const ComplaintTable = ({ complaints, isLoading }: ComplaintTableProps) =
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background/50">
         <h2 className="text-lg font-bold text-gray-800">Tracking History</h2>
         <span className="px-3 py-1 bg-purple-100 text-[#7E22CE] rounded-full text-xs font-bold">
           Total Reports: {complaints.length}
@@ -39,7 +39,7 @@ export const ComplaintTable = ({ complaints, isLoading }: ComplaintTableProps) =
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+            <tr className="bg-background border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
               <th className="p-4">Issue Details</th>
               <th className="p-4">Category</th>
               <th className="p-4 text-center">Priority</th>
@@ -62,7 +62,7 @@ export const ComplaintTable = ({ complaints, isLoading }: ComplaintTableProps) =
               </tr>
             ) : (
               complaints.map((comp) => (
-                <tr key={comp.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={comp.id} className="hover:bg-background/50 transition-colors">
                   <td className="p-4">
                     <div className="font-bold text-gray-800">{comp.title}</div>
                     <div className="text-gray-500 text-xs mt-1 truncate max-w-[200px]" title={comp.address || ''}>
@@ -75,7 +75,7 @@ export const ComplaintTable = ({ complaints, isLoading }: ComplaintTableProps) =
                   <td className="p-4 text-center">
                     <span className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase ${
                       comp.priority === 'EMERGENCY' ? 'bg-red-100 text-red-700 border border-red-200' :
-                      comp.priority === 'HIGH' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'
+                      comp.priority === 'HIGH' ? 'bg-cardmber-100 text-amber-700' : 'bg-gray-100 text-gray-700'
                     }`}>
                       {comp.priority}
                     </span>

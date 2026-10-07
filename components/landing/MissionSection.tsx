@@ -64,8 +64,8 @@ export default function MissionSection() {
           className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-[#E879F9] to-[#4C1D95] shadow-[0_0_60px_#C026D3] flex items-center justify-center overflow-hidden border border-white/20"
         >
            {/* Core inner highlight */}
-          <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[140%] bg-white/20 backdrop-blur-md rounded-full" />
-          <span className="relative z-10 w-8 h-8 md:w-10 md:h-10 bg-white rounded-full shadow-[0_0_20px_white] animate-pulse" />
+          <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[140%] bg-card/20 backdrop-blur-md rounded-full" />
+          <span className="relative z-10 w-8 h-8 md:w-10 md:h-10 bg-card rounded-full shadow-[0_0_20px_white] animate-pulse" />
         </motion.div>
       </div>
 

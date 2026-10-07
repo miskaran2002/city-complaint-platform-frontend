@@ -57,15 +57,15 @@ export const TechnicianTasksTable = ({ tasks, onTaskUpdated }: TechnicianTasksTa
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       {/* Filters Bar */}
-      <div className="border-b border-gray-100 p-4 sm:px-6 flex flex-col sm:flex-row gap-4 justify-between items-center bg-gray-50/50">
-        <h3 className="text-lg font-bold text-gray-900">Assigned Field Tasks ({tasks.length})</h3>
+      <div className="border-b border-gray-100 p-4 sm:px-6 flex flex-col sm:flex-row gap-4 justify-between items-center bg-background/50">
+        <h3 className="text-lg font-bold text-foreground">Assigned Field Tasks ({tasks.length})</h3>
         
         <select
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
-          className="w-full sm:w-48 bg-white border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 outline-none font-medium focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-48 bg-card border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 outline-none font-medium focus:ring-2 focus:ring-blue-500"
         >
           <option value="ALL">All Statuses</option>
           <option value="ASSIGNED">Assigned</option>
@@ -78,7 +78,7 @@ export const TechnicianTasksTable = ({ tasks, onTaskUpdated }: TechnicianTasksTa
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
+            <tr className="bg-card border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
               <th className="p-4 sm:px-6 py-4">Task ID & Title</th>
               <th className="p-4 sm:px-6 py-4">Priority</th>
               <th className="p-4 sm:px-6 py-4">Status</th>
@@ -95,16 +95,16 @@ export const TechnicianTasksTable = ({ tasks, onTaskUpdated }: TechnicianTasksTa
               </tr>
             ) : (
               filteredTasks.map((task) => (
-                <tr key={task.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={task.id} className="hover:bg-background/50 transition-colors">
                   <td className="p-4 sm:px-6 py-4">
-                    <p className="text-sm font-bold text-gray-900 truncate max-w-[280px]">{task.title}</p>
+                    <p className="text-sm font-bold text-foreground truncate max-w-[280px]">{task.title}</p>
                     <p className="text-xs text-gray-500 font-mono mt-0.5">#{task.id.slice(0, 8)}</p>
                   </td>
                   <td className="p-4 sm:px-6 py-4">
                     <span className={`px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md uppercase border ${
                       task.priority === 'URGENT' || task.priority === 'HIGH' ? 'bg-red-50 text-red-700 border-red-100' :
-                      task.priority === 'MEDIUM' ? 'bg-amber-50 text-amber-700 border-amber-100' :
-                      'bg-gray-50 text-gray-700 border-gray-200'
+                      task.priority === 'MEDIUM' ? 'bg-cardmber-50 text-amber-700 border-amber-100' :
+                      'bg-background text-gray-700 border-gray-200'
                     }`}>
                       {task.priority || 'NORMAL'}
                     </span>
@@ -113,7 +113,7 @@ export const TechnicianTasksTable = ({ tasks, onTaskUpdated }: TechnicianTasksTa
                     <span className={`px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md uppercase border ${
                       task.status === 'RESOLVED' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
                       task.status === 'IN_PROGRESS' ? 'bg-blue-50 text-blue-700 border-blue-100' :
-                      'bg-amber-50 text-amber-700 border-amber-100'
+                      'bg-cardmber-50 text-amber-700 border-amber-100'
                     }`}>
                       {task.status.replace('_', ' ')}
                     </span>
@@ -141,32 +141,32 @@ export const TechnicianTasksTable = ({ tasks, onTaskUpdated }: TechnicianTasksTa
       {/* Modal */}
       {isModalOpen && selectedTask && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 animate-in fade-in zoom-in duration-200">
+          <div className="bg-card rounded-2xl shadow-xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 animate-in fade-in zoom-in duration-200">
             <div className="flex justify-between items-start border-b border-gray-100 pb-4">
               <div>
-                <h3 className="text-lg font-extrabold text-gray-900 pr-4">{selectedTask.title}</h3>
+                <h3 className="text-lg font-extrabold text-foreground pr-4">{selectedTask.title}</h3>
                 <p className="text-xs font-mono text-gray-500 mt-1">ID: {selectedTask.id}</p>
               </div>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 text-lg font-bold">✕</button>
             </div>
 
             <div className="space-y-4">
-              <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 text-sm text-gray-700 space-y-2">
-                <p><strong className="text-gray-900">Description:</strong> {selectedTask.description || 'No description provided.'}</p>
-                <p><strong className="text-gray-900">Address:</strong> {selectedTask.address || 'N/A'}</p>
-                <p><strong className="text-gray-900">Citizen:</strong> {selectedTask.citizen?.name || 'Unknown'} ({selectedTask.citizen?.email || 'N/A'})</p>
+              <div className="bg-background p-4 rounded-xl border border-gray-100 text-sm text-gray-700 space-y-2">
+                <p><strong className="text-foreground">Description:</strong> {selectedTask.description || 'No description provided.'}</p>
+                <p><strong className="text-foreground">Address:</strong> {selectedTask.address || 'N/A'}</p>
+                <p><strong className="text-foreground">Citizen:</strong> {selectedTask.citizen?.name || 'Unknown'} ({selectedTask.citizen?.email || 'N/A'})</p>
               </div>
 
               {/* Status Update Controls */}
               <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100 space-y-4">
-                <h4 className="text-sm font-bold text-gray-900">Update Task Status</h4>
+                <h4 className="text-sm font-bold text-foreground">Update Task Status</h4>
                 
                 <div>
                   <label className="block text-xs font-bold text-gray-600 uppercase mb-1">Select New Status</label>
                   <select
                     value={newStatus}
                     onChange={(e) => setNewStatus(e.target.value)}
-                    className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl px-3 py-2.5 outline-none font-medium focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-card border border-gray-200 text-gray-800 text-sm rounded-xl px-3 py-2.5 outline-none font-medium focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="ASSIGNED">Assigned</option>
                     <option value="IN_PROGRESS">In Progress</option>
@@ -181,7 +181,7 @@ export const TechnicianTasksTable = ({ tasks, onTaskUpdated }: TechnicianTasksTa
                     onChange={(e) => setNote(e.target.value)}
                     placeholder="Write progress details or resolution notes..."
                     rows={3}
-                    className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl p-3 outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full bg-card border border-gray-200 text-gray-800 text-sm rounded-xl p-3 outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   />
                 </div>
               </div>
@@ -191,7 +191,7 @@ export const TechnicianTasksTable = ({ tasks, onTaskUpdated }: TechnicianTasksTa
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors"
+                className="px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-background transition-colors"
               >
                 Cancel
               </button>

@@ -39,7 +39,7 @@ export default function CitizenDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Citizen Dashboard</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">Citizen Dashboard</h1>
         <p className="text-gray-500 text-sm mt-1">
           Welcome back! Track your civic issues and request municipal services.
         </p>
@@ -47,21 +47,21 @@ export default function CitizenDashboard() {
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full uppercase">
             Total Submitted
           </span>
           <p className="text-4xl font-extrabold text-[#1E1B4B] mt-4">{stats.total}</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-          <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full uppercase">
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+          <span className="text-xs font-semibold text-amber-600 bg-cardmber-50 px-3 py-1 rounded-full uppercase">
             In Progress
           </span>
           <p className="text-4xl font-extrabold text-amber-600 mt-4">{stats.inProgress}</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
           <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase">
             Resolved
           </span>
@@ -86,8 +86,8 @@ export default function CitizenDashboard() {
       </div>
 
       {/* Emergency Payment Info Banner */}
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0">
+      <div className="bg-cardmber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-4">
+        <div className="w-10 h-10 rounded-full bg-cardmber-100 text-amber-600 flex items-center justify-center text-xl shrink-0">
           ⚠️
         </div>
         <div>

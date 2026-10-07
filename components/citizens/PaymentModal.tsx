@@ -51,10 +51,10 @@ export const PaymentModal = ({ complaintId, onClose }: PaymentModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 space-y-6 animate-in fade-in zoom-in duration-200">
+      <div className="bg-card rounded-3xl shadow-2xl max-w-md w-full p-6 space-y-6 animate-in fade-in zoom-in duration-200">
         
         <div className="flex justify-between items-center border-b border-gray-100 pb-4">
-          <h3 className="text-xl font-extrabold text-gray-900">Select Payment Gateway</h3>
+          <h3 className="text-xl font-extrabold text-foreground">Select Payment Gateway</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 font-bold text-lg">✕</button>
         </div>
 
@@ -71,7 +71,7 @@ export const PaymentModal = ({ complaintId, onClose }: PaymentModalProps) => {
             }`}
           >
             <div className="text-3xl mb-2">💳</div>
-            <span className="font-bold text-gray-900 text-sm">Stripe / Card</span>
+            <span className="font-bold text-foreground text-sm">Stripe / Card</span>
           </div>
 
           {/* bKash Option */}
@@ -82,14 +82,14 @@ export const PaymentModal = ({ complaintId, onClose }: PaymentModalProps) => {
             }`}
           >
             <div className="text-3xl mb-2">📱</div>
-            <span className="font-bold text-gray-900 text-sm">bKash</span>
+            <span className="font-bold text-foreground text-sm">bKash</span>
           </div>
         </div>
 
         <div className="flex gap-3 pt-4 border-t border-gray-100">
           <button
             onClick={onClose}
-            className="flex-1 py-3 border border-gray-200 text-gray-600 rounded-xl font-bold hover:bg-gray-50 transition-colors text-sm"
+            className="flex-1 py-3 border border-gray-200 text-gray-600 rounded-xl font-bold hover:bg-background transition-colors text-sm"
           >
             Cancel
           </button>

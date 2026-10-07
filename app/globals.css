@@ -1,17 +1,24 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
+  /* 🌞 Light Mode Colors */
   :root {
     --background: #f8fafc;
     --foreground: #0f172a;
     --primary: #1d4ed8;
     --card: #ffffff;
     --border: #e2e8f0;
+  }
+
+  /* 🌙 Dark Mode Colors */
+  .dark {
+    --background: #030014;
+    --foreground: #f9fafb;
+    --primary: #3b82f6; 
+    --card: #0A0515;
+    --border: rgba(255, 255, 255, 0.1);
   }
 
   body {

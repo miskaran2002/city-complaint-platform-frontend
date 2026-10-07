@@ -51,7 +51,7 @@ export default function StaffComplaintsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Assigned Department Complaints</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">Assigned Department Complaints</h1>
         <p className="text-gray-500 text-sm mt-1">
           Review complaints specific to your department ({user?.departmentId ? 'Filtered by Department' : 'All'}) and assign technicians.
         </p>
@@ -63,8 +63,8 @@ export default function StaffComplaintsPage() {
         </div>
       )}
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+      <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background/50">
           <h2 className="text-lg font-bold text-gray-800">Department Complaints List</h2>
           <span className="px-3 py-1 bg-purple-100 text-[#7E22CE] rounded-full text-xs font-bold">
             Total: {complaints.length}
@@ -74,7 +74,7 @@ export default function StaffComplaintsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+              <tr className="bg-background border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
                 <th className="p-4">Complaint Title</th>
                 <th className="p-4">Category</th>
                 <th className="p-4">Priority</th>
@@ -89,7 +89,7 @@ export default function StaffComplaintsPage() {
                 </tr>
               ) : (
                 complaints.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={item.id} className="hover:bg-background/50 transition-colors">
                     <td className="p-4">
                       <div className="font-bold text-gray-800">{item.title}</div>
                       <div className="text-gray-500 text-xs truncate max-w-[250px]">{item.description}</div>

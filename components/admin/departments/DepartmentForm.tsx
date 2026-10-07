@@ -35,7 +35,7 @@ export const DepartmentForm: React.FC<DepartmentFormProps> = ({
   onSubmit,
 }) => {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-1 sticky top-24">
+    <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-1 sticky top-24">
       <h2 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Add New Department</h2>
       
       <form onSubmit={onSubmit} className="space-y-4">

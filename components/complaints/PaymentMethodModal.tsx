@@ -35,9 +35,9 @@ export const PaymentMethodModal = ({ complaintId, onClose }: PaymentMethodModalP
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div className="bg-card rounded-2xl shadow-xl max-w-md w-full p-6 space-y-5 animate-in fade-in zoom-in duration-200">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Choose Payment Method</h2>
+          <h2 className="text-xl font-bold text-foreground">Choose Payment Method</h2>
           <p className="text-gray-500 text-sm mt-1">
             Pay a one-time emergency priority fee to fast-track your complaint.
           </p>
@@ -61,7 +61,7 @@ export const PaymentMethodModal = ({ complaintId, onClose }: PaymentMethodModalP
                 বি
               </span>
               <div className="text-left">
-                <p className="font-bold text-gray-900">bKash</p>
+                <p className="font-bold text-foreground">bKash</p>
                 <p className="text-xs text-gray-500">Pay with your bKash wallet</p>
               </div>
             </div>
@@ -83,7 +83,7 @@ export const PaymentMethodModal = ({ complaintId, onClose }: PaymentMethodModalP
                 S
               </span>
               <div className="text-left">
-                <p className="font-bold text-gray-900">Card (Stripe)</p>
+                <p className="font-bold text-foreground">Card (Stripe)</p>
                 <p className="text-xs text-gray-500">Pay with debit/credit card</p>
               </div>
             </div>

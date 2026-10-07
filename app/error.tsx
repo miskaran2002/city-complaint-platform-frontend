@@ -28,7 +28,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
         </svg>
       </div>
       
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Oops! Something went wrong.</h1>
+      <h1 className="text-3xl font-extrabold text-foreground mb-2">Oops! Something went wrong.</h1>
       <p className="text-gray-500 max-w-md mx-auto mb-8">
         We encountered an unexpected error. Our system administrators have been notified. Please try again.
       </p>
@@ -45,7 +45,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
         {/* dashboard link */}
         <Link 
           href="/"
-          className="px-6 py-3 bg-white text-gray-700 font-bold rounded-xl border border-gray-200 hover:bg-gray-50 transition-all"
+          className="px-6 py-3 bg-card text-gray-700 font-bold rounded-xl border border-gray-200 hover:bg-background transition-all"
         >
           Go Back Home
         </Link>

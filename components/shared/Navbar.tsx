@@ -52,7 +52,7 @@ export const Navbar = () => {
   return (
     <header className="fixed top-6 inset-x-0 z-50 flex justify-center px-4">
       {/* 🔴 Dark mode support added to nav background and text */}
-      <nav className="w-full max-w-5xl flex items-center justify-between gap-4 px-6 py-3 bg-white/90 dark:bg-[#0A0515]/90 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20 dark:border-white/10 text-gray-800 dark:text-gray-200 text-sm font-medium transition-colors duration-300">
+      <nav className="w-full max-w-5xl flex items-center justify-between gap-4 px-6 py-3 bg-card/90 dark:bg-[#0A0515]/90 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20 dark:border-border text-gray-800 dark:text-gray-200 text-sm font-medium transition-colors duration-300">
         
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -77,7 +77,7 @@ export const Navbar = () => {
           {isMounted && (
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/20 transition-all focus:outline-none"
+              className="p-2 rounded-full bg-gray-100 dark:bg-card/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-card/20 transition-all focus:outline-none"
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
@@ -127,7 +127,7 @@ export const Navbar = () => {
           {isMounted && (
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/20 transition-all focus:outline-none"
+              className="p-2 rounded-full bg-gray-100 dark:bg-card/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-card/20 transition-all focus:outline-none"
             >
               {theme === 'dark' ? (
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -160,7 +160,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu Dropdown Panel */}
       {isOpen && (
-        <div className="absolute top-20 inset-x-4 bg-white/95 dark:bg-[#0A0515]/95 backdrop-blur-xl border border-gray-100 dark:border-white/10 rounded-3xl px-6 py-6 space-y-3 shadow-2xl md:hidden z-50 transition-colors duration-300">
+        <div className="absolute top-20 inset-x-4 bg-card/95 dark:bg-[#0A0515]/95 backdrop-blur-xl border border-gray-100 dark:border-border rounded-3xl px-6 py-6 space-y-3 shadow-2xl md:hidden z-50 transition-colors duration-300">
           <Link 
             href="/" 
             onClick={() => setIsOpen(false)}
@@ -190,7 +190,7 @@ export const Navbar = () => {
             About Us
           </Link>
 
-          <div className="pt-4 border-t border-gray-100 dark:border-white/10 flex flex-col space-y-3">
+          <div className="pt-4 border-t border-gray-100 dark:border-border flex flex-col space-y-3">
             {isMounted && user ? (
               <>
                 <Link 

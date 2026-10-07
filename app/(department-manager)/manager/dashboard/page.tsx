@@ -84,7 +84,7 @@ export default function ManagerDashboardPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Manager Overview</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">Manager Overview</h1>
         <p className="text-gray-500 text-sm mt-1">
           Supervising operations and personnel for <span className="font-bold text-[#7E22CE]">{departmentName}</span>.
         </p>

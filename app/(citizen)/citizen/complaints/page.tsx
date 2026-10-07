@@ -52,7 +52,7 @@ export default function MyComplaintsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">My Complaints</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">My Complaints</h1>
         <p className="text-gray-500 text-sm mt-1">
           Report civic issues and track their resolution progress.
         </p>

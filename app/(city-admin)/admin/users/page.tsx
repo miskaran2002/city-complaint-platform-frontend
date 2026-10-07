@@ -90,7 +90,7 @@ export default function UsersPage() {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">System Users</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">System Users</h1>
         <p className="text-gray-500 text-sm mt-1">
           Manage all registered users and assign administrative or staff roles.
         </p>

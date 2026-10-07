@@ -61,7 +61,7 @@ export default function DepartmentReportsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900">Department Reports</h1>
+          <h1 className="text-3xl font-extrabold text-foreground">Department Reports</h1>
           <p className="text-gray-500 text-sm mt-1">
             Performance analytics and complaint logs for <span className="font-bold text-indigo-600">{departmentName}</span>.
           </p>

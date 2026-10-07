@@ -10,8 +10,8 @@ interface CategoryTableProps {
 
 export const CategoryTable: React.FC<CategoryTableProps> = ({ categories, isLoading }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 lg:col-span-2 overflow-hidden">
-      <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 lg:col-span-2 overflow-hidden">
+      <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background/50">
         <h2 className="text-lg font-bold text-gray-800">Category List</h2>
         <span className="px-3 py-1 bg-purple-100 text-[#7E22CE] rounded-full text-xs font-bold">
           Total: {categories.length}
@@ -21,7 +21,7 @@ export const CategoryTable: React.FC<CategoryTableProps> = ({ categories, isLoad
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+            <tr className="bg-background border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
               <th className="p-4">Category Name</th>
               <th className="p-4">Department</th>
               <th className="p-4">Description</th>
@@ -43,7 +43,7 @@ export const CategoryTable: React.FC<CategoryTableProps> = ({ categories, isLoad
               </tr>
             ) : (
               categories.map((cat) => (
-                <tr key={cat.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={cat.id} className="hover:bg-background/50 transition-colors">
                   <td className="p-4 font-bold text-gray-800">{cat.name}</td>
                   <td className="p-4">
                     <span className="bg-purple-50 text-[#7E22CE] px-2.5 py-1 rounded-md text-xs font-bold border border-purple-100 whitespace-nowrap">

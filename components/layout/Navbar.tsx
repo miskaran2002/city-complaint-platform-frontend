@@ -18,7 +18,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="bg-white dark:bg-[#0A0515] border-b border-gray-200 dark:border-white/10 h-16 flex items-center justify-between px-4 lg:px-8 z-10 sticky top-0 shadow-sm transition-colors duration-300">
+    <header className="bg-card dark:bg-[#0A0515] border-b border-gray-200 dark:border-border h-16 flex items-center justify-between px-4 lg:px-8 z-10 sticky top-0 shadow-sm transition-colors duration-300">
       
       {/* Mobile Menu Button (Hamburger) -only on mobile */}
       <div className="flex items-center lg:hidden">
@@ -41,7 +41,7 @@ export default function Navbar() {
         {mounted && (
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2 rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/20 transition-all focus:outline-none"
+            className="p-2 rounded-full bg-gray-100 dark:bg-card/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-card/20 transition-all focus:outline-none"
             aria-label="Toggle Theme"
           >
             {theme === 'dark' ? (
@@ -67,7 +67,7 @@ export default function Navbar() {
         {/* User Info & Avatar */}
         <div className="flex items-center gap-3">
           <div className="hidden md:block text-right">
-            <p className="text-sm font-bold text-gray-900 dark:text-white leading-tight">
+            <p className="text-sm font-bold text-foreground dark:text-white leading-tight">
               {user?.name || 'Guest User'}
             </p>
             <p className="text-xs font-semibold text-[#7E22CE] dark:text-[#C026D3] uppercase tracking-wider">

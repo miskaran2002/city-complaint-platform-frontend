@@ -12,21 +12,21 @@ export const DashboardMetrics = ({ complaints }: DashboardMetricsProps) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+      <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
         <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Total Complaints</span>
-        <div className="text-3xl font-extrabold text-gray-900 mt-2">{total}</div>
+        <div className="text-3xl font-extrabold text-foreground mt-2">{total}</div>
       </div>
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+      <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
         <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">Pending</span>
-        <div className="text-3xl font-extrabold text-gray-900 mt-2">{pending}</div>
+        <div className="text-3xl font-extrabold text-foreground mt-2">{pending}</div>
       </div>
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+      <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
         <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">In Progress</span>
-        <div className="text-3xl font-extrabold text-gray-900 mt-2">{inProgress}</div>
+        <div className="text-3xl font-extrabold text-foreground mt-2">{inProgress}</div>
       </div>
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+      <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
         <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Resolved</span>
-        <div className="text-3xl font-extrabold text-gray-900 mt-2">{resolved}</div>
+        <div className="text-3xl font-extrabold text-foreground mt-2">{resolved}</div>
       </div>
     </div>
   );

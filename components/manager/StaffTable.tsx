@@ -54,14 +54,14 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       {/* Top Tabs */}
-      <div className="border-b border-gray-100 p-4 sm:px-6 flex justify-between items-center bg-gray-50/50">
+      <div className="border-b border-gray-100 p-4 sm:px-6 flex justify-between items-center bg-background/50">
         <div className="flex bg-gray-100/80 p-1 rounded-xl">
           <button
             onClick={() => setActiveTab('ALL')}
             className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${
-              activeTab === 'ALL' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              activeTab === 'ALL' ? 'bg-card text-foreground shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
             All Members ({teamMembers.length})
@@ -69,7 +69,7 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
           <button
             onClick={() => setActiveTab('DEPARTMENT_STAFF')}
             className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${
-              activeTab === 'DEPARTMENT_STAFF' ? 'bg-white text-purple-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              activeTab === 'DEPARTMENT_STAFF' ? 'bg-card text-purple-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
             Staff
@@ -77,7 +77,7 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
           <button
             onClick={() => setActiveTab('TECHNICIAN')}
             className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${
-              activeTab === 'TECHNICIAN' ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              activeTab === 'TECHNICIAN' ? 'bg-card text-blue-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
             Technicians
@@ -89,7 +89,7 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
+            <tr className="bg-card border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
               <th className="p-4 sm:px-6 py-4">Personnel Info</th>
               <th className="p-4 sm:px-6 py-4">Role</th>
               <th className="p-4 sm:px-6 py-4">Joined Date</th>
@@ -105,7 +105,7 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
               </tr>
             ) : (
               displayedMembers.map((member) => (
-                <tr key={member.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={member.id} className="hover:bg-background/50 transition-colors">
                   <td className="p-4 sm:px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${
@@ -114,7 +114,7 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
                         {member.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-gray-900 leading-tight">{member.name}</p>
+                        <p className="text-sm font-bold text-foreground leading-tight">{member.name}</p>
                         <p className="text-xs text-gray-500 mt-0.5">{member.email}</p>
                       </div>
                     </div>
@@ -153,9 +153,9 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
       {/* View Details & Ban/Unban Modal */}
       {isModalOpen && selectedUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6 animate-in fade-in zoom-in duration-200">
+          <div className="bg-card rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6 animate-in fade-in zoom-in duration-200">
             <div className="flex justify-between items-center border-b border-gray-100 pb-4">
-              <h3 className="text-lg font-extrabold text-gray-900">Personnel Profile</h3>
+              <h3 className="text-lg font-extrabold text-foreground">Personnel Profile</h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
                 className="text-gray-400 hover:text-gray-600 text-lg font-bold"
@@ -165,12 +165,12 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl">
+              <div className="flex items-center gap-4 bg-background p-4 rounded-xl">
                 <div className="w-14 h-14 rounded-full bg-purple-100 text-[#7E22CE] flex items-center justify-center font-extrabold text-xl">
                   {selectedUser.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-gray-900">{selectedUser.name}</h4>
+                  <h4 className="text-base font-bold text-foreground">{selectedUser.name}</h4>
                   <p className="text-xs text-gray-500">{selectedUser.email}</p>
                   <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold tracking-wider bg-purple-100 text-purple-700 rounded uppercase">
                     {selectedUser.role.replace('_', ' ')}
@@ -178,7 +178,7 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
                 </div>
               </div>
 
-              <div className="space-y-2 text-sm text-gray-600 bg-gray-50/50 p-4 rounded-xl border border-gray-100">
+              <div className="space-y-2 text-sm text-gray-600 bg-background/50 p-4 rounded-xl border border-gray-100">
                 <div className="flex justify-between">
                   <span className="font-semibold text-gray-500">Account Status:</span>
                   <span className={`font-bold ${selectedUser.isBanned ? 'text-red-600' : 'text-emerald-600'}`}>
@@ -200,7 +200,7 @@ export const StaffTable = ({ teamMembers, onStatusUpdated }: StaffTableProps) =>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-background transition-colors"
               >
                 Close
               </button>

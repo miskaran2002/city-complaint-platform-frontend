@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#05000A] pt-20 pb-8 border-t border-white/10 z-50">
+    <footer className="relative bg-[#05000A] pt-20 pb-8 border-t border-border z-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Top Section: Links & Info */}
@@ -68,7 +68,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section: Copyright & Legal */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium">
+        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium">
           <p className="text-gray-500 text-center md:text-left">
             &copy; {new Date().getFullYear()} Smart City Barishal. All rights reserved.
           </p>

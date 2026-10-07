@@ -5,7 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-[#030014] text-gray-900 dark:text-gray-100 font-sans overflow-hidden transition-colors duration-300">
+    <div className="flex h-screen bg-background dark:bg-[#030014] text-foreground dark:text-gray-100 font-sans overflow-hidden transition-colors duration-300">
       
       {/* ⬅️ Left Sidebar (Admin Role) */}
       <Sidebar role="CITY_ADMIN" />

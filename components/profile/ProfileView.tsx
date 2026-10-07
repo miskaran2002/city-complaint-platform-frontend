@@ -83,7 +83,7 @@ export default function ProfileView() {
 
   return (
     <div className="max-w-3xl mx-auto mt-8">
-      <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+      <div className="bg-card shadow-xl rounded-2xl overflow-hidden border border-gray-100">
         
         {/* Profile Header Cover (Civic Plum Gradient) */}
         <div className="h-32 bg-gradient-to-r from-[#1E1B4B] via-[#4C1D95] to-[#7E22CE] relative">
@@ -105,7 +105,7 @@ export default function ProfileView() {
 
           {isEditing ? (
             /* 🟢 Edit Form Mode */
-            <form onSubmit={handleUpdateSubmit} className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+            <form onSubmit={handleUpdateSubmit} className="bg-background p-6 rounded-xl border border-gray-100">
               <h3 className="text-lg font-bold text-gray-800 mb-4">Edit Profile Details</h3>
               
               <div className="space-y-4">
@@ -146,7 +146,7 @@ export default function ProfileView() {
             <>
               <div className="flex justify-between items-start">
                 <div>
-                  <h1 className="text-3xl font-extrabold text-gray-900">{user?.name}</h1>
+                  <h1 className="text-3xl font-extrabold text-foreground">{user?.name}</h1>
                   <p className="text-gray-500 font-medium mt-1">{user?.email}</p>
                 </div>
                 <span className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wider bg-purple-100 text-[#7E22CE] uppercase">
@@ -155,11 +155,11 @@ export default function ProfileView() {
               </div>
 
               <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                <div className="bg-background p-4 rounded-xl border border-gray-100">
                   <span className="block text-xs font-semibold text-gray-400 uppercase mb-1">Account ID</span>
                   <span className="text-gray-800 font-mono text-sm">{user?.id}</span>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                <div className="bg-background p-4 rounded-xl border border-gray-100">
                   <span className="block text-xs font-semibold text-gray-400 uppercase mb-1">Joined Date</span>
                   <span className="text-gray-800 font-medium">
                     {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', {

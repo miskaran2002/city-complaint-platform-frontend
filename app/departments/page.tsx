@@ -36,7 +36,7 @@ export default function DepartmentsPage() {
       <Navbar />
       <main className="pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4">
             City <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4C1D95] to-[#C026D3]">Departments</span>
           </h1>
         </div>
@@ -45,7 +45,7 @@ export default function DepartmentsPage() {
           /* 🔴 Skeleton Loader Grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(6)].map((_, index) => (
-              <div key={index} className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full animate-pulse">
+              <div key={index} className="bg-card rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full animate-pulse">
                 {/* Image Skeleton */}
                 <div className="h-48 w-full bg-slate-200"></div>
                 
@@ -69,14 +69,14 @@ export default function DepartmentsPage() {
           </div>
         ) : departments.length === 0 ? (
           /* 🟡 No Data State */
-          <div className="text-center text-gray-500 py-10 bg-white rounded-2xl shadow-sm border border-gray-100">
+          <div className="text-center text-gray-500 py-10 bg-card rounded-2xl shadow-sm border border-gray-100">
             No departments found.
           </div>
         ) : (
           /* 🟢 Actual Data Grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {departments.map((dept) => (
-              <Link href={`/departments/${dept.id}`} key={dept.id} className="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden flex flex-col">
+              <Link href={`/departments/${dept.id}`} key={dept.id} className="group bg-card rounded-3xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden flex flex-col">
                 {/* Image Section */}
                 <div className="h-48 w-full bg-gray-200 relative overflow-hidden">
                   {dept.imageUrl ? (
@@ -90,7 +90,7 @@ export default function DepartmentsPage() {
                 
                 {/* Content Section */}
                 <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">{dept.name}</h3>
+                  <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-purple-600 transition-colors">{dept.name}</h3>
                   <p className="text-gray-500 text-sm line-clamp-3 mb-4 flex-1">
                     {dept.description || 'Dedicated to serving the city and managing civic responsibilities.'}
                   </p>

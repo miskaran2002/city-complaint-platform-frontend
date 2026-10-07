@@ -49,9 +49,9 @@ export const ReportTable = ({ complaints }: ReportTableProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="border-b border-gray-100 p-6 flex justify-between items-center bg-gray-50/50">
-        <h3 className="text-lg font-bold text-gray-900">Detailed Complaints Log</h3>
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="border-b border-gray-100 p-6 flex justify-between items-center bg-background/50">
+        <h3 className="text-lg font-bold text-foreground">Detailed Complaints Log</h3>
         
         {/* 🔴 onClick event add kora holo 🔴 */}
         <button 
@@ -65,7 +65,7 @@ export const ReportTable = ({ complaints }: ReportTableProps) => {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
+            <tr className="bg-card border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
               <th className="p-4 sm:px-6 py-4">Title & ID</th>
               <th className="p-4 sm:px-6 py-4">Citizen</th>
               <th className="p-4 sm:px-6 py-4">Date Logged</th>
@@ -81,9 +81,9 @@ export const ReportTable = ({ complaints }: ReportTableProps) => {
               </tr>
             ) : (
               complaints.map((complaint) => (
-                <tr key={complaint.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={complaint.id} className="hover:bg-background/50 transition-colors">
                   <td className="p-4 sm:px-6 py-4">
-                    <p className="text-sm font-bold text-gray-900 truncate max-w-[200px]">{complaint.title}</p>
+                    <p className="text-sm font-bold text-foreground truncate max-w-[200px]">{complaint.title}</p>
                     <p className="text-xs text-gray-500 font-mono mt-0.5">#{complaint.id.slice(0, 8)}</p>
                   </td>
                   <td className="p-4 sm:px-6 py-4">
@@ -99,7 +99,7 @@ export const ReportTable = ({ complaints }: ReportTableProps) => {
                       complaint.status === 'RESOLVED' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
                       complaint.status === 'IN_PROGRESS' ? 'bg-blue-50 text-blue-700 border-blue-100' :
                       complaint.status === 'REJECTED' ? 'bg-red-50 text-red-700 border-red-100' :
-                      'bg-amber-50 text-amber-700 border-amber-100' // PENDING
+                      'bg-cardmber-50 text-amber-700 border-amber-100' // PENDING
                     }`}>
                       {complaint.status.replace('_', ' ')}
                     </span>

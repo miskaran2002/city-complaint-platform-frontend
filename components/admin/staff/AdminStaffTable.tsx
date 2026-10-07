@@ -62,16 +62,16 @@ export const AdminStaffTable = ({ systemUsers, departments, onStatusUpdated }: A
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       {/* Filters */}
-      <div className="border-b border-gray-100 p-4 sm:px-6 flex flex-col sm:flex-row gap-4 justify-between items-center bg-gray-50/50">
-        <h3 className="text-lg font-bold text-gray-900">City Personnel</h3>
+      <div className="border-b border-gray-100 p-4 sm:px-6 flex flex-col sm:flex-row gap-4 justify-between items-center bg-background/50">
+        <h3 className="text-lg font-bold text-foreground">City Personnel</h3>
         
         <div className="flex gap-3 w-full sm:w-auto">
           <select
             value={selectedDept}
             onChange={(e) => setSelectedDept(e.target.value)}
-            className="flex-1 sm:w-48 bg-white border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 outline-none font-medium"
+            className="flex-1 sm:w-48 bg-card border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 outline-none font-medium"
           >
             <option value="ALL">All Departments</option>
             {departments.map(dept => (
@@ -82,7 +82,7 @@ export const AdminStaffTable = ({ systemUsers, departments, onStatusUpdated }: A
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
-            className="flex-1 sm:w-40 bg-white border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 outline-none font-medium"
+            className="flex-1 sm:w-40 bg-card border border-gray-200 text-gray-700 text-sm rounded-xl px-3 py-2 outline-none font-medium"
           >
             <option value="ALL">All Roles</option>
             <option value="DEPARTMENT_MANAGER">Manager</option>
@@ -96,7 +96,7 @@ export const AdminStaffTable = ({ systemUsers, departments, onStatusUpdated }: A
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
+            <tr className="bg-card border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
               <th className="p-4 sm:px-6 py-4">User Info</th>
               <th className="p-4 sm:px-6 py-4">Role</th>
               <th className="p-4 sm:px-6 py-4">Department</th>
@@ -113,20 +113,20 @@ export const AdminStaffTable = ({ systemUsers, departments, onStatusUpdated }: A
               </tr>
             ) : (
               filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={user.id} className="hover:bg-background/50 transition-colors">
                   <td className="p-4 sm:px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0">
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-gray-900">{user.name}</p>
+                        <p className="text-sm font-bold text-foreground">{user.name}</p>
                         <p className="text-xs text-gray-500 mt-0.5">{user.email}</p>
                       </div>
                     </div>
                   </td>
                   <td className="p-4 sm:px-6 py-4">
-                    <span className="px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md uppercase border bg-gray-50 text-gray-700 border-gray-200">
+                    <span className="px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md uppercase border bg-background text-gray-700 border-gray-200">
                       {user.role.replace('_', ' ')}
                     </span>
                   </td>
@@ -160,19 +160,19 @@ export const AdminStaffTable = ({ systemUsers, departments, onStatusUpdated }: A
       {/* Modal */}
       {isModalOpen && selectedUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6 animate-in fade-in zoom-in duration-200">
+          <div className="bg-card rounded-2xl shadow-xl max-w-md w-full p-6 space-y-6 animate-in fade-in zoom-in duration-200">
             <div className="flex justify-between items-center border-b border-gray-100 pb-4">
-              <h3 className="text-lg font-extrabold text-gray-900">Personnel Profile</h3>
+              <h3 className="text-lg font-extrabold text-foreground">Personnel Profile</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 text-lg font-bold">✕</button>
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+              <div className="flex items-center gap-4 bg-background p-4 rounded-xl border border-gray-100">
                 <div className="w-14 h-14 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-extrabold text-xl">
                   {selectedUser.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-gray-900">{selectedUser.name}</h4>
+                  <h4 className="text-base font-bold text-foreground">{selectedUser.name}</h4>
                   <p className="text-xs text-gray-500">{selectedUser.email}</p>
                   <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold tracking-wider bg-gray-200 text-gray-700 rounded uppercase">
                     {selectedUser.role.replace('_', ' ')}
@@ -180,7 +180,7 @@ export const AdminStaffTable = ({ systemUsers, departments, onStatusUpdated }: A
                 </div>
               </div>
 
-              <div className="space-y-2 text-sm text-gray-600 bg-gray-50/50 p-4 rounded-xl border border-gray-100">
+              <div className="space-y-2 text-sm text-gray-600 bg-background/50 p-4 rounded-xl border border-gray-100">
                 <div className="flex justify-between">
                   <span className="font-semibold text-gray-500">Account Status:</span>
                   <span className={`font-bold ${selectedUser.isBanned ? 'text-red-600' : 'text-emerald-600'}`}>
@@ -202,7 +202,7 @@ export const AdminStaffTable = ({ systemUsers, departments, onStatusUpdated }: A
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-background transition-colors"
               >
                 Close
               </button>

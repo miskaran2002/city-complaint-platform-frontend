@@ -76,7 +76,7 @@ export default function StaffDashboardPage() {
     <div className="space-y-6">
       {/* Page Header with Department Name */}
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Staff Dashboard</h1>
+        <h1 className="text-3xl font-extrabold text-foreground">Staff Dashboard</h1>
         <p className="text-gray-500 text-sm mt-1">
           Managing complaints and assignments for <span className="font-bold text-[#7E22CE]">{departmentName}</span>.
         </p>
@@ -84,27 +84,27 @@ export default function StaffDashboardPage() {
 
       {/* Metrics Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
           <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Total Department Complaints</span>
-          <div className="text-3xl font-extrabold text-gray-900 mt-2">{stats.total}</div>
+          <div className="text-3xl font-extrabold text-foreground mt-2">{stats.total}</div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
           <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">Pending</span>
-          <div className="text-3xl font-extrabold text-gray-900 mt-2">{stats.pending}</div>
+          <div className="text-3xl font-extrabold text-foreground mt-2">{stats.pending}</div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
           <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">In Progress</span>
-          <div className="text-3xl font-extrabold text-gray-900 mt-2">{stats.inProgress}</div>
+          <div className="text-3xl font-extrabold text-foreground mt-2">{stats.inProgress}</div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
           <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Resolved</span>
-          <div className="text-3xl font-extrabold text-gray-900 mt-2">{stats.resolved}</div>
+          <div className="text-3xl font-extrabold text-foreground mt-2">{stats.resolved}</div>
         </div>
       </div>
 
       {/* Recent Assigned Complaints Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+      <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background/50">
           <h2 className="text-lg font-bold text-gray-800">Recent Department Complaints</h2>
           <Link 
             href="/staff/complaints"
@@ -117,7 +117,7 @@ export default function StaffDashboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+              <tr className="bg-background border-b border-gray-100 text-xs uppercase tracking-wider text-gray-500 font-semibold">
                 <th className="p-4">Complaint Title</th>
                 <th className="p-4">Category</th>
                 <th className="p-4">Priority</th>
@@ -131,7 +131,7 @@ export default function StaffDashboardPage() {
                 </tr>
               ) : (
                 recentComplaints.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={item.id} className="hover:bg-background/50 transition-colors">
                     <td className="p-4 font-bold text-gray-800">{item.title}</td>
                     <td className="p-4">
                       <span className="bg-purple-50 text-[#7E22CE] px-2.5 py-1 rounded-md text-xs font-bold border border-purple-100">

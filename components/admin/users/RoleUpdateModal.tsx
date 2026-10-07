@@ -27,7 +27,7 @@ export const RoleUpdateModal: React.FC<RoleUpdateModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
+      <div className="bg-card rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
         <div className="bg-[#1E1B4B] p-5">
           <h3 className="text-xl font-bold text-white">Update User Role</h3>
           <p className="text-purple-200 text-xs mt-1">Assigning a new role to {editingUser.name}</p>
@@ -45,7 +45,7 @@ export const RoleUpdateModal: React.FC<RoleUpdateModalProps> = ({
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm font-medium bg-gray-50"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm font-medium bg-background"
             >
               <option value="CITIZEN">Citizen</option>
               <option value="DEPARTMENT_STAFF">Department Staff</option>

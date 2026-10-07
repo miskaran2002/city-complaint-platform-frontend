@@ -94,7 +94,7 @@ export const DemoLogin = () => {
           type="button"
           onClick={() => handleDemoLogin('TECHNICIAN')}
           disabled={isLoading}
-          className="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-semibold py-2 px-3 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
+          className="bg-cardmber-50 hover:bg-cardmber-100 text-amber-700 border border-amber-200 font-semibold py-2 px-3 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
         >
           <span>🔧</span> Technician
         </button>

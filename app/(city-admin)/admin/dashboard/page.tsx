@@ -12,7 +12,6 @@ import {
 interface DashboardStats {
   users: { 
     total: number;
-    
     byRole?: { name: string; value: number; color?: string }[]; 
   };
   complaints: { 
@@ -24,12 +23,10 @@ interface DashboardStats {
   payments: { 
     successful: number; 
     totalRevenue: number;
-   
     monthlyTrend?: { month: string; amount: number }[]; 
   };
   departments?: {
     total: number;
-   
     categoryCount?: { name: string; categories: number }[];
   }
 }
@@ -104,43 +101,43 @@ export default function AdminDashboard() {
       
       {/* header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">City Admin Overview</h1>
-        <p className="text-gray-500 text-sm mt-1">
+        <h1 className="text-3xl font-extrabold text-foreground dark:text-white transition-colors duration-300">City Admin Overview</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 transition-colors duration-300">
           Welcome to the Smart City Admin Control Panel. Monitor system operations from here.
         </p>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center">
-          <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border flex flex-col justify-center transition-colors duration-300">
+          <span className="text-xs font-semibold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/10 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
             Total Revenue
           </span>
-          <h3 className="text-3xl font-black text-[#1E1B4B]">${totalIncomeUSD.toLocaleString()}</h3>
+          <h3 className="text-3xl font-black text-[#1E1B4B] dark:text-white">${totalIncomeUSD.toLocaleString()}</h3>
           <p className="text-sm font-semibold text-gray-400 mt-1">৳ {totalIncomeBDT.toLocaleString()} BDT</p>
         </div>
         
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center">
-          <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border flex flex-col justify-center transition-colors duration-300">
+          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
             Total Users
           </span>
-          <h3 className="text-3xl font-black text-blue-900">{stats?.users.total || 0}</h3>
+          <h3 className="text-3xl font-black text-blue-900 dark:text-white">{stats?.users.total || 0}</h3>
           <p className="text-sm font-semibold text-gray-400 mt-1">Registered accounts</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center">
-          <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border flex flex-col justify-center transition-colors duration-300">
+          <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-cardmber-50 dark:bg-cardmber-500/10 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
             Total Complaints
           </span>
-          <h3 className="text-3xl font-black text-amber-700">{stats?.complaints.total || 0}</h3>
+          <h3 className="text-3xl font-black text-amber-700 dark:text-white">{stats?.complaints.total || 0}</h3>
           <p className="text-sm font-semibold text-gray-400 mt-1">Active: {(stats?.complaints.pending || 0) + (stats?.complaints.inProgress || 0)}</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center">
-          <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border flex flex-col justify-center transition-colors duration-300">
+          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full uppercase tracking-wider w-max mb-3">
             Resolved Issues
           </span>
-          <h3 className="text-3xl font-black text-emerald-700">{stats?.complaints.resolved || 0}</h3>
+          <h3 className="text-3xl font-black text-emerald-700 dark:text-white">{stats?.complaints.resolved || 0}</h3>
           <p className="text-sm font-semibold text-gray-400 mt-1">Successfully fixed</p>
         </div>
       </div>
@@ -149,8 +146,8 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* 1. Revenue Trend (Area Chart) */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-800 mb-6 border-b pb-2">Revenue Trend (USD)</h3>
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 border-b dark:border-border pb-2 transition-colors duration-300">Revenue Trend (USD)</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -160,10 +157,13 @@ export default function AdminDashboard() {
                     <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" strokeOpacity={0.2} />
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
-                <Tooltip cursor={{ stroke: '#C026D3', strokeWidth: 2, strokeDasharray: '3 3' }} />
+                <Tooltip 
+                  cursor={{ stroke: '#C026D3', strokeWidth: 2, strokeDasharray: '3 3' }} 
+                  contentStyle={{ backgroundColor: '#0A0515', borderColor: '#ffffff1a', color: '#fff', borderRadius: '8px' }}
+                />
                 <Area type="monotone" dataKey="amount" stroke="#8B5CF6" strokeWidth={3} fillOpacity={1} fill="url(#colorAmount)" />
               </AreaChart>
             </ResponsiveContainer>
@@ -171,15 +171,18 @@ export default function AdminDashboard() {
         </div>
 
         {/* 2. Categories per Department (Bar Chart) */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-800 mb-6 border-b pb-2">Categories per Department</h3>
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 border-b dark:border-border pb-2 transition-colors duration-300">Categories per Department</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={departmentCategoriesData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" strokeOpacity={0.2} />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
-                <Tooltip cursor={{ fill: '#F3F4F6' }} />
+                <Tooltip 
+                  cursor={{ fill: '#ffffff0a' }} 
+                  contentStyle={{ backgroundColor: '#0A0515', borderColor: '#ffffff1a', color: '#fff', borderRadius: '8px' }}
+                />
                 <Bar dataKey="categories" fill="#C026D3" radius={[4, 4, 0, 0]} barSize={40} />
               </BarChart>
             </ResponsiveContainer>
@@ -187,8 +190,8 @@ export default function AdminDashboard() {
         </div>
 
         {/* 3. User Roles Distribution (Doughnut Chart) */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center">
-          <h3 className="text-lg font-bold text-gray-800 mb-4 w-full text-left border-b pb-2">User Roles Distribution</h3>
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border flex flex-col items-center transition-colors duration-300">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 w-full text-left border-b dark:border-border pb-2 transition-colors duration-300">User Roles Distribution</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -204,16 +207,16 @@ export default function AdminDashboard() {
                     <Cell key={`cell-${index}`} fill={entry.color || '#8B5CF6'} />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '13px', paddingTop: '20px' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#0A0515', borderColor: '#ffffff1a', color: '#fff', borderRadius: '8px' }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '13px', paddingTop: '20px', color: '#9CA3AF' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* 4. Complaints Resolution Status (Doughnut Chart) */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center">
-          <h3 className="text-lg font-bold text-gray-800 mb-4 w-full text-left border-b pb-2">Complaints Resolution Status</h3>
+        <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border flex flex-col items-center transition-colors duration-300">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 w-full text-left border-b dark:border-border pb-2 transition-colors duration-300">Complaints Resolution Status</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -229,8 +232,8 @@ export default function AdminDashboard() {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '13px', paddingTop: '20px' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#0A0515', borderColor: '#ffffff1a', color: '#fff', borderRadius: '8px' }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '13px', paddingTop: '20px', color: '#9CA3AF' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>

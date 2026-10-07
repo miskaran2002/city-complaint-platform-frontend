@@ -5,7 +5,6 @@ import GlobalLoading from '@/app/loading';
 import apiClient from '@/lib/axios';
 import { AdminComplaintTable } from '@/components/admin/complaints/AdminComplaintTable';
 
-
 export default function AdminComplaintsPage() {
   const [complaints, setComplaints] = useState<any[]>([]);
   const [departments, setDepartments] = useState<any[]>([]);
@@ -18,7 +17,7 @@ export default function AdminComplaintsPage() {
       try {
         // City Admin needs ALL data
         const [complaintsRes, deptsRes, usersRes] = await Promise.all([
-          apiClient.get('/complaints?limit=500'), // limit বাড়ানো হলো যাতে সব কমপ্লেন আসে
+          apiClient.get('/complaints?limit=500'), // limit বাড়ানো হলো যাতে সব কমপ্লেন আসে
           apiClient.get('/departments'),
           apiClient.get('/admin/users?limit=500') 
         ]);
@@ -52,8 +51,8 @@ export default function AdminComplaintsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold text-gray-900">Assigned Complaints</h1>
-        <p className="text-gray-500 text-sm mt-1">
+        <h1 className="text-3xl font-extrabold text-foreground dark:text-white transition-colors duration-300">Assigned Complaints</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 transition-colors duration-300">
           City-wide overview of all complaints across all departments and their assignment status.
         </p>
       </div>

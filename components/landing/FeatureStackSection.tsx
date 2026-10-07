@@ -78,8 +78,8 @@ export default function FeatureStackSection() {
               <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start md:items-center">
                 
                 {/* Icon & ID */}
-                <div className="flex flex-col items-center justify-center shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-black/30 border border-white/10 backdrop-blur-md relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors" />
+                <div className="flex flex-col items-center justify-center shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-black/30 border border-border backdrop-blur-md relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-card/5 group-hover:bg-card/10 transition-colors" />
                   <span className="absolute top-2 right-3 text-white/20 font-black text-2xl italic">{feature.id}</span>
                   <svg className="w-10 h-10 md:w-14 md:h-14 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={feature.icon} />

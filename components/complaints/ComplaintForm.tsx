@@ -86,12 +86,12 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-      <h2 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Report an Issue</h2>
+    <div className="bg-card dark:bg-[#0A0515] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+      <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-border pb-2 transition-colors duration-300">Report an Issue</h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-100">{error}</div>}
-        {success && <div className="p-3 text-sm text-emerald-600 bg-emerald-50 rounded-lg border border-emerald-100">{success}</div>}
+        {error && <div className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 rounded-lg border border-red-100 dark:border-red-500/20">{error}</div>}
+        {success && <div className="p-3 text-sm text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg border border-emerald-100 dark:border-emerald-500/20">{success}</div>}
 
         <Input
           label="Issue Title"
@@ -103,12 +103,12 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         />
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Category <span className="text-red-500">*</span></label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category <span className="text-red-500">*</span></label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
             required
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-white"
+            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-white/20 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-card dark:bg-[#030014] text-foreground dark:text-white"
           >
             <option value="" disabled>-- Select Category --</option>
             {categories.map(cat => (
@@ -118,11 +118,11 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Priority Level</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority Level</label>
           <select
             value={priority as string}
             onChange={(e) => setPriority(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-white"
+            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-white/20 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all text-sm bg-card dark:bg-[#030014] text-foreground dark:text-white"
           >
             <option value="LOW">Low</option>
             <option value="MEDIUM">Medium</option>
@@ -141,18 +141,18 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         />
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe the issue in detail..."
             rows={3}
             required
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all resize-none text-sm"
+            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-white/20 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all resize-none text-sm bg-card dark:bg-[#030014] text-foreground dark:text-white"
           ></textarea>
         </div>
 
-        <Button type="submit" className="w-full mt-2 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE]" isLoading={isSubmitting}>
+        <Button type="submit" className="w-full mt-2 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white" isLoading={isSubmitting}>
           Submit Complaint
         </Button>
       </form>
