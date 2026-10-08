@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import apiClient from '@/lib/axios';
 import Link from 'next/link';
 import { Navbar } from '@/components/shared/Navbar';
+import Footer from '@/components/shared/Footer';
 
 interface Department {
   id: string;
@@ -97,6 +98,8 @@ export default function DepartmentsPage() {
           </div>
         )}
       </main>
+      <Footer></Footer>
     </div>
+    
   );
 }

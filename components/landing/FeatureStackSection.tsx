@@ -107,7 +107,6 @@ function StackCard({
   total: number;
   progress: MotionValue<number>;
 }) {
-  // porer card upore ashle ager card ektu choto hoye pichone jay
   const targetScale = 1 - (total - 1 - index) * 0.035;
   const scale = useTransform(progress, [index / total, 1], [1, targetScale]);
 
@@ -115,15 +114,15 @@ function StackCard({
     <div className="sticky" style={{ top: `calc(15vh + ${index * 26}px)`, zIndex: index + 10 }}>
       <motion.div
         style={{ scale, transformOrigin: 'top center' }}
-        className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+        className="relative overflow-hidden rounded-[2rem] border border-border shadow-[0_20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
       >
-        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient}`} />
-        <div className="absolute inset-0 bg-[#030014]/30" />
+        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-90 dark:opacity-100`} />
+        <div className="absolute inset-0 bg-black/20 dark:bg-[#030014]/30" />
 
         <div className="relative z-10 p-7 md:p-10 flex flex-col md:flex-row gap-7 md:gap-10 items-start md:items-center">
           {/* icon + number */}
-          <div className="relative shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-black/30 border border-white/10 backdrop-blur-md grid place-items-center">
-            <span className="absolute top-2 right-3 text-white/25 font-light text-2xl">{feature.id}</span>
+          <div className="relative shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-black/20 dark:bg-black/30 border border-white/20 backdrop-blur-md grid place-items-center">
+            <span className="absolute top-2 right-3 text-white/50 dark:text-white/25 font-light text-2xl">{feature.id}</span>
             <svg className="w-10 h-10 md:w-14 md:h-14 text-purple-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={feature.icon} />
             </svg>
@@ -132,10 +131,10 @@ function StackCard({
           {/* text */}
           <div className="flex-1">
             <h3 className="text-3xl md:text-4xl font-light tracking-tight text-white mb-3">{feature.title}</h3>
-            <p className="text-base md:text-lg text-white/70 leading-relaxed max-w-2xl">{feature.description}</p>
+            <p className="text-base md:text-lg text-white/80 dark:text-white/70 leading-relaxed max-w-2xl">{feature.description}</p>
             <div className="flex flex-wrap gap-2 mt-5">
               {feature.tags.map((t) => (
-                <span key={t} className="px-3 py-1 rounded-full text-xs text-white/80 bg-white/10 border border-white/15">
+                <span key={t} className="px-3 py-1 rounded-full text-xs text-white/90 bg-white/15 dark:bg-white/10 border border-white/20">
                   {t}
                 </span>
               ))}
@@ -154,8 +153,8 @@ export default function FeatureStackSection() {
   const { scrollYProgress } = useScroll({ target: stackRef, offset: ['start start', 'end end'] });
 
   return (
-    <section className="relative bg-[#030014] text-white py-28 md:py-36 px-6 lg:px-8 border-t border-white/5">
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-[#4C1D95]/20 blur-[140px] pointer-events-none" />
+    <section className="relative bg-background text-foreground py-28 md:py-36 px-6 lg:px-8 border-t border-border transition-colors duration-300">
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-[#4C1D95]/15 blur-[140px] pointer-events-none" />
 
       <div className="relative max-w-5xl mx-auto">
         <motion.div
@@ -167,11 +166,11 @@ export default function FeatureStackSection() {
         >
           <h2 className="text-5xl md:text-7xl font-light tracking-tight leading-[0.98] mb-5">
             How it{' '}
-            <span className="bg-gradient-to-r from-purple-300 via-fuchsia-400 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#4C1D95] via-[#C026D3] to-purple-600 dark:from-purple-300 dark:via-fuchsia-400 dark:to-purple-500 bg-clip-text text-transparent">
               works
             </span>
           </h2>
-          <p className="text-lg md:text-xl text-white/60 max-w-xl">
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-xl font-medium">
             From the first report to the final rating, one smooth flow for every citizen.
           </p>
         </motion.div>
