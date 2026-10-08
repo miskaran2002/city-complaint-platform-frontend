@@ -30,7 +30,7 @@ export default function HomePage() {
       <ShowcaseSection/>
       <FeatureStackSection/>
       <Footer/>
-</div>
+      </div>
       
       
      
