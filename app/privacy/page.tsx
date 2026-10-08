@@ -4,7 +4,6 @@ import { Navbar } from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import LegalLayout, { LegalSection } from '@/components/shared/LegalLayout';
 
-
 export const metadata: Metadata = {
   title: 'Privacy Policy | SmartCity Barishal',
   description: 'How SmartCity Barishal collects, uses and protects your information.',
@@ -117,7 +116,7 @@ const sections: LegalSection[] = [
 
 export default function PrivacyPage() {
   return (
-    <>
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <Navbar />
       <LegalLayout
         eyebrow="Legal"
@@ -128,6 +127,6 @@ export default function PrivacyPage() {
         other={{ label: 'Read Terms of Service', href: '/terms' }}
       />
       <Footer />
-    </>
+    </div>
   );
 }
