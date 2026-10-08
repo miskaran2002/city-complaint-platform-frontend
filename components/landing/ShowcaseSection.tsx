@@ -22,18 +22,18 @@ export default function ShowcaseSection() {
   return (
     <section 
       ref={containerRef} 
-      className="relative h-[70vh] md:h-[90vh] w-full overflow-hidden flex items-center justify-center bg-[#030014]"
+      className="relative h-[70vh] md:h-[90vh] w-full overflow-hidden flex items-center justify-center bg-background transition-colors duration-300"
     >
       {/* 🔴 Background Image with Parallax Scale */}
       <motion.div
         style={{ scale: scaleImage }}
         className="absolute inset-0 w-full h-full"
       >
-        {/* Dark overlay to make text readable */}
-        <div className="absolute inset-0 bg-black/40 z-10" />
+        {/* Dark overlay to make text readable in both themes */}
+        <div className="absolute inset-0 bg-black/50 z-10" />
         
         {/* Gradient fades at top and bottom to blend with other sections */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-[#030014] z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background z-10 transition-colors duration-300" />
         
         {/* Unsplash Real City Street/Skyline Photo */}
         <img
