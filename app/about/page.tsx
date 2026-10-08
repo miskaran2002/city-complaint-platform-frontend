@@ -4,6 +4,7 @@
 import React from 'react';
 import { Navbar } from '@/components/shared/Navbar';
 import Link from 'next/link';
+import Footer from '@/components/shared/Footer';
 
 export default function AboutPage() {
   return (
@@ -88,6 +89,7 @@ export default function AboutPage() {
         </div>
 
       </main>
+      <Footer />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import apiClient from '@/lib/axios';
 import Link from 'next/link';
 import { Navbar } from '@/components/shared/Navbar';
 import { useAuthStore } from '@/store/useAuthStore';
+import Footer from '@/components/shared/Footer';
 
 interface Category {
   id: string;
@@ -139,6 +140,7 @@ export default function CategoryPage() {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 }
