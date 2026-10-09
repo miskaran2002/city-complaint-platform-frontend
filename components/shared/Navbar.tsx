@@ -186,7 +186,7 @@ export const Navbar = () => {
                   Sign In
                 </Link>
                 <Link
-                  href="/sign-up"
+                  href="/register"
                   className={`${gradientBtn} px-5 py-2 hover:shadow-lg transition-all hover:-translate-y-0.5 text-sm`}
                 >
                   Sign Up
