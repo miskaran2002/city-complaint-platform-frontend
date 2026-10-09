@@ -7,6 +7,7 @@ export interface CreateDepartmentPayload {
   name: string;
   code: string;
   description?: string;
+  imageUrl?: string; // 👈 Added imageUrl property
 }
 
 export const createDepartment = async (data: CreateDepartmentPayload): Promise<ApiResponse<Department>> => {

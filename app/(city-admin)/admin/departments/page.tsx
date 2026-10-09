@@ -15,6 +15,7 @@ export default function DepartmentsPage() {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState(''); // 👈 Added imageUrl state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -44,12 +45,13 @@ export default function DepartmentsPage() {
     setSuccess('');
 
     try {
-      const res = await createDepartment({ name, code, description });
+      const res = await createDepartment({ name, code, description, imageUrl });
       if (res.success) {
         setSuccess('Department created successfully!');
         setName('');
         setCode('');
         setDescription('');
+        setImageUrl(''); // 👈 Reset imageUrl on success
         fetchDepartments(); 
         setTimeout(() => setSuccess(''), 3000);
       }
@@ -59,9 +61,10 @@ export default function DepartmentsPage() {
       setIsSubmitting(false);
     }
   };
+
   if (isLoading) {
-      return <GlobalLoading />;
-    }
+    return <GlobalLoading />;
+  }
 
   return (
     <div className="space-y-6">
@@ -82,6 +85,8 @@ export default function DepartmentsPage() {
           setCode={setCode}
           description={description}
           setDescription={setDescription}
+          imageUrl={imageUrl}          // 👈 Passed imageUrl prop
+          setImageUrl={setImageUrl}    // 👈 Passed setImageUrl prop
           isSubmitting={isSubmitting}
           error={error}
           success={success}

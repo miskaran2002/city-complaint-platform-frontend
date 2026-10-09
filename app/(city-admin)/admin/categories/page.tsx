@@ -7,7 +7,6 @@ import { getAllCategories, createCategory } from '@/services/category.service';
 import { getAllDepartments } from '@/services/department.service';
 import { CategoryForm } from '@/components/admin/categories/CategoryForm';
 import { CategoryTable } from '@/components/admin/categories/CategoryTable';
-// ১. ⚠️ Global Loading import
 import GlobalLoading from '@/app/loading'; 
 
 export default function CategoriesPage() {
@@ -21,6 +20,7 @@ export default function CategoriesPage() {
   const [name, setName] = useState('');
   const [departmentId, setDepartmentId] = useState('');
   const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState(''); // 👈 Added imageUrl state
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -68,6 +68,7 @@ export default function CategoriesPage() {
         setName('');
         setDepartmentId('');
         setDescription('');
+        setImageUrl(''); // 👈 Reset imageUrl on success
         
         // Fetch the updated categories list after successful creation
         const updatedCatRes = await getAllCategories();
@@ -82,7 +83,6 @@ export default function CategoriesPage() {
     }
   };
 
-  // ২. ⚠️ ডেটা লোড হওয়ার সময় গ্লোবাল স্কেলিটন দেখানো হবে
   if (isLoading) {
     return <GlobalLoading />;
   }
@@ -106,6 +106,8 @@ export default function CategoriesPage() {
           setDepartmentId={setDepartmentId}
           description={description}
           setDescription={setDescription}
+          imageUrl={imageUrl}          // 👈 Passed imageUrl prop
+          setImageUrl={setImageUrl}    // 👈 Passed setImageUrl prop
           departments={departments}
           isDeptLoading={isDeptLoading}
           isSubmitting={isSubmitting}
@@ -117,8 +119,6 @@ export default function CategoriesPage() {
         {/* ➡️ Right Column: Table Component */}
         <CategoryTable 
           categories={categories} 
-          // এখানে isLoading false হবে সবসময়, কারণ গ্লোবাল লোডিং আগেই চেক করা হয়েছে। 
-          // তবুও প্রপস হিসেবে পাঠিয়ে রাখলাম।
           isLoading={false} 
         />
       </div>
