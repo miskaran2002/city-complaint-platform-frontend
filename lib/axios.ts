@@ -11,7 +11,6 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  // timeout: 10000, // Optional: Set a timeout of 10 seconds if needed
 });
 
 /**
@@ -20,12 +19,44 @@ const apiClient = axios.create({
  */
 apiClient.interceptors.request.use(
   (config) => {
-    // Ensure this runs only on the client side (browser)
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem(AUTH_TOKEN_KEY);
-      
-      if (token && config.headers) {
-        // Remove any surrounding quotes from the token (if present) to avoid issues
+      let token = localStorage.getItem(AUTH_TOKEN_KEY);
+
+      // 1. If token key contains a JSON string (e.g. from Zustand/Redux persist)
+      if (token && token.trim().startsWith('{')) {
+        try {
+          const parsed = JSON.parse(token);
+          token =
+            parsed?.state?.token ||
+            parsed?.state?.accessToken ||
+            parsed?.state?.user?.token ||
+            parsed?.token ||
+            null;
+        } catch (e) {
+          token = null;
+        }
+      }
+
+      // 2. Fallback: Check 'auth-storage' directly if token is still missing
+      if (!token) {
+        const authStorage = localStorage.getItem('auth-storage');
+        if (authStorage) {
+          try {
+            const parsed = JSON.parse(authStorage);
+            token =
+              parsed?.state?.token ||
+              parsed?.state?.accessToken ||
+              parsed?.state?.user?.token ||
+              parsed?.token ||
+              null;
+          } catch (e) {
+            console.error('Error parsing auth-storage:', e);
+          }
+        }
+      }
+
+      // 3. Attach clean JWT token to Authorization header
+      if (token && typeof token === 'string' && config.headers) {
         const cleanToken = token.replace(/['"]+/g, '');
         config.headers.Authorization = `Bearer ${cleanToken}`;
       }
@@ -33,7 +64,6 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
-    // Handle request errors
     return Promise.reject(error);
   }
 );
@@ -44,29 +74,28 @@ apiClient.interceptors.request.use(
  */
 apiClient.interceptors.response.use(
   (response) => {
-    // Any status code that lie within the range of 2xx cause this function to trigger
     return response;
   },
   (error) => {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
     if (error.response) {
       const { status } = error.response;
 
-      // If token is invalid or expired (401 Unauthorized)
       if (status === 401) {
         if (typeof window !== 'undefined') {
-          // Clear the token from local storage
+          // Clear both potential storage keys to prevent infinite redirect loops
           localStorage.removeItem(AUTH_TOKEN_KEY);
-          
-          // Redirect the user to the login page
-          // (Avoid redirecting if they are already on the login or register page)
-          if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+          localStorage.removeItem('auth-storage');
+
+          if (
+            !window.location.pathname.includes('/login') &&
+            !window.location.pathname.includes('/register')
+          ) {
             window.location.href = '/login';
           }
         }
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
