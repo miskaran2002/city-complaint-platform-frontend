@@ -82,9 +82,15 @@ apiClient.interceptors.response.use(
 
       if (status === 401) {
         if (typeof window !== 'undefined') {
-          // Clear both potential storage keys to prevent infinite redirect loops
+          // Clear all storage keys
           localStorage.removeItem(AUTH_TOKEN_KEY);
           localStorage.removeItem('auth-storage');
+
+          // 🧹 Middleware cookies o clear korte hobe.
+          // Na korle middleware.ts cookie dekhe /login theke abar /dashboard e pathay
+          // ar /login <-> /dashboard infinite loop hoy.
+          document.cookie = 'city_auth_token=; path=/; max-age=0';
+          document.cookie = 'user_role=; path=/; max-age=0';
 
           if (
             !window.location.pathname.includes('/login') &&
