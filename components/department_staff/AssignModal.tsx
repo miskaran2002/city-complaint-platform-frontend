@@ -27,14 +27,15 @@ export const AssignModal = ({ complaintId, departmentId, isOpen, onClose, onSucc
 
   const fetchTechnicians = async () => {
     try {
-      // ⚠️ এখন ব্যাকএন্ড থেকে স্টাফদের জন্য ডিপার্টমেন্ট ফিল্টার করা /admin/users রাউট কল করা হচ্ছে
-      const res = await apiClient.get('/admin/users?role=TECHNICIAN');
+      // ✅ URL-টি '/admin/users' থেকে পরিবর্তন করে '/users' করা হয়েছে
+      const res = await apiClient.get('/users?role=TECHNICIAN');
+      
       if (res.data && res.data.success) {
         const users = Array.isArray(res.data.data) 
           ? res.data.data 
           : (res.data.data?.users || []);
         
-        // ডাবল চেক করার জন্য ডিপার্টমেন্ট আইডি দিয়ে ফিল্টার করা
+        // ডাবল চেক করার জন্য ডিপার্টমেন্ট আইডি দিয়ে ফিল্টার করা
         const techList = users.filter((u: any) => 
           u.departmentId === departmentId || u.department?.id === departmentId
         );
@@ -46,7 +47,6 @@ export const AssignModal = ({ complaintId, departmentId, isOpen, onClose, onSucc
       setError('Could not load technicians.');
     }
   };
-
   const handleAssign = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTech) {
