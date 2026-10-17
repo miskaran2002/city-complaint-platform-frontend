@@ -24,7 +24,7 @@ const total = images.length + 1; // 0 = title card
 const angleStep = 360 / total;
 const radius = 360;
 
-// Sparkle-এর পরিবর্তে প্রজেক্টের লোগো (Buildings & Waves)
+// Sparkle-alternative(Buildings & Waves)
 const CityLogo = ({ size = 56, className = "" }: { size?: number, className?: string }) => (
   <svg 
     width={size} 
@@ -196,11 +196,22 @@ export default function HeroSection() {
   const coverPSize = useTransform(k, (x) => 20 - 6 * x);
   const coverSparkle = useTransform(k, (x) => 2.4 - 1.4 * x);
 
- const coverPadT = useTransform(k, (x) => 108 - 56 * x);
+ const coverPadT = useTransform(k, (x) => {
+  const base = viewW() < 480 ? 72 : 108;
+  const end = viewW() < 480 ? 36 : 56;
+  return base - (base - end) * x;
+});
  const coverPadX = useTransform(k, (x) => 48 - 28 * x);
 
-  const coverPadB = useTransform(k, (x) => 56 - 32 * x);
-  const coverBtnH = useTransform(p, [0, 0.045], [84, 0]);
+  const coverPadB = useTransform(k, (x) => {
+  const base = viewW() < 480 ? 36 : 56;
+  return base - (base - 20) * x;
+});
+  const coverBtnH = useTransform(p, (v) => {
+  const base = viewW() < 480 ? 136 : 84;
+  const x = Math.min(Math.max(v / 0.045, 0), 1);
+  return base * (1 - x);
+});
   const coverBtnOpacity = useTransform(p, [0, 0.035], [1, 0]);
   const coverOpacity = useTransform(p, [0.085, 0.096], [1, 0]);
   const ringFade = useTransform(p, [0.05, 0.095], [0, 1]);
@@ -356,7 +367,7 @@ export default function HeroSection() {
     </div>
 
     {/* Middle: text left + image right, tightened so there's no dead gap */}
-    <div className="flex-1 w-full max-w-5xl mx-auto flex flex-col lg:flex-row items-center lg:justify-between gap-8 lg:gap-10 py-5 sm:py-6 min-h-0">
+    <div className="flex-1 w-full max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-10 lg:gap-14 py-2 sm:py-6 min-h-0">
       {/* TEXT: below image on mobile, left on desktop */}
       <div className="w-full lg:w-auto lg:max-w-md min-w-0 text-center lg:text-left order-2 lg:order-1">
         <motion.h1
@@ -398,7 +409,7 @@ export default function HeroSection() {
       {/* IMAGE: top on mobile, right on desktop */}
       <motion.div
         style={{ opacity: coverImgOpacity, scale: coverImgScale }}
-        className="relative shrink-0 w-[52%] max-w-[230px] sm:max-w-[270px] lg:w-[30%] lg:max-w-[320px] aspect-[3/4] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/15 order-1 lg:order-2"
+       className="relative shrink-0 w-[120px] h-[145px] sm:w-[52%] sm:h-auto sm:max-w-[230px] sm:aspect-[3/4] lg:w-[36%] lg:max-w-[380px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/15 order-1 lg:order-2"
       >
         <img
           src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=944&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
