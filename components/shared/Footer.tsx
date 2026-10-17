@@ -2,11 +2,36 @@
 import React from 'react';
 import Link from 'next/link';
 
-const Sparkle = ({ size = 22 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="white">
-    <path d="M12 0c.6 5.5 2.5 9.6 6 11.3C21.5 12.4 23 12 24 12c-1 0-2.5-.4-6 .7-3.5 1.7-5.4 5.8-6 11.3-.6-5.5-2.5-9.6-6-11.3C2.5 11.6 1 12 0 12c1 0 2.5.4 6-.7C9.5 9.6 11.4 5.5 12 0z" />
+const CityLogo = ({ size = 56, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`drop-shadow-lg text-white ${className}`}
+  >
+    {/* City Buildings / Bars */}
+    <rect x="8" y="5" width="3" height="11" rx="1" fill="currentColor" />
+    <rect x="13" y="2" width="3" height="14" rx="1" fill="currentColor" />
+    <rect x="18" y="8" width="3" height="8" rx="1" fill="currentColor" />
+    <rect x="3" y="10" width="3" height="6" rx="1" fill="currentColor" />
+    
+    {/* Wavy Infrastructure Lines */}
+    <path 
+      d="M2 19C5 19 6 17.5 9 17.5C12 17.5 13 19 16 19C19 19 20 17.5 22 17.5" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+    />
+    <path 
+      d="M2 22C5 22 6 20.5 9 20.5C12 20.5 13 22 16 22C19 22 20 20.5 22 20.5" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+    />
   </svg>
 );
+
 
 const quickLinks = [
   { label: 'Home', href: '/' },
@@ -32,7 +57,7 @@ export default function Footer() {
           <div className="space-y-5">
             <Link href="/" className="inline-flex items-center gap-3">
               <span className="grid place-items-center w-11 h-11 rounded-xl bg-gradient-to-br from-[#7C3AED] via-[#A21CAF] to-[#4C1D95] shadow-[0_0_25px_rgba(192,38,211,0.45)] border border-white/20">
-                <Sparkle />
+                <CityLogo />
               </span>
               <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-purple-300 to-fuchsia-400 bg-clip-text text-transparent">
                 SmartCity.

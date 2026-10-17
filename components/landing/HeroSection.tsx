@@ -11,6 +11,7 @@ import {
 } from 'framer-motion';
 import Link from 'next/link';
 
+
 const images = [
   { title: 'Smart Traffic', image: 'https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=800&auto=format&fit=crop' },
   { title: 'City Skyline', image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?q=80&w=800&auto=format&fit=crop' },
@@ -185,20 +186,26 @@ export default function HeroSection() {
   const coverW = useTransform(k, (x) => viewW() + (rectRef.current.w - viewW()) * x);
   const coverH = useTransform(k, (x) => viewH() + (rectRef.current.h - viewH()) * x);
   const coverRadius = useTransform(k, (x) => x * 32);
+
   const coverH1 = useTransform(k, (x) => {
-    const big = Math.min(viewW() * 0.09, 140);
-    return big + (36 - big) * x;
-  });
+  const big = Math.min(viewW() * 0.065, 92);
+  return big + (32 - big) * x;
+});
+
   const coverLH = useTransform(k, (x) => 1.02 + 0.23 * x);
   const coverPSize = useTransform(k, (x) => 20 - 6 * x);
   const coverSparkle = useTransform(k, (x) => 2.4 - 1.4 * x);
-  const coverPadT = useTransform(k, (x) => 120 - 96 * x);
-  const coverPadX = useTransform(k, (x) => 56 - 32 * x);
+
+ const coverPadT = useTransform(k, (x) => 108 - 56 * x);
+ const coverPadX = useTransform(k, (x) => 48 - 28 * x);
+
   const coverPadB = useTransform(k, (x) => 56 - 32 * x);
   const coverBtnH = useTransform(p, [0, 0.045], [84, 0]);
   const coverBtnOpacity = useTransform(p, [0, 0.035], [1, 0]);
   const coverOpacity = useTransform(p, [0.085, 0.096], [1, 0]);
   const ringFade = useTransform(p, [0.05, 0.095], [0, 1]);
+  const coverImgOpacity = useTransform(k, (x) => Math.max(0, 1 - x * 1.8));
+  const coverImgScale = useTransform(k, (x) => 1 - x * 0.25);
 
   // Stage 2
   const l2Opacity = useTransform(p, [0.4, 0.47, 0.67, 0.73], [0, 1, 1, 0]);
@@ -321,73 +328,98 @@ export default function HeroSection() {
           </motion.div>
 
           {/* ===== COVER PAGE ===== */}
-          <motion.div
-            suppressHydrationWarning
-            style={{
-              top: coverTop,
-              left: coverLeft,
-              width: coverW,
-              height: coverH,
-              borderRadius: coverRadius,
-              opacity: coverOpacity,
-              pointerEvents: covered ? 'auto' : 'none',
-              background: 'radial-gradient(circle at 50% 25%, #c4b5fd 0%, #7c3aed 45%, #4C1D95 100%)',
-            }}
-            className="absolute z-30 overflow-hidden text-white shadow-2xl"
-          >
-            <motion.div
-              suppressHydrationWarning
-              style={{ paddingTop: coverPadT, paddingBottom: coverPadB, paddingLeft: coverPadX, paddingRight: coverPadX }}
-              className="h-full flex flex-col justify-between"
+<motion.div
+  suppressHydrationWarning
+  style={{
+    top: coverTop,
+    left: coverLeft,
+    width: coverW,
+    height: coverH,
+    borderRadius: coverRadius,
+    opacity: coverOpacity,
+    pointerEvents: covered ? 'auto' : 'none',
+    background: 'radial-gradient(circle at 50% 25%, #c4b5fd 0%, #7c3aed 45%, #4C1D95 100%)',
+  }}
+  className="absolute z-30 overflow-hidden text-white shadow-2xl"
+>
+  <motion.div
+    suppressHydrationWarning
+    style={{ paddingTop: coverPadT, paddingBottom: coverPadB, paddingLeft: coverPadX, paddingRight: coverPadX }}
+    className="h-full flex flex-col"
+  >
+    {/* Top bar */}
+    <div className="flex items-center justify-between text-xs sm:text-sm shrink-0">
+      <span className="px-3 py-1.5 rounded-full bg-white/15 backdrop-blur border border-white/20 font-medium">
+        Smart Barishal
+      </span>
+      <span className="opacity-80">citypulse</span>
+    </div>
+
+    {/* Middle: text left + image right, tightened so there's no dead gap */}
+    <div className="flex-1 w-full max-w-5xl mx-auto flex flex-col lg:flex-row items-center lg:justify-between gap-8 lg:gap-10 py-5 sm:py-6 min-h-0">
+      {/* TEXT: below image on mobile, left on desktop */}
+      <div className="w-full lg:w-auto lg:max-w-md min-w-0 text-center lg:text-left order-2 lg:order-1">
+        <motion.h1
+          suppressHydrationWarning
+          style={{ fontSize: coverH1, lineHeight: coverLH }}
+          className="font-extrabold tracking-tight"
+        >
+          Your City,<br />Your Voice
+        </motion.h1>
+        <motion.p
+          suppressHydrationWarning
+          style={{ fontSize: coverPSize }}
+          className="mt-2 text-white/80 max-w-sm mx-auto lg:mx-0"
+        >
+          Report civic issues, track resolutions, build a better city.
+        </motion.p>
+        <motion.div
+          suppressHydrationWarning
+          style={{ height: coverBtnH, opacity: coverBtnOpacity }}
+          className="overflow-hidden"
+        >
+          <div className="flex flex-wrap gap-4 pt-6 justify-center lg:justify-start">
+            <Link
+              href="/login"
+              className="px-7 py-3 rounded-full bg-white text-[#4C1D95] font-bold hover:-translate-y-1 transition-transform"
             >
-              <div className="flex items-center justify-between text-xs sm:text-sm">
-                <span className="px-3 py-1.5 rounded-full bg-white/15 backdrop-blur border border-white/20 font-medium">
-                  Smart Barishal
-                </span>
-                <span className="opacity-80">citypulse</span>
-              </div>
-
-              <motion.div style={{ scale: coverSparkle }} className="self-center">
-                <CityLogo className="text-white" />
-              </motion.div>
-
-              <div>
-                <motion.h1
-                  suppressHydrationWarning
-                  style={{ fontSize: coverH1, lineHeight: coverLH }}
-                  className="font-extrabold tracking-tight"
-                >
-                  Your City,<br />Your Voice
-                </motion.h1>
-                <motion.p suppressHydrationWarning style={{ fontSize: coverPSize }} className="mt-2 text-white/80 max-w-xl">
-                  Report civic issues, track resolutions, build a better city.
-                </motion.p>
-                <motion.div suppressHydrationWarning style={{ height: coverBtnH, opacity: coverBtnOpacity }} className="overflow-hidden">
-                  <div className="flex flex-wrap gap-4 pt-6">
-                    <Link
-                      href="/login"
-                      className="px-7 py-3 rounded-full bg-white text-[#4C1D95] font-bold hover:-translate-y-1 transition-transform"
-                    >
-                      Get Started
-                    </Link>
-                    <Link
-                      href="/category"
-                      className="px-7 py-3 rounded-full border border-white/40 bg-white/10 font-bold backdrop-blur-md hover:bg-white/20 transition-colors"
-                    >
-                      Report an Issue
-                    </Link>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              style={{ opacity: hintOpacity }}
-              className="absolute bottom-3 right-6 text-[10px] text-white/70 tracking-widest uppercase"
+              Get Started
+            </Link>
+            <Link
+              href="/category"
+              className="px-7 py-3 rounded-full border border-white/40 bg-white/10 font-bold backdrop-blur-md hover:bg-white/20 transition-colors"
             >
-              Scroll ↓
-            </motion.div>
-          </motion.div>
+              Report an Issue
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* IMAGE: top on mobile, right on desktop */}
+      <motion.div
+        style={{ opacity: coverImgOpacity, scale: coverImgScale }}
+        className="relative shrink-0 w-[52%] max-w-[230px] sm:max-w-[270px] lg:w-[30%] lg:max-w-[320px] aspect-[3/4] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/15 order-1 lg:order-2"
+      >
+        <img
+          src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=944&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+          alt="Smart city skyline"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2e1065]/80 via-[#4C1D95]/10 to-transparent" />
+        <div className="absolute top-3 left-3">
+          <CityLogo size={28} className="text-white drop-shadow-lg" />
+        </div>
+      </motion.div>
+    </div>
+  </motion.div>
+
+  <motion.div
+    style={{ opacity: hintOpacity }}
+    className="absolute bottom-3 right-6 text-[10px] text-white/70 tracking-widest uppercase"
+  >
+    Scroll ↓
+  </motion.div>
+</motion.div>
         </motion.div>
 
         {/* ================= STAGE 2: purple panel + tilted card ================= */}
