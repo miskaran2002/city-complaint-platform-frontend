@@ -23,9 +23,34 @@ const total = images.length + 1; // 0 = title card
 const angleStep = 360 / total;
 const radius = 360;
 
-const Sparkle = ({ size = 56, className = "" }: { size?: number, className?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={`drop-shadow-lg ${className}`}>
-    <path d="M12 0c.6 5.5 2.5 9.6 6 11.3C21.5 12.4 23 12 24 12c-1 0-2.5-.4-6 .7-3.5 1.7-5.4 5.8-6 11.3-.6-5.5-2.5-9.6-6-11.3C2.5 11.6 1 12 0 12c1 0 2.5.4 6-.7C9.5 9.6 11.4 5.5 12 0z" />
+// Sparkle-এর পরিবর্তে প্রজেক্টের লোগো (Buildings & Waves)
+const CityLogo = ({ size = 56, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`drop-shadow-lg text-white ${className}`}
+  >
+    {/* City Buildings / Bars */}
+    <rect x="8" y="5" width="3" height="11" rx="1" fill="currentColor" />
+    <rect x="13" y="2" width="3" height="14" rx="1" fill="currentColor" />
+    <rect x="18" y="8" width="3" height="8" rx="1" fill="currentColor" />
+    <rect x="3" y="10" width="3" height="6" rx="1" fill="currentColor" />
+    
+    {/* Wavy Infrastructure Lines */}
+    <path 
+      d="M2 19C5 19 6 17.5 9 17.5C12 17.5 13 19 16 19C19 19 20 17.5 22 17.5" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+    />
+    <path 
+      d="M2 22C5 22 6 20.5 9 20.5C12 20.5 13 22 16 22C19 22 20 20.5 22 20.5" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+    />
   </svg>
 );
 
@@ -246,7 +271,7 @@ export default function HeroSection() {
                     <span className="opacity-80">citypulse</span>
                   </div>
                   <div className="flex justify-center">
-                    <Sparkle className="text-white" />
+                    <CityLogo className="text-white" />
                   </div>
                   <div>
                     <h1 className="text-4xl font-extrabold leading-tight tracking-tight">
@@ -323,7 +348,7 @@ export default function HeroSection() {
               </div>
 
               <motion.div style={{ scale: coverSparkle }} className="self-center">
-                <Sparkle className="text-white" />
+                <CityLogo className="text-white" />
               </motion.div>
 
               <div>
@@ -474,7 +499,7 @@ export default function HeroSection() {
           >
             <div className="pointer-events-auto w-[250px] sm:w-[270px] rounded-3xl p-5 border border-border bg-card/80 backdrop-blur-xl shadow-lg dark:shadow-[0_0_60px_rgba(168,85,247,0.15)]">
               <div className="flex justify-center mb-3">
-                <Sparkle size={34} className="text-purple-600 dark:text-white" />
+                <CityLogo size={34} className="text-purple-600 dark:text-white" />
               </div>
               <h2 className="text-center text-2xl font-extrabold leading-tight tracking-tight text-foreground">
                 Your City,<br />Your Voice
