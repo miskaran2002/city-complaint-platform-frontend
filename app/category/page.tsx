@@ -77,7 +77,7 @@ export default function CategoryPage() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="bg-card rounded-3xl shadow-sm border border-border overflow-hidden flex flex-col h-[400px]">
                 <div className="h-48 w-full bg-slate-200 dark:bg-white/10 animate-pulse"></div>
@@ -98,7 +98,7 @@ export default function CategoryPage() {
             No categories found.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {categories.map((category) => {
               const action = getActionProps(category.id);
 

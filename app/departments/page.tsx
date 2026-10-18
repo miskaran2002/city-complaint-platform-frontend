@@ -43,7 +43,7 @@ export default function DepartmentsPage() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[...Array(6)].map((_, index) => (
               <div key={index} className="bg-card rounded-3xl shadow-sm border border-border overflow-hidden flex flex-col h-full animate-pulse">
                 {/* Image Skeleton */}
@@ -69,7 +69,7 @@ export default function DepartmentsPage() {
             No departments found.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {departments.map((dept) => (
               <Link href={`/departments/${dept.id}`} key={dept.id} className="group bg-card rounded-3xl shadow-sm hover:shadow-xl transition-all border border-border overflow-hidden flex flex-col">
                 {/* Image Section */}
