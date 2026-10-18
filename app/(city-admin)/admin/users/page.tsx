@@ -1,7 +1,7 @@
 // app/(admin)/admin/users/page.tsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { SystemUser, getAllUsers, updateUserRole } from '@/services/admin.service';
 import { UserTable } from '@/components/admin/users/UserTable';
 import { RoleUpdateModal } from '@/components/admin/users/RoleUpdateModal';
@@ -14,13 +14,15 @@ export default function UsersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   
+  // Search State
+  const [searchQuery, setSearchQuery] = useState('');
+  
   // Modal States
   const [editingUser, setEditingUser] = useState<SystemUser | null>(null);
   const [selectedRole, setSelectedRole] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
- 
   const fetchUsers = async (page: number) => {
     setIsLoading(true);
     try {
@@ -32,7 +34,6 @@ export default function UsersPage() {
           
         setUsers(usersArray);
         
-      
         const meta = res.data.meta || res.meta;
         if (meta) {
           setTotalUsersCount(meta.total || 25);
@@ -48,10 +49,20 @@ export default function UsersPage() {
     }
   };
 
-  
   useEffect(() => {
     fetchUsers(currentPage);
   }, [currentPage]);
+
+  // 🎯 Search Filtering Logic
+  const filteredUsers = useMemo(() => {
+    if (!searchQuery.trim()) return users;
+    
+    const query = searchQuery.toLowerCase();
+    return users.filter((user) => 
+      user.name?.toLowerCase().includes(query) || 
+      user.email?.toLowerCase().includes(query)
+    );
+  }, [users, searchQuery]);
 
   const handleOpenEditModal = (user: SystemUser) => {
     setEditingUser(user);
@@ -82,24 +93,44 @@ export default function UsersPage() {
       setIsUpdating(false);
     }
   };
+
   if (isLoading) {
-      return <GlobalLoading />;
-    }
+    return <GlobalLoading />;
+  }
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-foreground">System Users</h1>
-        <p className="text-gray-500 text-sm mt-1">
-          Manage all registered users and assign administrative or staff roles.
-        </p>
+      
+      {/* 🎯 Page Header & Search Bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold text-foreground">System Users</h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Manage all registered users and assign administrative or staff roles.
+          </p>
+        </div>
+
+        {/* Search Input */}
+        <div className="relative w-full sm:w-72">
+          <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Search by name or email..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded-xl focus:ring-2 focus:ring-[#C026D3] outline-none text-sm text-foreground transition-all shadow-sm"
+          />
+        </div>
       </div>
 
       {/* Users Data Table Component */}
       <UserTable
-        users={users} 
-        totalUsers={totalUsersCount} 
+        users={filteredUsers} // 👈 Updated to use filtered data
+        totalUsers={searchQuery ? filteredUsers.length : totalUsersCount} 
         isLoading={isLoading}
         currentPage={currentPage}
         totalPages={totalPages} 
