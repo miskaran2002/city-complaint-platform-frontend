@@ -107,7 +107,22 @@ export const Navbar = () => {
     }
   };
 
+  // 🎯 Updated & Safe Profile Link Logic
+  const getProfileLink = (role?: string) => {
+    if (!role) return '/login'; 
+    const r = role.toUpperCase();
+    if (r.includes('ADMIN')) return '/admin/profile';
+    if (r.includes('MANAGER')) return '/manager/profile';
+    if (r.includes('STAFF')) return '/staff/profile';
+    if (r.includes('TECHNICIAN')) return '/technician/profile';
+    if (r.includes('CITIZEN')) return '/citizen/profile';
+    return '/login';
+  };
+
   const dashboardLink = getDashboardLink(user?.role);
+  // Get Link directly by invoking the function safely
+  const profileLink = getProfileLink(user?.role);
+  
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname?.startsWith(href));
   const legalActive = legalLinks.some((l) => isActive(l.href));
 
@@ -199,7 +214,9 @@ export const Navbar = () => {
                   <Link href={dashboardLink} onClick={() => setIsProfileOpen(false)} className="block px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-white/5 hover:text-purple-600 transition-colors">
                     📊 Go to Dashboard
                   </Link>
-                  <Link href={`${dashboardLink}/profile`} onClick={() => setIsProfileOpen(false)} className="block px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-white/5 hover:text-purple-600 transition-colors">
+                  
+                  {/* 🎯 Desktop Profile Settings Link (Dynamic) */}
+                  <Link href={profileLink} onClick={() => setIsProfileOpen(false)} className="block px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-white/5 hover:text-purple-600 transition-colors">
                     ⚙️ Account Settings
                   </Link>
                   
@@ -285,6 +302,12 @@ export const Navbar = () => {
                 <Link href={dashboardLink} onClick={() => setIsOpen(false)} className={`text-center ${gradientBtn} px-6 py-2.5`}>
                   Go to Dashboard
                 </Link>
+                
+                {/* 🎯 Mobile Profile Settings Link (Dynamic) */}
+                <Link href={profileLink} onClick={() => setIsOpen(false)} className="text-center font-semibold text-gray-700 dark:text-gray-300 py-2 hover:text-purple-600 transition-colors">
+                  Account Settings
+                </Link>
+
                 <button
                   onClick={() => { setIsOpen(false); handleLogout(); }}
                   className="text-center w-full text-red-600 dark:text-red-400 font-bold py-2 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors cursor-pointer"
