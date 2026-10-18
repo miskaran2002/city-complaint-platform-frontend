@@ -11,6 +11,10 @@ export default function AdminComplaintsPage() {
   const [users, setUsers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // 🔢 Pagination States
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // প্রতি পেজে ১০টি করে কমপ্লেইন দেখাবে
+
   useEffect(() => {
     const fetchAdminData = async () => {
       setIsLoading(true);
@@ -44,6 +48,19 @@ export default function AdminComplaintsPage() {
     fetchAdminData();
   }, []);
 
+  // 🎯 Pagination Calculations
+  const totalPages = Math.ceil(complaints.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentComplaints = complaints.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
   if (isLoading) {
     return <GlobalLoading />;
   }
@@ -57,11 +74,50 @@ export default function AdminComplaintsPage() {
         </p>
       </div>
 
+      {/* Table Component */}
       <AdminComplaintTable 
-        complaints={complaints} 
+        complaints={currentComplaints} // 👈 এখানে শুধু বর্তমান পেজের ডেটা পাঠানো হচ্ছে
         departments={departments}
         users={users}
       />
+
+      {/* 🔢 Numeric Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
+          {/* Previous Button */}
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 text-sm font-bold rounded-lg border border-border bg-card text-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-50 dark:hover:bg-purple-500/10 hover:text-purple-600 transition-colors"
+          >
+            Previous
+          </button>
+
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-bold transition-colors ${
+                currentPage === page
+                  ? 'bg-[#7E22CE] text-white border border-[#7E22CE] shadow-md'
+                  : 'border border-border bg-card text-foreground hover:bg-purple-50 dark:hover:bg-purple-500/10 hover:text-purple-600'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          {/* Next Button */}
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 text-sm font-bold rounded-lg border border-border bg-card text-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-50 dark:hover:bg-purple-500/10 hover:text-purple-600 transition-colors"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
