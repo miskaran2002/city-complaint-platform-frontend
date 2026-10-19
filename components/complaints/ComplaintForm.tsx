@@ -8,11 +8,18 @@ import { Category } from '@/types/category';
 import { Priority } from '@/types/complaint';
 import { createComplaint } from '@/services/complaint.service';
 import { PaymentMethodModal } from './PaymentMethodModal';
-import toast from 'react-hot-toast'; // 🎯 Added for AI notifications
+import toast from 'react-hot-toast';
 
 interface ComplaintFormProps {
   categories: Category[];
   onSuccess: () => void;
+}
+
+interface DuplicateInfo {
+  isDuplicate: boolean;
+  matchedComplaintId: string | null;
+  matchedTitle: string | null;
+  reason: string;
 }
 
 export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => {
@@ -23,8 +30,9 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
   const [description, setDescription] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isAIFetching, setIsAIFetching] = useState(false); // 🎯 AI Loading State
-  
+  const [isAIFetching, setIsAIFetching] = useState(false);
+  const [isCheckingDuplicate, setIsCheckingDuplicate] = useState(false); // 🔍 duplicate check loading
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [notice, setNotice] = useState('');
@@ -32,6 +40,10 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
   // Payment modal control
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [pendingComplaintId, setPendingComplaintId] = useState<string | null>(null);
+
+  // 🔍 Duplicate-warning modal control
+  const [showDuplicateConfirm, setShowDuplicateConfirm] = useState(false);
+  const [duplicateInfo, setDuplicateInfo] = useState<DuplicateInfo | null>(null);
 
   const resetForm = () => {
     setTitle('');
@@ -51,15 +63,14 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
     setIsAIFetching(true);
     try {
       const token = localStorage.getItem('city_auth_token');
-      
-      // ⚠️ Note: Nicher port (5000) apnar backend er asol port number diye change kore niben
-      const res = await fetch('http://localhost:5000/api/v1/ai/categorize', {
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/categorize`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ description })
+        body: JSON.stringify({ description }),
       });
 
       const data = await res.json();
@@ -67,10 +78,10 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
       if (data?.success) {
         const { category, priority: aiPriority } = data.data;
 
-        // AI theke asha category namer sathe frontend er category id match kora
-        const matchedCategory = categories.find(c =>
-          c.name.toLowerCase().includes(category.toLowerCase()) ||
-          category.toLowerCase().includes(c.name.toLowerCase())
+        const matchedCategory = categories.find(
+          (c) =>
+            c.name.toLowerCase().includes(category.toLowerCase()) ||
+            category.toLowerCase().includes(c.name.toLowerCase())
         );
 
         if (matchedCategory) {
@@ -94,17 +105,31 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // 🔍 Duplicate check — Gemini-কে জিজ্ঞেস করে একই issue আগে থেকে আছে কিনা
+  const checkForDuplicate = async (): Promise<DuplicateInfo | null> => {
+    try {
+      const token = localStorage.getItem('city_auth_token');
 
-    // Double-click / double-submit guard
-    if (isSubmitting || showPaymentModal) return;
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/check-duplicate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ description, categoryId, address }),
+      });
 
-    if (!categoryId) {
-      setError('Please select a category.');
-      return;
+      const data = await res.json();
+      if (data?.success) return data.data as DuplicateInfo;
+      return null;
+    } catch {
+      // duplicate check fail hole submit block kora thik hobe na — silently skip
+      return null;
     }
+  };
 
+  // Actual submit logic — AGE handleSubmit-e ja chilo, eita সেটাই, শুধু আলাদা ফাংশনে বের করা হয়েছে
+  const proceedWithSubmit = async () => {
     setIsSubmitting(true);
     setError('');
     setSuccess('');
@@ -131,7 +156,6 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         const needsPayment =
           created?.requiresPayment === true || (priority as string) === 'EMERGENCY';
 
-        // ---------- EMERGENCY: payment required, complaint is NOT submitted yet ----------
         if (needsPayment) {
           if (!newComplaintId) {
             setError(
@@ -147,7 +171,6 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
           return;
         }
 
-        // ---------- Normal complaint: submitted immediately ----------
         setSuccess('Complaint submitted successfully!');
         resetForm();
         onSuccess();
@@ -158,6 +181,37 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
       setError(err?.response?.data?.message || 'Failed to submit complaint.');
       setIsSubmitting(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (isSubmitting || showPaymentModal || isCheckingDuplicate) return;
+
+    if (!categoryId) {
+      setError('Please select a category.');
+      return;
+    }
+
+    setError('');
+
+    // 🔍 Submit করার আগে duplicate check
+    setIsCheckingDuplicate(true);
+    const dupResult = await checkForDuplicate();
+    setIsCheckingDuplicate(false);
+
+    if (dupResult?.isDuplicate) {
+      setDuplicateInfo(dupResult);
+      setShowDuplicateConfirm(true);
+      return; // user confirm না করা পর্যন্ত submit হবে না
+    }
+
+    await proceedWithSubmit();
+  };
+
+  const handleConfirmDuplicateSubmit = async () => {
+    setShowDuplicateConfirm(false);
+    await proceedWithSubmit();
   };
 
   const handleModalClose = () => {
@@ -266,8 +320,7 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
             required
             className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-white/20 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all resize-none text-sm bg-card dark:bg-[#030014] text-foreground dark:text-white"
           ></textarea>
-          
-          {/* 🎯 AI Button added right below the textarea */}
+
           <div className="mt-3">
             <button
               type="button"
@@ -290,14 +343,61 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
         <Button
           type="submit"
           className="w-full mt-4 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white"
-          isLoading={isSubmitting}
+          isLoading={isSubmitting || isCheckingDuplicate}
         >
-          {(priority as string) === 'EMERGENCY' ? 'Continue to Payment' : 'Submit Complaint'}
+          {isCheckingDuplicate
+            ? '🔍 Checking for similar complaints...'
+            : (priority as string) === 'EMERGENCY'
+            ? 'Continue to Payment'
+            : 'Submit Complaint'}
         </Button>
       </form>
 
       {showPaymentModal && pendingComplaintId && (
         <PaymentMethodModal complaintId={pendingComplaintId} onClose={handleModalClose} />
+      )}
+
+      {/* 🔍 Duplicate-warning confirmation modal */}
+      {showDuplicateConfirm && duplicateInfo && (
+        <div className="fixed inset-0 z-[70] bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#0f0524] rounded-2xl shadow-2xl border border-amber-300/30 max-w-sm w-full p-5">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-500/15 flex items-center justify-center shrink-0 text-xl">
+                ⚠️
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-800 dark:text-white text-sm">
+                  Similar complaint found
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+                  AI found an existing open complaint that might be the same issue:
+                  {' '}
+                  <span className="font-semibold">"{duplicateInfo.matchedTitle}"</span>.
+                </p>
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1.5 italic">
+                  {duplicateInfo.reason}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-2 mt-5">
+              <button
+                type="button"
+                onClick={() => setShowDuplicateConfirm(false)}
+                className="flex-1 px-4 py-2 text-sm font-medium rounded-xl border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white/80 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+              >
+                Edit my complaint
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDuplicateSubmit}
+                className="flex-1 px-4 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white hover:opacity-90 transition-opacity"
+              >
+                Submit anyway
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
