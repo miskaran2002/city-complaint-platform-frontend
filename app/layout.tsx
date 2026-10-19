@@ -6,6 +6,7 @@ import { Providers } from '@/components/Providers';
 
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import ChatWidget from "@/components/shared/ChatWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
           <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
             <Providers>
               {children}
+              <ChatWidget />
               <Toaster position="top-right" reverseOrder={false} />
             </Providers>
           </GoogleOAuthProvider>

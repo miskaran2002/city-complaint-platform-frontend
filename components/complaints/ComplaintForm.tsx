@@ -53,7 +53,7 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
       const token = localStorage.getItem('city_auth_token');
       
       // ⚠️ Note: Nicher port (5000) apnar backend er asol port number diye change kore niben
-      const res = await fetch('http://localhost:5000/api/ai/categorize', {
+      const res = await fetch('http://localhost:5000/api/v1/ai/categorize', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
