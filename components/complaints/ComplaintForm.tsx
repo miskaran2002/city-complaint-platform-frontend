@@ -358,47 +358,56 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
       )}
 
       {/* 🔍 Duplicate-warning confirmation modal */}
-      {showDuplicateConfirm && duplicateInfo && (
-        <div className="fixed inset-0 z-[70] bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-[#0f0524] rounded-2xl shadow-2xl border border-amber-300/30 max-w-sm w-full p-5">
-            <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-500/15 flex items-center justify-center shrink-0 text-xl">
-                ⚠️
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-800 dark:text-white text-sm">
-                  Similar complaint found
-                </h3>
-                <p className="text-xs text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
-                  AI found an existing open complaint that might be the same issue:
-                  {' '}
-                  <span className="font-semibold">"{duplicateInfo.matchedTitle}"</span>.
-                </p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1.5 italic">
-                  {duplicateInfo.reason}
-                </p>
-              </div>
-            </div>
+     {showDuplicateConfirm && duplicateInfo && (
+  <div className="fixed inset-0 z-[70] bg-black/50 flex items-center justify-center p-4">
+    <div className="relative bg-white dark:bg-[#0f0524] rounded-2xl shadow-2xl border border-amber-300/30 max-w-sm w-full p-5">
+      <button
+        type="button"
+        onClick={() => setShowDuplicateConfirm(false)}
+        className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:text-white/50 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-lg leading-none"
+        aria-label="Close"
+      >
+        ×
+      </button>
 
-            <div className="flex gap-2 mt-5">
-              <button
-                type="button"
-                onClick={() => setShowDuplicateConfirm(false)}
-                className="flex-1 px-4 py-2 text-sm font-medium rounded-xl border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white/80 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
-              >
-                Edit my complaint
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmDuplicateSubmit}
-                className="flex-1 px-4 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white hover:opacity-90 transition-opacity"
-              >
-                Submit anyway
-              </button>
-            </div>
-          </div>
+      <div className="flex items-start gap-3 pr-5">
+        <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-500/15 flex items-center justify-center shrink-0 text-xl">
+          ⚠️
         </div>
-      )}
+        <div>
+          <h3 className="font-bold text-gray-800 dark:text-white text-sm">
+            Similar complaint found
+          </h3>
+          <p className="text-xs text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+            AI found an existing open complaint that might be the same issue:
+            {' '}
+            <span className="font-semibold">"{duplicateInfo.matchedTitle}"</span>.
+          </p>
+          <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1.5 italic">
+            {duplicateInfo.reason}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex gap-2 mt-5">
+        <button
+          type="button"
+          onClick={() => setShowDuplicateConfirm(false)}
+          className="flex-1 px-4 py-2 text-sm font-medium rounded-xl border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white/80 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+        >
+          Edit my complaint
+        </button>
+        <button
+          type="button"
+          onClick={handleConfirmDuplicateSubmit}
+          className="flex-1 px-4 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white hover:opacity-90 transition-opacity"
+        >
+          Submit anyway
+        </button>
+      </div>
     </div>
+  </div>
+)}
+</div>
   );
 };
