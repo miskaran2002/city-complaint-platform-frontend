@@ -8,6 +8,7 @@ import { Category } from '@/types/category';
 import { Priority } from '@/types/complaint';
 import { createComplaint } from '@/services/complaint.service';
 import { PaymentMethodModal } from './PaymentMethodModal';
+import toast from 'react-hot-toast'; // 🎯 Added for AI notifications
 
 interface ComplaintFormProps {
   categories: Category[];
@@ -22,6 +23,8 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
   const [description, setDescription] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAIFetching, setIsAIFetching] = useState(false); // 🎯 AI Loading State
+  
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [notice, setNotice] = useState('');
@@ -36,6 +39,59 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
     setAddress('');
     setDescription('');
     setPriority('MEDIUM');
+  };
+
+  // 🎯 AI Auto-fill Function
+  const handleAutoFillWithAI = async () => {
+    if (!description) {
+      toast.error('Please write a description first!');
+      return;
+    }
+
+    setIsAIFetching(true);
+    try {
+      const token = localStorage.getItem('city_auth_token');
+      
+      // ⚠️ Note: Nicher port (5000) apnar backend er asol port number diye change kore niben
+      const res = await fetch('http://localhost:5000/api/ai/categorize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ description })
+      });
+
+      const data = await res.json();
+
+      if (data?.success) {
+        const { category, priority: aiPriority } = data.data;
+
+        // AI theke asha category namer sathe frontend er category id match kora
+        const matchedCategory = categories.find(c =>
+          c.name.toLowerCase().includes(category.toLowerCase()) ||
+          category.toLowerCase().includes(c.name.toLowerCase())
+        );
+
+        if (matchedCategory) {
+          setCategoryId(matchedCategory.id);
+        } else {
+          toast.error(`AI selected "${category}", but please select it manually from dropdown.`);
+        }
+
+        if (aiPriority) {
+          setPriority(aiPriority.toUpperCase());
+        }
+
+        toast.success('✨ AI Categorization Applied!');
+      } else {
+        toast.error('AI failed to process. Try again.');
+      }
+    } catch (err) {
+      toast.error('Failed to connect to AI server.');
+    } finally {
+      setIsAIFetching(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,8 +141,6 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
             return;
           }
 
-          // IMPORTANT: do NOT call onSuccess() here. The parent refetches and
-          // can unmount this component, which would kill the payment modal.
           setPendingComplaintId(newComplaintId);
           setShowPaymentModal(true);
           setIsSubmitting(false);
@@ -113,7 +167,7 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
       'Emergency complaint is saved but NOT submitted yet. Complete the payment from "Tracking History" (Pay Now) to submit it.'
     );
     resetForm();
-    onSuccess(); // refresh list so the unpaid complaint shows with a "Pay Now" button
+    onSuccess();
     setTimeout(() => setNotice(''), 8000);
   };
 
@@ -212,18 +266,36 @@ export const ComplaintForm = ({ categories, onSuccess }: ComplaintFormProps) => 
             required
             className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-white/20 focus:ring-2 focus:ring-[#C026D3] focus:border-[#C026D3] outline-none transition-all resize-none text-sm bg-card dark:bg-[#030014] text-foreground dark:text-white"
           ></textarea>
+          
+          {/* 🎯 AI Button added right below the textarea */}
+          <div className="mt-3">
+            <button
+              type="button"
+              onClick={handleAutoFillWithAI}
+              disabled={isAIFetching || !description}
+              className="flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-2.5 text-sm font-bold bg-gradient-to-r from-purple-600 to-[#C026D3] text-white rounded-xl shadow-md hover:opacity-90 disabled:opacity-50 transition-opacity"
+            >
+              {isAIFetching ? (
+                <span className="animate-pulse">🧠 AI is analyzing...</span>
+              ) : (
+                '✨ Auto-select Category & Priority'
+              )}
+            </button>
+            <p className="text-[11px] text-gray-500 mt-1.5 ml-1">
+              Write your issue in detail and let AI automatically select the appropriate category and priority.
+            </p>
+          </div>
         </div>
 
         <Button
           type="submit"
-          className="w-full mt-2 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white"
+          className="w-full mt-4 bg-gradient-to-r from-[#4C1D95] to-[#7E22CE] text-white"
           isLoading={isSubmitting}
         >
           {(priority as string) === 'EMERGENCY' ? 'Continue to Payment' : 'Submit Complaint'}
         </Button>
       </form>
 
-      {/* Payment Method Modal — shown right after an EMERGENCY complaint is saved */}
       {showPaymentModal && pendingComplaintId && (
         <PaymentMethodModal complaintId={pendingComplaintId} onClose={handleModalClose} />
       )}
